@@ -1,6 +1,10 @@
 html {
     font-family: sans-serif;
 }
+table, th, td {
+    padding: 10px;
+    border: 1px solid white;
+}
 body {
     font-size: 16px;
     overflow: auto;
@@ -25,6 +29,9 @@ body {
     background-color: #729FCF;
     border: 3px solid #CCC;
     padding: 10px;
+}
+.tables {
+    width:100%;
 }
 .page-button-body {
     border: 5px solid rgba(0, 0, 0, 1);
