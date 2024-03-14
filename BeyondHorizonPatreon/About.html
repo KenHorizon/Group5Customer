@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="/images/icon.png">
+    <title>Beyond Horizon: Stars | About</title>
+    <link rel="stylesheet" href="css/style.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
+
+</head>
+<body>
+<!--
+ HEADER OF THE SITE THIS IT'S APPLY ON EVERY SITE OF THIS [CTRL + C AND V]
+ -->
+<div class="page-section">
+    <img class="header" src="images/title.png" alt="Beyond Horizon: Stars - Patreon">
+    <div class="page-button-body page-button-left">
+        <a class="font-white button-0" href="Home.html">Home</a>
+        <a class="font-white button-0-selected">About</a>
+        <a class="font-white button-0" href="CreateAccount.html">Sign-Up</a>
+    </div>
+</div>
+<div class="main">
+    <div class="background">
+        <div class="border">
+            <div class="center-text">
+                <div class="font-white font-size">
+                    <h1>About</h1>
+                    <hr style="margin: 0% 1%">
+                    <p>Welcome to the Beyond Horizon: Star Patreon this website developed by our group</p>
+                    <p>It's main focus to see all the participating member in our patreon ranging from name and ranks</p>
+                    <p>Go Beyond into your adventure in Horizon</p>
+                    <hr style="margin: 0% 1%">
+                    <br>
+                    <div class="about-developer">
+                        <hr><p class="center-text">Group: </p><hr>
+                        <br>
+                        <li class="about-developer-button-toggle0">Vincent John R. Ruales
+                            <div class="dropDownDetails0">
+                                <div class="about-developer-desc">
+                                    <p>Lead Developer of this Project</p>
+                                    <p>Handling codes/debugging/errors in the project</p>
+                                    <p>Handling GUIs (making one)</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="about-developer-button-toggle1">Rowmel P. Roque
+                            <div class="dropDownDetails1">
+                                <div class="about-developer-desc">
+                                    <p>Handle and Assists in Database</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="about-developer-button-toggle2">Joshua Jade D. Ramos
+                            <div class="dropDownDetails2">
+                                <div class="about-developer-desc">
+                                    <p>Handle GUI Designs</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="about-developer-button-toggle3">Ralp Lauren L. Calayag
+                            <div class="dropDownDetails3">
+                                <div class="about-developer-desc">
+                                    <p>Handle GUI Designs</p>
+                                </div>
+                            </div>
+                        </li>
+                        <br>
+                    </div>
+                </div>
+
+                <br>
+                <hr style="margin: 0% 1%">
+                <p>Date Developed: 03/05/2024</p>
+                <hr style="margin: 0% 1%">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const toggleButton0 = document.querySelector('.about-developer-button-toggle0')
+    const toggleButton1 = document.querySelector('.about-developer-button-toggle1')
+    const toggleButton2 = document.querySelector('.about-developer-button-toggle2')
+    const toggleButton3 = document.querySelector('.about-developer-button-toggle3')
+    const dropDownDetails0 = document.querySelector('.dropDownDetails0')
+    const dropDownDetails1 = document.querySelector('.dropDownDetails1')
+    const dropDownDetails2 = document.querySelector('.dropDownDetails2')
+    const dropDownDetails3 = document.querySelector('.dropDownDetails3')
+
+    toggleButton0.onclick = function () {
+        dropDownDetails0.classList.toggle('open')
+        const isOpen = dropDownDetails0.classList.contains('open')
+        dropDownDetails1.classList.remove('open')
+        dropDownDetails2.classList.remove('open')
+        dropDownDetails3.classList.remove('open')
+    }
+    toggleButton1.onclick = function () {
+        dropDownDetails1.classList.toggle('open')
+        const isOpen = dropDownDetails1.classList.contains('open')
+        dropDownDetails0.classList.remove('open')
+        dropDownDetails2.classList.remove('open')
+        dropDownDetails3.classList.remove('open')
+    }
+    toggleButton2.onclick = function () {
+        dropDownDetails2.classList.toggle('open')
+        const isOpen = dropDownDetails2.classList.contains('open')
+        dropDownDetails0.classList.remove('open')
+        dropDownDetails1.classList.remove('open')
+        dropDownDetails3.classList.remove('open')
+    }
+    toggleButton3.onclick = function () {
+        dropDownDetails3.classList.toggle('open')
+        const isOpen = dropDownDetails3.classList.contains('open')
+        dropDownDetails0.classList.remove('open')
+        dropDownDetails1.classList.remove('open')
+        dropDownDetails2.classList.remove('open')
+    }
+
+</script>
+<div class="footer font-white">
+    <footer>
+        <hr>
+        Author: Ken Horizon (Vincent John R. Ruales) <br>
+        &copy; Copyright Reserved <br>
+
+    </footer>
+</div>
+<!--
+ PROJECT STARTED: 03/05/2024 FOR MAJOR SUBJECT IN BSIT [APP DEV]
+ USED IN SOFTWARE:
+ XAMMP (TO RUN A LOCAL HOST TO PHPMYADMIN)
+ PHPMYADMIN (MYQSL) (CREATING DATABASE)
+ ITELLIJ IDEA (MOSTLY USED IN CODING AND SCRIPTING)
+ PAINT.NET (MAKING A LOGO AND ICONS)
+
+ Credits:
+ Bro Code (HTML/CSS/JS)
+ -->
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="/images/icon.png">
+    <title>Beyond Horizon: Stars | Sign Up</title>
+    <link rel="stylesheet" href="css/style.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
+
+</head>
+<body>
+<!--
+ HEADER OF THE SITE THIS IT'S APPLY ON EVERY SITE OF THIS [CTRL + C AND V]
+ -->
+<div class="page-section">
+    <img class="header" src="images/title.png" alt="Beyond Horizon: Stars - Patreon">
+    <div class="page-button-body page-button-left">
+        <a class="font-white button-0" href="Home.html">Home</a>
+        <a class="font-white button-0" href="About.html">About</a>
+        <a class="font-white button-0-selected">Sign Up</a>
+    </div>
+</div>
+<div class="sign-up">
+    <div class="background">
+        <div class="border">
+            <form action="Account.html" method="POST">
+                <div class="center-text">
+                    <p>Sign Up</p>
+                </div>
+                <div style="text-align: left;">
+                    <div>
+                        <label for="fname">First Name:</label>
+                        <input type="text" for="fname" id="fname" name="fname" placeholder="First Name" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label for="lname">Last Name:</label>
+                        <input type="text" for="lname" id="lname" name="lname" placeholder="Last Name" required>
+                    </div>
+
+                    <br>
+                    <div>
+                        <label for="mname">Middle Name:</label>
+                        <input type="text" for="mname" id="mname" name="mname" placeholder="Middle Name" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label for="password">Password:</label>
+                        <input type="password" for="password" id="password" name="email" maxlength="12" placeholder="Password" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label for="email">Email:</label>
+                        <input type="text" for="email" id="email" name="email" placeholder="Email" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label for="date">Birthday:</label>
+                        <input type="date" for="date" id="date" name="date">
+                    </div>
+                    <br>
+                    <div>
+                        <label>Account Type: </label>
+                        <label for="memberAccount">Member</label>
+                        <input type="radio" id="memberAccount" name="accountType">
+                        <label for="adminAccount">Admin</label>
+                        <input type="radio" id="adminAccount" name="accountType">
+                    </div>
+                    <br>
+                    <div>
+                        <label>Gender: </label>
+                        <label for="male">Male</label>
+                        <input type="radio" id="male" name="gender">
+                        <label for="female">Female</label>
+                        <input type="radio" id="female" name="gender">
+                        <label for="undefined">Undefined</label>
+                        <input type="radio" id="undefined" name="gender">
+                    </div>
+                    <br>
+                    <div>
+                        <button type="reset">Clear Form</button>
+                        <button type="submit">Create Account</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

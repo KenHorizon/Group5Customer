@@ -1,0 +1,89 @@
+body {
+  background-image: url(/images/background.png);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+.page-section {
+  text-align: center;
+  vertical-align: top;
+  padding: 10px;
+  background-image: url(/images/background_header.png);
+  background-color: inherit;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.opacity-100 {
+  opacity: 100%
+}
+.page-padding {
+  padding: 20px;
+}
+.page-header {
+  background-color:  #729FCF;
+  border: 3px solid #CCC;
+  padding: 10px;
+}
+.page-button-body {
+  border: 5px solid #91007D;
+  padding: 20px;
+}
+.page-button-left {
+  text-align: left;
+}
+.page-button-right {
+  float: right;
+}
+.button-0 {
+  border: none;
+  font-weight: bold;
+  text-align: center;
+  margin: 5px;
+  font-size: 16px;
+  padding: 1% 10%;
+  display: inline-block;
+
+  background-color: inherit;
+  background-image: url(/images/button.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  opacity: 0.6;
+  transition: 0.3s;
+}
+.button-0:hover {
+opacity: 1;
+}
+.font-black {
+color: black;
+font-weight: bold;
+text-decoration: none;
+}
+.font-white {
+color: white;
+font-weight: bold;
+text-decoration: none;
+}
+.font-size {
+font-size: 20px;
+}
+.sans-serif {
+font-family: sans-serif;
+}
+.background-gradient-black {
+border: none;
+font-weight: bold;
+text-align: center;
+background-color: inherit;
+background-image: url(/images/gradient_background_black.png);
+background-repeat: no-repeat;
+background-size: 100% 100%;
+opacity: 100%;
+padding: 5px;
+margin: 10% 10%
+}
+
+.background-signIn {
+border: 3px solid #CCC;
+padding: 10px;
+text-align: left;
+}
