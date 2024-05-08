@@ -38,38 +38,31 @@ if ($_SESSION["uuid"] === null) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fileName = "profile_picture";
     $target_dir = "assets/upload/";
-    $target_file = $target_dir . "profile_picture.png";
+    $target_file = $target_dir . $validated_account['email'] . "_profile_picture.png";
     $uploadOk = 1;
 
     // Check if image file is a actual image or fake image
     if (isset($_POST["profilePictureSave"])) {
         $check = getimagesize($_FILES["profilePictureInput"]["tmp_name"]);
         if ($check !== false) {
-            echo "File is an image - " . $check["mime"] . ".";
             $uploadOk = 1;
         } else {
-            echo "File is not an image.";
             $uploadOk = 0;
         }
     }
 
     // Check if file already exists 
-    if (file_exists("assets/profile_picture.png")) {
-        rename("assets/profile_picture.png", "assets/upload/profile_picture.png");
-        unlink("assets/upload/profile_picture.png");
+    if (file_exists("assets/" . $validated_account['email'] . "_profile_picture.png")) {
+        rename("assets/" . $validated_account['email'] . "_profile_picture.png", $target_file);
+        unlink($target_file);
         $uploadOk = 0;
     }
 
     // Check if $uploadOk is set to 0 by an error
     if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
         // if everything is ok, try to upload file
     } else {
-        if (move_uploaded_file($_FILES["profilePictureInput"]["tmp_name"], $target_file)) {
-            echo "The file " . htmlspecialchars(basename($_FILES["profilePictureInput"]["name"])) . " has been uploaded.";
-        } else {
-            echo "Sorry, there was an error uploading your file.";
-        }
+        move_uploaded_file($_FILES["profilePictureInput"]["tmp_name"], $target_file);
     }
 }
 $database->close();
