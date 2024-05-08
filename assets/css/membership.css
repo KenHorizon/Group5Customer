@@ -1,0 +1,7 @@
+body {
+    font-size: 16px;
+    overflow: auto;
+    background-size: 100% 100%;
+    background-image: url("../img/membership_background.jpg");
+    background-attachment: fixed;
+}

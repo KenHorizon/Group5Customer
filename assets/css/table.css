@@ -1,0 +1,21 @@
+th, td {
+    padding: 10px;
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+table {
+    padding: 10px;
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+.tables {
+    width:100%;
+}
+
+/*----- RESPONSIVE -----*/
+@media only screen and (max-width: 620px) {
+    /* For mobile phones: */
+    .tables {
+        margin: 1px 5px;
+    }
+}

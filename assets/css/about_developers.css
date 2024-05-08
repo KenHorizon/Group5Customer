@@ -1,0 +1,34 @@
+.about-developers-group {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+}
+.title {
+    color: grey;
+    font-size: 18px;
+}
+.about-developer { 
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    width: 50%;
+    text-align: center;
+    font-family: arial;
+}
+.about-group {
+    width: 50%;
+}
+@media only screen and (max-width: 620px) {
+    /* For mobile phones: */
+    .about-developers-group {
+        display: block;
+    }
+    .about-group {
+        width: 100%;
+    }
+    .about-developer {
+        margin: 0 auto; 
+    }
+}

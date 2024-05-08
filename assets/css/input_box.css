@@ -1,0 +1,75 @@
+.login-form {
+	display: flex;
+	margin: 0 auto;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	align-items: stretch;
+}
+.login-form-background {
+	margin: 0 auto;
+	border-radius: 10px;
+	border: 3px solid rgba(255, 255, 255);
+	width: 550px;
+	padding: 10px;
+}
+.group-box {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: center;
+}
+.input-box-name {
+	border-radius: 5px;
+	height: 30px;
+	text-align: left;
+	margin: 0 1px;
+	width: 100%;
+}
+.input-box {
+	border-radius: 5px;
+	text-align: left;
+	height: 30px;
+	margin: 10px 1px;
+}
+.input-box-selection-label {
+	border-radius: 5px;
+	font-weight: bold;
+	height: 30px;
+	margin: 5px 0px;
+	width: 30%;
+}
+.input-box-selection {
+	background-color: rgb(71, 71, 71);
+	color: white;
+	text-align: left;
+	border-radius: 5px;
+	font-weight: bold;
+	height: 30px;
+	margin: 5px 10px;
+	width: 30%;
+}
+.input-box-birthday-class {
+	font-weight: bold;
+}
+.gender-input-box {
+	width: 50%;
+	padding: 10px 0px;
+	margin: 0px 10px;
+	width: 100px;
+}
+
+.gender-input-box-config {
+	padding: 10px 10px;
+}
+.input-button {
+	border-radius: 5px;
+	height: 30px;
+}
+
+/*----- RESPONSIVE -----*/
+@media only screen and (max-width: 620px) {
+	/* For mobile phones: */
+	.group-box-row {
+		width: 100%;
+	}
+}
