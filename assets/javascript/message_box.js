@@ -17,6 +17,9 @@ messageBox(subscriptionBasic);
 messageBox(subscriptionAdvance);
 messageBox(termConditionsPopup);
 
+profilePictureEdit.addEventListener("click", function () {
+	editProfilePopup.classList.add("show");
+});
 termConditions.addEventListener("click", function () {
 	termConditionsPopup.classList.add("show");
 });
@@ -45,10 +48,6 @@ advanceSubscriptionYearCheck.addEventListener("click", function () {
 	advanceSubscriptionMonth.classList.remove("show");
 });
 
-advanceSubscriptionMonthCheck.addEventListener("click", function () {
-	advanceSubscriptionMonth.classList.add("show");
-	advanceSubscriptionYear.classList.remove("show");
-});
 
 const handleMovement = (e) => {
 	switch (e.key) {

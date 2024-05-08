@@ -60,7 +60,14 @@ function convertMonthToNames($number)
             return $output = "Invalid!";
     }
 }
-
+function convertZeroNumber($number)
+{
+    if ($number > 10) {
+        return $number;
+    } else {
+        return split($number, 0);
+    }
+}
 function determineUserType($number)
 {
     switch ($number) {

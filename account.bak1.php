@@ -77,7 +77,6 @@ $database->close();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="/assets/img/icon.png">
     <title>Beyond Horizon: Stars | Profile</title>
-    <link rel="stylesheet" href="assets/css/input_box.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
     <link rel="stylesheet" href="assets/css/style.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
     <link rel="stylesheet" href="assets/css/icons_addon.css"> <!-- ICONS API -->
 </head>
@@ -86,7 +85,7 @@ $database->close();
         <a class="button" href="memberList.php" id="memberList"><i class="material-icons">list</i>Member List</a>
         <a class="button" href="about.html" id="about"><i class="material-icons">people</i>About</a>
         <a class="button" href="membership.php" id="subscription"><i class="material-icons">rocket</i>Subscription</a>
-        <a style="float: right;" class="button" href="logout.php" id="logout"><i class="material-icons">logout</i>Logout</a>
+        <a class="button" href="logout.php" id="logout"><i class="material-icons">logout</i>Logout</a>
     </div>
 </header>
 <!--
@@ -101,26 +100,18 @@ $database->close();
             echo "<img id='profilePicture' class='profile-picture' src='" . $account_profile_picture . "' style='align-items: unset;'>";
             ?>
             <div class="profile-text">
-
-                <div class="edit-profile">
-                    <div>
-                        <?php
-                        if (mysqli_num_rows($account) > 0) {
-                            echo "<div class='group-box-column-name'>
+                <?php
+                if (mysqli_num_rows($account) > 0) {
+                    echo "<div class='group-box-column-name'>
                                 <h2>" . $validated_account["name"] . "</h2>
                                 <div class='profile-icons'>  <p>" . determineUserType($validated_account_user["type"]) . "</p> </div>
                         </div>";
-                        } else {
-                            echo "<h1> Unknown Account <br> </h1>";
-                            echo "<p> Unknown Data <br> </p>";
-                        }
-                        ?>
-                    </div>
-                    <div>
-                        <button class="button-borderless" style="padding: 15px; margin-left: 0px; border-radius: 10px;" for="profilePictureInput" id="profilePictureEdit" name="profilePictureEdit">Edit Profile</button>
-                    </div>
-                </div>
-                <!-- <div class="group-box-column" style="width: 150px;">
+                } else {
+                    echo "<h1> Unknown Account <br> </h1>";
+                    echo "<p> Unknown Data <br> </p>";
+                }
+                ?>
+                <div class="group-box-column" style="width: 150px;">
                     <form id="profilePictureForm1" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST" enctype="multipart/form-data">
                         <div>
                             <label class="button-borderless" style="padding: 15px; margin-left: 0px; justify-content: center;" for="profilePictureInput" id="profilePictureEdit" name="profilePictureEdit">Edit Profile</label>
@@ -130,7 +121,7 @@ $database->close();
 
                         </div>
                     </form>
-                </div> -->
+                </div>
             </div>
         </div>
         <!--  -->
@@ -138,6 +129,18 @@ $database->close();
     <div class="main">
         <div class="background">
             <div class="group-box-row">
+                <br>
+                <div class="profile-layout">
+                    <div class="group-box-row">
+                        <textarea class="profile-bio-box" rows="10" cols="30" maxlength="90" id="profileBioDataText" spellcheck="false" disabled></textarea>
+                        <div class="group-box-column">
+                            <button class="button-borderless" style="padding: 15px; margin-left: 10px; width: 120px; justify-content: center;" id="bioEditButton">Edit</button>
+                            <button class="button-borderless hide" style="padding: 15px; margin-left: 10px; width: 120px; justify-content: center;" id="bioSaveButton">Save</button>
+                            <button class="button-borderless" style="padding: 15px; margin-left: 10px; margin-top: 10px; width: 120px; justify-content: center;" id="bioRemoveButton" name="remove">Remove</button>
+                        </div>
+                    </div>
+                    <br>
+                </div>
                 <div class="group-box-row" style=" margin: 0 auto; width: 50%;">
                     <!-- <div class="profile-background">
 
@@ -155,18 +158,18 @@ $database->close();
                                 $joined_year = split($validated_account["created_at"], "-")[0];
                                 $joined_month = convertMonthToNames(split($validated_account["created_at"], "-")[1]);
                                 $joined_removeTimeStamp = split($validated_account["created_at"], "-")[2];
-                                $joined_day = (int) split($joined_removeTimeStamp, " ")[0];
+                                $joined_day = split($joined_removeTimeStamp, " ")[0];
                                 $joined = "{$joined_month} {$joined_day}, {$joined_year}";
 
                                 $year = split($validated_account["birthday"], "-")[0];
                                 $month = convertMonthToNames(split($validated_account["birthday"], "-")[1]);
-                                $day = (int) split($validated_account["birthday"], "-")[2];
+                                $day = split($validated_account["birthday"], "-")[2];
                                 $birthday = "{$month} {$day}";
 
                                 echo "<p class='profile-background'> <b>Link</b>: " . $validated_membership_user["category"] . "</p>";
                                 echo "<p class='profile-background'> <b>Email</b>: " . $validated_account["email"] . "</p>";
                                 echo "<p class='profile-background'> <b>Joined</b>: " . $joined . "</p>";
-                                echo "<p class='profile-background'> <b>Birthday</b>: " . $birthday . "</p>";
+                                echo "<p class='profile-background'> <b>Birthday</b>: " . $validated_account["birthday"] . "</p>";
                             } else {
                                 if ($validated_account_user['deleted'] === 1) {
                                     echo "<p> <b>Link</b>: - N/A</p>";
@@ -228,21 +231,8 @@ $database->close();
             <div>
             </div>
         </div>
-        <div id="editProfilePopup" class="popup">
-            <div class="edit-profile-content">
-                <div class="edit-profile-header">
-                    <button style="float: left;" class="button-icon" id="exitButtonAlt">X</button>
-                    <h2>Edit Profile</h2>
-                    <button style="float: right; border-radius: 10px;" class="button-borderless" id="exitButton">Save</button>
-                </div>
-                <form class="edit-profile-body">
-                    <input class="edit-profile-box" type="text" placeholder="Name">
-                    <input class="edit-profile-box" type="text" placeholder="Bio">
-                    <input class="edit-profile-box" type="text" placeholder="Link">
-                </form>
-            </div>
-        </div>
-        <script type="module" defer src="assets/javascript/edit_profile.js"></script>
+        <script src="assets/javascript/profile.js"></script>
+        <script src="assets/javascript/message_box.js"></script>
 </body>
 
 </html>
