@@ -86,7 +86,7 @@ $database->close();
         <a class="button" href="memberList.php" id="memberList"><i class="material-icons">list</i>Member List</a>
         <a class="button" href="about.html" id="about"><i class="material-icons">people</i>About</a>
         <a class="button" href="membership.php" id="subscription"><i class="material-icons">rocket</i>Subscription</a>
-        <a style="float: right;" class="button" href="logout.php" id="logout"><i class="material-icons">logout</i>Logout</a>
+        <a class="button" href="logout.php" id="logout"><i class="material-icons">logout</i>Logout</a>
     </div>
 </header>
 <!--
@@ -117,7 +117,7 @@ $database->close();
                         ?>
                     </div>
                     <div>
-                        <button class="button-borderless" style="padding: 15px; margin-left: 0px; border-radius: 10px;" for="profilePictureInput" id="profilePictureEdit" name="profilePictureEdit">Edit Profile</button>
+                        <button class="button-borderless" style="border-radius: 10px;" for="profilePictureInput" id="profilePictureEdit" name="profilePictureEdit">Edit Profile</button>
                     </div>
                 </div>
                 <!-- <div class="group-box-column" style="width: 150px;">

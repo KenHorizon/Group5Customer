@@ -236,7 +236,7 @@ a.button:visited {
 .edit-profile {
 	display: flex;
 	flex-direction: row;
-	flex-wrap: nowrap;
+	flex-wrap: wrap;
 	align-items: baseline;
 	padding: 10px;
 }
@@ -253,7 +253,8 @@ a.button:visited {
 }
 .navigation {
 	font-size: 12px;
-	align-items: center;
+	align-items: start;
+	display: flex;
 	background-color: rgb(41, 67, 195);
 }
 .profile-background {
@@ -323,10 +324,10 @@ a.button:visited {
 	cursor: not-allowed;
 }
 .button {
-	display: inline-flex;
+	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: center;
+	justify-content: start;
 	text-decoration: none;
 	color: white;
 	font-weight: bold;
@@ -401,7 +402,7 @@ a.button:visited {
 .group {
 	display: flex;
 	padding: 2px;
-	flex-wrap: nowrap;
+	flex-wrap: wrap;
 	flex-direction: row;
 	align-items: center;
 }
@@ -420,7 +421,7 @@ a.button:visited {
 .group-box-row {
 	display: flex;
 	flex-direction: row;
-	flex-wrap: nowrap;
+	flex-wrap: wrap;
 	align-items: center;
 	width: 100%;
 }
@@ -516,7 +517,6 @@ textIcon {
 @media only screen and (max-width: 910px) {
 	.navigation {
 		flex-direction: column;
-		align-content: center;
 	}
 }
 /*----- RESPONSIVE -----*/
@@ -525,5 +525,8 @@ textIcon {
 	.main,
 	.sign-up {
 		margin: 1px 5px;
+	}
+	.profile-picture {
+		margin: 0 auto;
 	}
 }
