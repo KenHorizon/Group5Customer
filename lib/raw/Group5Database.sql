@@ -15,7 +15,8 @@ CREATE TABLE `account` (
   `gender` varchar(255),
   `birthday` date,
   `created_at` timestamp,
-  `activated` tinyint(1)
+  `activated` tinyint(1),
+  `banned` tinyint(1) '0: Not or 1: Banned'
 );
 
 CREATE TABLE `membership` (

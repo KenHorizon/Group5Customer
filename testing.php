@@ -19,8 +19,7 @@
 
 <body>
     <?php
-        echo "<p id='testingID' style='color: white;'>HELLO</p>"
     ?>
-    <script src="assets/javascript/testing.js"></script>
 </body>
+
 </html>
