@@ -112,12 +112,11 @@ if ($_SESSION["uuid"] === null) {
             </table>
             <br>
             <?php
-            if ($session_account_type == 0) {
+            if ($session_account_type == 1) {
                 echo "<div class='group-box-row'>
                         <button class='button-borderless' name='remove' style='width: 150px; justify-content:center;' id='banButton'>Ban</button>
                         <button class='button-borderless' name='remove' style='width: 150px; justify-content:center;' id='kickButton'>Kick</button>
                     </div>";
-            } else {
             }
             ?>
         </div>
