@@ -17,20 +17,18 @@ if ($_SESSION["uuid"] === null) {
     $user = mysqli_query($database, $user_uuid);
     $membership = mysqli_query($database, $membership_uuid);
     if (mysqli_num_rows($account) > 0) {
-        if (mysqli_num_rows($account) > 0) {
-            $validated_account = mysqli_fetch_assoc($account);
-            $validated_account_user = mysqli_fetch_assoc($user);
-            $validated_membership_user = mysqli_fetch_assoc($membership);
-            // 
-            $account_profile_picture = $validated_account_user['profile'];
-            $account_email = $validated_account['email'];
-            $account_bio = $validated_account_user['bio'];
-            if (empty($account_profile_picture) || $account_profile_picture === null) {
-                $account_profile_picture = "assets/img/default_pfp.jpeg";
-            }
-            if (empty($account_bio)) {
-                $account_bio = "";
-            }
+        $validated_account = mysqli_fetch_assoc($account);
+        $validated_account_user = mysqli_fetch_assoc($user);
+        $validated_membership_user = mysqli_fetch_assoc($membership);
+        // 
+        $account_profile_picture = $validated_account_user['profile'];
+        $account_email = $validated_account['email'];
+        $account_bio = $validated_account_user['bio'];
+        if (empty($account_profile_picture) || $account_profile_picture === null) {
+            $account_profile_picture = "assets/img/default_pfp.jpeg";
+        }
+        if (empty($account_bio)) {
+            $account_bio = "";
         }
     }
 }

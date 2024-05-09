@@ -1,14 +1,6 @@
 <?php
-convertZeroNumber("01");
+include("data.php");
 
-
-function convertZeroNumber($number)
-{
-    if ($number >= 10) {
-        echo $number;
-    } else {
-        $remove = explode($number, "8");
-        echo $remove[0];
-    }
-}
+$update_account = "UPDATE user SET type = 1 WHERE email = 'kenhorizon7@gmail.com'";
+mysqli_query($database, $update_account);
 ?>

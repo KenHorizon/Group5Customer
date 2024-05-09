@@ -158,6 +158,18 @@ a.button:visited {
 		"Lucida Sans", Arial, sans-serif;
 	font-weight: bold;
 }
+.icon-texts {
+	border: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.reason-box {
+	font-size: 18px;
+	resize: none;
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: rgb(255, 255, 255);
+}
 .profile-bio-box {
 	font-size: 18px;
 	resize: none;
@@ -288,15 +300,20 @@ a.button:visited {
 	transition: 0.3s;
 }
 .button-icon {
+	font-family: Arial, Helvetica, sans-serif;
 	display: flex;
 	flex-direction: row;
+	cursor: pointer;
 	text-decoration: none;
 	color: white;
 	font-weight: bold;
 	border: 0px solid white;
 	font-size: 25px;
 	background-color: rgba(1, 28, 102, 0);
-	transition: 0.3s;
+}
+.button-icon:hover {
+	border-radius: 50%;
+	background-color: rgba(255, 255, 255, 0.304);
 }
 .button-borderless {
 	display: flex;
@@ -422,6 +439,14 @@ a.button:visited {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+	align-items: center;
+	width: 100%;
+}
+
+.group-box-row-no-warp {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
 	align-items: center;
 	width: 100%;
 }

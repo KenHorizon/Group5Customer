@@ -92,50 +92,46 @@ $database->close();
         <div class="background">
             <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
                 <p style="text-align: center;">Sign Up</p>
-                <div class="group-box">
-                    <div class="group-box-row">
-                        <input type="text" class="input-box-name" name="first_name" placeholder="First Name" required>
-                        <input type="text" class="input-box-name" name="last_name" placeholder="Last Name" required>
-                    </div>
-                    <div class="group-box-column">
-                        <input type="text" class="input-box" name="username" placeholder="Username" required>
-                        <input type="email" class="input-box" name="email" placeholder="Email" required>
-                        <input type="password" class="input-box" name="password" placeholder="Password" required>
-                    </div>
+                <div class="group-box-row-no-warp">
+                    <input type="text" class="input-box-name" name="first_name" placeholder="First Name" required>
+                    <input type="text" class="input-box-name" name="last_name" placeholder="Last Name" required>
+                </div>
+                <div class="group-box-column">
+                    <input type="text" class="input-box" name="username" placeholder="Username" required>
+                    <input type="email" class="input-box" name="email" placeholder="Email" required>
+                    <input type="password" class="input-box" name="password" placeholder="Password" required>
                 </div>
                 <br>
-                <div class="group-box">
-                    <div class="group-box-row">
-                        <label class="input-box-selection-label" for="birthdayForm">Birthday:</label>
-                        <!-- <input type="date" name="birthday" placeholder="Birthday" id="birthdayForm"> -->
-                        <div class="custom-select-0" style="width: 100%;">
-                            <select id="month_selection" name="month" required>
-                                <option value="0">Month</option>
-                                <option value="1">January</option>
-                                <option value="2">February</option>
-                                <option value="3">March</option>
-                                <option value="4">April</option>
-                                <option value="5">May</option>
-                                <option value="6">June</option>
-                                <option value="7">July</option>
-                                <option value="8">August</option>
-                                <option value="9">September</option>
-                                <option value="10">October</option>
-                                <option value="11">November</option>
-                                <option value="12">December</option>
-                            </select>
-                        </div>
-                        <input type="number" inputmode="numeric" min="1" max="31" class="input-box-name" name="day" id="checkNumberOnDay" placeholder="Day" required>
-                        <input type="number" inputmode="numeric" min="1800" max="2060" class="input-box-name" name="year" id="checkNumberOnYear" placeholder="Year" required>
-                    </div>
-                    <div class="custom-select-1" style="width: 35%;">
-                        <select name="gender" required>
-                            <option value="invalid">Select A Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="undefined">Undefined</option>
+                <div class="group-box-row-no-warp">
+                    <label class="input-box-selection-label" for="birthdayForm">Birthday:</label>
+                    <!-- <input type="date" name="birthday" placeholder="Birthday" id="birthdayForm"> -->
+                    <div class="custom-select-0" style="width: 100%;">
+                        <select id="month_selection" name="month" required>
+                            <option value="0">Month</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
                         </select>
                     </div>
+                    <input type="number" inputmode="numeric" min="1" max="31" class="input-box-name" name="day" id="checkNumberOnDay" placeholder="Day" required>
+                    <input type="number" inputmode="numeric" min="1800" max="2060" class="input-box-name" name="year" id="checkNumberOnYear" placeholder="Year" required>
+                </div>
+                <div class="custom-select-1" style="width: 35%;">
+                    <select name="gender" required>
+                        <option value="invalid">Select A Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="undefined">Undefined</option>
+                    </select>
                 </div>
                 <br>
                 <br>
