@@ -150,7 +150,7 @@ a.button:visited {
 	border-right: 2px solid rgb(75, 75, 75);
 	background-color: rgb(51, 51, 51);
 	padding: 0 10px;
-	margin: 5px 0;
+	margin: 0px 2px;
 	text-align: center;
 	width: 50px;
 	font-variant: small-caps;
@@ -183,7 +183,7 @@ a.button:visited {
 	backdrop-filter: blur(2px);
 	height: 30px;
 	margin: 10px;
-	color: gray;
+	color: rgb(0, 0, 0);
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;

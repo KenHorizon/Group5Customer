@@ -1,0 +1,6 @@
+.admin-interface {
+    margin: 0;
+}
+.admin-interface:hover {
+    color: rgb(65, 65, 65);
+}

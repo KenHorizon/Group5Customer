@@ -34,6 +34,18 @@ if ($_SESSION["uuid"] === null) {
         }
     }
 }
+
+$joined_year = split($validated_account["created_at"], "-")[0];
+$joined_month = convertMonthToNames(split($validated_account["created_at"], "-")[1]);
+$joined_removeTimeStamp = split($validated_account["created_at"], "-")[2];
+$joined_day = (int) split($joined_removeTimeStamp, " ")[0];
+$joined = "{$joined_month} {$joined_day}, {$joined_year}";
+
+$year = split($validated_account["birthday"], "-")[0];
+$month = convertMonthToNames(split($validated_account["birthday"], "-")[1]);
+$day = (int) split($validated_account["birthday"], "-")[2];
+$birthday = "{$month} {$day}";
+
 // // TODO: Allow user to make their own profile picture
 // // METHODS: uploading profile will save with their name with "_profile_picture" to save in database
 // // for now this features held back
@@ -67,6 +79,12 @@ if ($_SESSION["uuid"] === null) {
 //         move_uploaded_file($_FILES["profilePictureInput"]["tmp_name"], $target_file);
 //     }
 // }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $bio_data = $_POST['bioInput'];
+    $update_bio = "UPDATE user SET bio = '$bio_data' WHERE email = '$account_email'";
+    mysqli_query($database, $update_bio);
+    header("Location: account.php");
+}
 $database->close();
 ?>
 <!DOCTYPE html>
@@ -106,10 +124,13 @@ $database->close();
                     <div>
                         <?php
                         if (mysqli_num_rows($account) > 0) {
-                            echo "<div class='group-box-column-name'>
+                            echo
+                            "<div class='group-box-column-name'>
                                 <h2>" . $validated_account["name"] . "</h2>
-                                <div class='profile-icons'>  <p>" . determineUserType($validated_account_user["type"]) . "</p> </div>
-                        </div>";
+                                <div class='group-box-row'>
+                                    <div class='profile-icons'><p>" . determineUserType($validated_account_user["type"]) . "</p></div>
+                                </div>  
+                            </div>";
                         } else {
                             echo "<h1> Unknown Account <br> </h1>";
                             echo "<p> Unknown Data <br> </p>";
@@ -120,108 +141,74 @@ $database->close();
                         <button class="button-borderless" style="border-radius: 10px;" for="profilePictureInput" id="profilePictureEdit" name="profilePictureEdit">Edit Profile</button>
                     </div>
                 </div>
-                <!-- <div class="group-box-column" style="width: 150px;">
-                    <form id="profilePictureForm1" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST" enctype="multipart/form-data">
-                        <div>
-                            <label class="button-borderless" style="padding: 15px; margin-left: 0px; justify-content: center;" for="profilePictureInput" id="profilePictureEdit" name="profilePictureEdit">Edit Profile</label>
-
-                            <input class="hide" type="file" id="profilePictureInput" name="profilePictureInput" accept=".jpg, .jpeg, .png">
-                            <input type="submit" class="button-borderless hide" style="padding: 15px; margin-left: 0px; justify-content: center; width: 100%;" for="" id="profilePictureSave" name="profilePictureSave"></input>
-
-                        </div>
-                    </form>
-                </div> -->
             </div>
         </div>
+        <?php
+        echo
+        "<div class='group-box-column-name'>
+                <p>" . $validated_account_user['bio'] . "</p> 
+            </div>";
+        ?>
         <!--  -->
     </div>
     <div class="main">
         <div class="background">
             <div class="group-box-row">
-                <div class="group-box-row" style=" margin: 0 auto; width: 50%;">
-                    <!-- <div class="profile-background">
-
-                        <p>TESTING</p>
-                    </div> -->
-                    <div class="background no-overlap">
-                        <div class="background" style="text-align: center; width: 100px;">
-                            <p style="text-align: center;">About</p>
-                        </div>
-                        <hr>
-                        <div class="group-box-column">
-                            <?php
-
-                            if (mysqli_num_rows($account) > 0) {
-                                $joined_year = split($validated_account["created_at"], "-")[0];
-                                $joined_month = convertMonthToNames(split($validated_account["created_at"], "-")[1]);
-                                $joined_removeTimeStamp = split($validated_account["created_at"], "-")[2];
-                                $joined_day = (int) split($joined_removeTimeStamp, " ")[0];
-                                $joined = "{$joined_month} {$joined_day}, {$joined_year}";
-
-                                $year = split($validated_account["birthday"], "-")[0];
-                                $month = convertMonthToNames(split($validated_account["birthday"], "-")[1]);
-                                $day = (int) split($validated_account["birthday"], "-")[2];
-                                $birthday = "{$month} {$day}";
-
-                                echo "<p class='profile-background'> <b>Link</b>: " . $validated_membership_user["category"] . "</p>";
-                                echo "<p class='profile-background'> <b>Email</b>: " . $validated_account["email"] . "</p>";
-                                echo "<p class='profile-background'> <b>Joined</b>: " . $joined . "</p>";
-                                echo "<p class='profile-background'> <b>Birthday</b>: " . $birthday . "</p>";
-                            } else {
-                                if ($validated_account_user['deleted'] === 1) {
-                                    echo "<p> <b>Link</b>: - N/A</p>";
-                                    echo "<p> <b>Email</b>: - N/A</p>";
-                                    echo "<p> <b>Joined</b>: - N/A</p>";
-                                    echo "<p> <b>Birthday</b>: - N/A</p>";
-                                }
+                <div class="group-box-column">
+                    <div class="background" style="text-align: center;">
+                        <p style="text-align: center;">About</p>
+                    </div>
+                    <div class="group-box-column">
+                        <?php
+                        if (mysqli_num_rows($account) > 0) {
+                            echo "<p class='profile-background'> <b>Link</b>: " . $validated_membership_user["category"] . "</p>";
+                            echo "<p class='profile-background'> <b>Email</b>: " . $validated_account["email"] . "</p>";
+                            echo "<p class='profile-background'> <b>Joined</b>: " . $joined . "</p>";
+                            echo "<p class='profile-background'> <b>Birthday</b>: " . $birthday . "</p>";
+                        } else {
+                            if ($validated_account_user['deleted'] === 1) {
                                 echo "<p> <b>Link</b>: - N/A</p>";
                                 echo "<p> <b>Email</b>: - N/A</p>";
                                 echo "<p> <b>Joined</b>: - N/A</p>";
                                 echo "<p> <b>Birthday</b>: - N/A</p>";
                             }
-                            ?>
-                        </div>
+                            echo "<p> <b>Link</b>: - N/A</p>";
+                            echo "<p> <b>Email</b>: - N/A</p>";
+                            echo "<p> <b>Joined</b>: - N/A</p>";
+                            echo "<p> <b>Birthday</b>: - N/A</p>";
+                        }
+                        ?>
                     </div>
-                    <div class="background no-overlap">
-                        <div class="background" style="text-align: center; width: 100px;">
-                            <p style="text-align: center;">Membership</p>
-                        </div>
-                        <hr>
-                        <div class="group-box-column">
-                            <?php
-                            // Status: "If a user or admin have a VIP / Membership Active"
-                            // Param Active or Inactive
-
-                            // Type: "V.I.P's Type, Allow determine VIP's type what based on them"
-                            // Param Donator, Exclusive Member, Supreme, Ruler, Coder
-
-                            // Rank: "Membership Have categorized based on your level"
-                            // Param: Wood (Default), Bronze, Iron, Silver, Gold, Platinum, Emerald, Diamond, Master
-
-                            // Level: "The Level of Membership"
-                            // Param: Default: 0, 1-100
-                            if (mysqli_num_rows($account) > 0) {
-                                echo "<p class='profile-background'> <b>Status</b>: " . $validated_membership_user["category"] . "</p>";
-                                echo "<p class='profile-background'> <b>Type</b>: " . determineUserType($validated_account_user["type"]) . "</p>";
-                                echo "<p class='profile-background'> <b>Rank</b>: " . $validated_account["created_at"] . "</p>";
-                                echo "<p class='profile-background'> <b>Level</b>: " . $validated_account["birthday"] . "</p>";
-                            } else {
-                                echo "<p> <b>Status</b>: - N/A</p>";
-                                echo "<p> <b>Type</b>: - N/A</p>";
-                                echo "<p> <b>Rank</b>: - N/A</p>";
-                                echo "<p> <b>Level</b>: - N/A</p>";
-                            }
-                            ?>
-                        </div>
+                    <div class="background" style="text-align: center;">
+                        <p style="text-align: center;">Membership</p>
                     </div>
-                    <div class="no-overlap">
-                        <div class="group-box-column">
-                            <a class="button">Settings</a>
-                            <a class="button">Report</a>
-                            <a class="button">Contact</a>
-                            <a class="button" name="remove">Delete Account</a>
-                        </div>
+                    <div class="group-box-column">
+                        <?php
+                        // Status: "If a user or admin have a VIP / Membership Active"
+                        // Param Active or Inactive
+
+                        // Type: "V.I.P's Type, Allow determine VIP's type what based on them"
+                        // Param Donator, Exclusive Member, Supreme, Ruler, Coder
+
+                        // Rank: "Membership Have categorized based on your level"
+                        // Param: Wood (Default), Bronze, Iron, Silver, Gold, Platinum, Emerald, Diamond, Master
+
+                        // Level: "The Level of Membership"
+                        // Param: Default: 0, 1-100
+                        if (mysqli_num_rows($account) > 0) {
+                            echo "<p class='profile-background'> <b>Status</b>: " . $validated_membership_user["category"] . "</p>";
+                            echo "<p class='profile-background'> <b>Type</b>: " . determineUserType($validated_account_user["type"]) . "</p>";
+                            echo "<p class='profile-background'> <b>Rank</b>: " . $validated_account["created_at"] . "</p>";
+                            echo "<p class='profile-background'> <b>Level</b>: " . $validated_account["birthday"] . "</p>";
+                        } else {
+                            echo "<p> <b>Status</b>: - N/A</p>";
+                            echo "<p> <b>Type</b>: - N/A</p>";
+                            echo "<p> <b>Rank</b>: - N/A</p>";
+                            echo "<p> <b>Level</b>: - N/A</p>";
+                        }
+                        ?>
                     </div>
+
                 </div>
 
             </div>
@@ -230,15 +217,20 @@ $database->close();
         </div>
         <div id="editProfilePopup" class="popup">
             <div class="edit-profile-content">
-                <div class="edit-profile-header">
-                    <button style="float: left;" class="button-icon" id="exitButtonAlt">X</button>
-                    <h2>Edit Profile</h2>
-                    <button style="float: right; border-radius: 10px;" class="button-borderless" id="exitButton">Save</button>
-                </div>
-                <form class="edit-profile-body">
-                    <input class="edit-profile-box" type="text" placeholder="Name">
-                    <input class="edit-profile-box" type="text" placeholder="Bio">
-                    <input class="edit-profile-box" type="text" placeholder="Link">
+                <form class="edit-profile-body" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
+                    <div class="edit-profile-header">
+                        <button style="float: left;" class="button-icon" id="exitButtonAlt">X</button>
+                        <h2>Edit Profile</h2>
+                        <button style="float: right; border-radius: 10px;" class="button-borderless" for="submit">Save</button>
+                    </div>
+                    <?php
+                    echo "<input class='edit-profile-box' type='text' placeholder='Name' value='" . $validated_account['name'] . "'>";
+                    ?>
+
+                    <?php
+                    echo "<input class='edit-profile-box' type='text' placeholder='Bio'  name='bioInput' value='" . $validated_account_user['bio'] . "'>";
+                    ?>
+                    <input class="hide" name="submit" type="submit">
                 </form>
             </div>
         </div>

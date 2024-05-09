@@ -5,6 +5,10 @@ import {
 	saveData,
 } from "./function.js";
 
+
+// DATABASE
+
+//
 messageBox(editProfilePopup);
 
 profilePictureEdit.addEventListener("click", function () {
