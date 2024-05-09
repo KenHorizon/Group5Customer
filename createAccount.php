@@ -81,7 +81,7 @@ $database->close();
     <div class="navigation" id="navigationMenu">
         <a class="button" href="index.php" id="home"><i class="material-icons">home</i>Home</a>
         <a class="button" href="about.html" id="about"><i class="material-icons">people</i>About</a>
-        <a class="button disabled" id="sign_up"><i class="material-icons">create</i>Sign-Up</a>
+        <a class="button" id="sign_up"><i class="material-icons">create</i>Sign-Up</a>
     </div>
 </header>
 
