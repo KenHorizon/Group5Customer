@@ -55,3 +55,4 @@
 - Responsive Layout
 - Email link
 - Expiration Date on Membership
+- Search Bar
