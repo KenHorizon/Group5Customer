@@ -2,6 +2,16 @@
 include("assets/php/data.php");
 ?>
 <?php
+//  $body =
+//  "
+// <div style='text-align: center;'><font face='FF Mark W05, Arial, sans-serif' color='#666666'><span style='font-size: 18px; letter-spacing: -0.18px; background-color: rgb(204, 204, 204);'><b style=''>Keep your Account secure by verifying your</b></span></font></div>
+// <div style='text-align: center;'><font face='FF Mark W05, Arial, sans-serif' color='#666666'><span style='font-size: 18px; letter-spacing: -0.18px; background-color: rgb(204, 204, 204);'><b style=''>email address.</b></span></font></div>
+// <br>
+// <br>
+// <div style='text-align: center;'><font face='FF Mark W05, Arial, sans-serif'><span style='font-size: 18px; letter-spacing: -0.18px;'><b style=''><font style='background-color: rgb(255, 255, 255);' color='#999999'><a href='http://beyondhorizon.patreon.com/forgotPasswordEntry.php'>CONFIRM</a></font></b></span></font></div>
+// <br>
+// <br>
+// ";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_SPECIAL_CHARS);
     $old_password = filter_input(INPUT_POST, "old_password", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -12,6 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_num_rows($verified_email) > 0) {
         $validate_verified_account = mysqli_fetch_assoc($verified_email);
         if ($validate_verified_account['email'] === $email) {
+            // TODO:
+            // instead of sending links for confirmation, we will used randomized words like captcha and the expiration is 5 mins
             $body =
                 "
             <div style='text-align: center;'><font face='FF Mark W05, Arial, sans-serif' color='#666666'><span style='font-size: 18px; letter-spacing: -0.18px; background-color: rgb(204, 204, 204);'><b style=''>Keep your Account secure by verifying your</b></span></font></div>
@@ -22,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <br>
             <br>
             ";
+
             sendEmail("Password Change Verification", $body, $email);
         } else {
             header("Location: forgotPassword.php?error=Incorrect Email");
@@ -33,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $validate_account = mysqli_fetch_assoc($result);
         $validate_account_password = $validate_account['password'];
         if ($new_password === $confirm_password) {
-            $insert_new_password = "UPDATE account SET 'password' = $new_password";
+            $insert_new_password = "UPDATE account SET 'password' = $new_password WHERE email = '$email'";
             header("Location index.php");
         }
     }
