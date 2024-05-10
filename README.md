@@ -40,16 +40,18 @@
   - Add/Ban/Edit in Customer List (Member List)
   - Added Deleting Account (Optional)
   - Added Birthday
-  - V.I.P Type 
-    - Donator
-    - Exclusive Member
-    - Supreme
-    - Ruler
-    - Coder
 
 # Problem:
 - Account
-  - Error in duplicated entry in deleted
-  - Save Button
+  - ~~Error in duplicated entry in deleted (Resolved)~~
+  - ~~Save Button~~
 - Login
-  - Code line in deleted 
+  - ~~Code line in deleted~~
+# TODO:
+- Debugging
+- Membership Icon or Tags
+- User and Admin Interfaces
+- Ban Functions
+- Responsive Layout
+- Email link
+- Expiration Date on Membership
