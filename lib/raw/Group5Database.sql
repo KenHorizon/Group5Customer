@@ -1,5 +1,5 @@
 CREATE TABLE `user` (
-  `uuid` integer,
+  `uuid` integer UNIQUE,
   `email` varchar(255),
   `bio` varchar(255),
   `profile` varchar(255),
@@ -7,7 +7,8 @@ CREATE TABLE `user` (
 );
 
 CREATE TABLE `timer` (
-  `email` varchar(255),
+  `uuid` integer UNIQUE,
+  `email` varchar(255) UNIQUE,
   `subscription` int,
   `session` int,
   `banned` int,
@@ -16,7 +17,7 @@ CREATE TABLE `timer` (
 );
 
 CREATE TABLE `account` (
-  `uuid` integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `uuid` integer UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `name` varchar(255),
   `username` varchar(255),
   `email` varchar(255) UNIQUE,
@@ -28,8 +29,8 @@ CREATE TABLE `account` (
 );
 
 CREATE TABLE `membership` (
-  `uuid` integer,
-  `email` varchar(255),
+  `uuid` integer UNIQUE,
+  `email` varchar(255) UNIQUE,
   `type` tinyint(1) COMMENT '0: Basic or 1: Advance',
   `level` int DEFAULT 1,
   `category` varchar(255)

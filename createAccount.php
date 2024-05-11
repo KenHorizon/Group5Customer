@@ -44,6 +44,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $registration_membership = "INSERT INTO membership (uuid, email) VALUES ('$validated_account_uuid', '$email')";
                 mysqli_query($database, $registration_membership);
 
+                $registration_timer = "INSERT INTO timer (uuid, email) VALUES ('$email')";
+                mysqli_query($database, $registration_timer);
+
                 $update_account = "UPDATE account SET activated = 1 WHERE email = '$email'";
                 mysqli_query($database, $update_account);
 

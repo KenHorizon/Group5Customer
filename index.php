@@ -9,7 +9,6 @@ $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
 $login = "SELECT * FROM account WHERE email = '$user' AND password = '$password'";
 $result = mysqli_query($database, $login);
 $notice = "";
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if (empty($user)) {
 		$notice = "Please Insert Username!";
@@ -25,12 +24,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			if (mysqli_num_rows($validate_user) > 0) {
 				$validate_user_account = mysqli_fetch_assoc($validate_user);
 				$validate_user_type = $validate_user_account['type'];
+				$validate_account_uuid = $validate_account['uuid'];
 				// echo "<h1>".$user_name."</h1> <br>";
 				// Check the email and password and later the user account if the account is activated
 				if ($validate_account['email'] === $user && $validate_account['password'] === $password) {
 					if ($validate_account['activated'] == 1) {
-						$_SESSION['uuid'] = $validate_account['uuid'];
-						$_SESSION['email'] = $validate_account['email'];
+						try {
+							$update_database = "INSERT INTO timer (uuid, email) VALUES ('$validate_account_uuid', '$validate_account_email')";
+							mysqli_query($database, $update_database);
+						} catch (mysqli_sql_exception) {
+						}
+						$_SESSION['uuid'] = $validate_account_uuid;
+						$_SESSION['email'] = $validate_account_email;
 						$_SESSION['password'] = $validate_account['password'];
 						$_SESSION['type'] = $validate_user_type;
 						// echo "<h1>".$_SESSION['uuid']."</h1> <br>";
