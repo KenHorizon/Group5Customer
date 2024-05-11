@@ -41,7 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: forgotPassword.php?error=Incorrect Email");
         }
     }
-    $login = "SELECT * FROM account WHERE email = '$email'";
     $result = mysqli_query($database, $login);
     $verified_code = filter_input(INPUT_POST, "verification", FILTER_SANITIZE_SPECIAL_CHARS);
     if (mysqli_num_rows($result) > 0 && $verified_code == $captcha) {

@@ -6,17 +6,25 @@ CREATE TABLE `user` (
   `type` tinyint(1) COMMENT '0: User or 1: Admin'
 );
 
+CREATE TABLE `timer` (
+  `email` varchar(255),
+  `subscription` int,
+  `session` int,
+  `banned` int,
+  `verification` int,
+  `attempt` int
+);
+
 CREATE TABLE `account` (
   `uuid` integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `name` varchar(255),
   `username` varchar(255),
-  `email` varchar(255),
+  `email` varchar(255) UNIQUE,
   `password` varchar(255),
   `gender` varchar(255),
   `birthday` date,
   `created_at` timestamp,
-  `activated` tinyint(1),
-  `banned` tinyint(1) '0: Not or 1: Banned'
+  `activated` tinyint(1)
 );
 
 CREATE TABLE `membership` (
@@ -30,3 +38,5 @@ CREATE TABLE `membership` (
 ALTER TABLE `membership` ADD FOREIGN KEY (`uuid`) REFERENCES `account` (`uuid`);
 
 ALTER TABLE `user` ADD FOREIGN KEY (`uuid`) REFERENCES `account` (`uuid`);
+
+ALTER TABLE `timer` ADD FOREIGN KEY (`email`) REFERENCES `account` (`email`);
