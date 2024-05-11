@@ -317,6 +317,7 @@ a.button:visited {
 }
 .button-borderless {
 	display: flex;
+	justify-content: center;
 	flex-direction: row;
 	text-decoration: none;
 	color: white;
@@ -344,7 +345,7 @@ a.button:visited {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: start;
+	justify-content: center;
 	text-decoration: none;
 	color: white;
 	font-weight: bold;

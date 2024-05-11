@@ -80,7 +80,7 @@ $birthday = "{$month} {$day}";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bio_data = filter_input(INPUT_POST, "bioInput", FILTER_SANITIZE_SPECIAL_CHARS);
     $display_name = filter_input(INPUT_POST, "displayName", FILTER_SANITIZE_SPECIAL_CHARS);
-    $update_bio = "UPDATE account SET name = '$display_name' WHERE email = '$account_email'";
+    $update_bio = "UPDATE account SET username = '$display_name' WHERE email = '$account_email'";
     $update_bio = "UPDATE user SET bio = '$bio_data' WHERE email = '$account_email'";
     mysqli_query($database, $update_bio);
     header("Location: account.php");
@@ -126,7 +126,7 @@ $database->close();
                         if (mysqli_num_rows($account) > 0) {
                             echo
                             "<div class='group-box-column-name'>
-                                <h2>" . $validated_account["name"] . "</h2>
+                                <h2>" . $validated_account["username"] . "</h2>
                                 <div class='group-box-row'>
                                     <div class='profile-icons'><p>" . determineUserType($validated_account_user["type"]) . "</p></div>
                                 </div>  
@@ -161,7 +161,6 @@ $database->close();
                     <div class="group-box-column">
                         <?php
                         if (mysqli_num_rows($account) > 0) {
-                            echo "<p class='profile-background'> <b>Link</b>: " . $validated_membership_user["category"] . "</p>";
                             echo "<p class='profile-background'> <b>Email</b>: " . $validated_account["email"] . "</p>";
                             echo "<p class='profile-background'> <b>Joined</b>: " . $joined . "</p>";
                             echo "<p class='profile-background'> <b>Birthday</b>: " . $birthday . "</p>";
@@ -196,15 +195,29 @@ $database->close();
                         // Level: "The Level of Membership"
                         // Param: Default: 0, 1-100
                         if (mysqli_num_rows($account) > 0) {
-                            echo "<p class='profile-background'> <b>Status</b>: " . $validated_membership_user["category"] . "</p>";
-                            echo "<p class='profile-background'> <b>Type</b>: " . determineUserType($validated_account_user["type"]) . "</p>";
-                            echo "<p class='profile-background'> <b>Rank</b>: " . $validated_account["created_at"] . "</p>";
-                            echo "<p class='profile-background'> <b>Level</b>: " . $validated_account["birthday"] . "</p>";
+                            $active = "Active";
+                            if ($validated_membership_user["category"] == null) {
+                                $active = "Inactive";
+
+                                $membership_type = "Basic";
+                                if ($validated_membership_user["type"] == null) {
+                                    $membership_type = "Advance";
+                                }
+                                echo "<p class='profile-background'> <b>Status</b>: - Inactive</p>";
+                                echo "<p class='profile-background'> <b>Type</b>: - N/A</p>";
+                                echo "<p class='profile-background'> <b>Rank</b>: - N/A</p>";
+                                echo "<p class='profile-background'> <b>Level</b>: - N/A</p>";
+                            } else {
+                                echo "<p class='profile-background'> <b>Status</b>: " . $active . "</p>";
+                                echo "<p class='profile-background'> <b>Type</b>: " . $membership_type . "</p>";
+                                echo "<p class='profile-background'> <b>Rank</b>: " . $validated_membership_user["category"] . "</p>";
+                                echo "<p class='profile-background'> <b>Level</b>: " . $validated_membership_user["level"] . "</p>";
+                            }
                         } else {
-                            echo "<p> <b>Status</b>: - N/A</p>";
-                            echo "<p> <b>Type</b>: - N/A</p>";
-                            echo "<p> <b>Rank</b>: - N/A</p>";
-                            echo "<p> <b>Level</b>: - N/A</p>";
+                            echo "<p class='profile-background'> <b>Status</b>: - N/A</p>";
+                            echo "<p class='profile-background'> <b>Type</b>: - N/A</p>";
+                            echo "<p class='profile-background'> <b>Rank</b>: - N/A</p>";
+                            echo "<p class='profile-background'> <b>Level</b>: - N/A</p>";
                         }
                         ?>
                     </div>
@@ -224,7 +237,7 @@ $database->close();
                         <button style="float: right; border-radius: 10px;" class="button-borderless" for="submit">Save</button>
                     </div>
                     <?php
-                    echo "<input class='edit-profile-box' type='text' placeholder='Name' name='displayName' value='" . $validated_account['name'] . "'>";
+                    echo "<input class='edit-profile-box' type='text' placeholder='Name' name='displayName' value='" . $validated_account['username'] . "'>";
                     ?>
 
                     <?php

@@ -1,4 +1,6 @@
-
+<?php
+include("assets/php/data.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,8 +18,9 @@
 </head>
 
 <body>
-<p id="currentTimer" style="color: white; margin: 0 auto; text-align: center;"></p>
-<p id="timer" style="color: white; margin: 0 auto; text-align: center;"></p>
-<script type="module" defer src="assets/javascript/countdown.js"></script>
+
+<?php
+    echo getVerificationCode(6);
+?>
 </body>
 </html>

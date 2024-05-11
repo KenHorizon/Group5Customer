@@ -81,9 +81,9 @@ function determineUserType($number)
             return $output = "User!";
     }
 }
-function getName($length)
+function getVerificationCode($length)
 {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $characters = '0123456789';
     $randomString = '';
 
     for ($i = 0; $i < $length; $i++) {

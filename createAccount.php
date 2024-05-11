@@ -38,15 +38,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // I DON'T KNOW WHAT IM DOING?
                 $validated_account = mysqli_fetch_assoc($result);
                 $validated_account_uuid = $validated_account['uuid'];
-                $registration_user = "INSERT INTO user (uuid, email) VALUES ('$validated_account_uuid', '$email')";
-                mysqli_query($database, $registration_user);
-
-                $registration_membership = "INSERT INTO membership (uuid, email) VALUES ('$validated_account_uuid', '$email')";
-                mysqli_query($database, $registration_membership);
-
-                $registration_timer = "INSERT INTO timer (uuid, email) VALUES ('$email')";
-                mysqli_query($database, $registration_timer);
-
+                // This will prevent other registering if one of them is having error
+                try {
+                    $registration_user = "INSERT INTO user (uuid, email) VALUES ('$validated_account_uuid', '$email')";
+                    mysqli_query($database, $registration_user);
+                    try {
+                        $registration_timer = "INSERT INTO timer (uuid, email) VALUES ('$validated_account_uuid', '$email')";
+                        mysqli_query($database, $registration_timer);
+                        try {
+                            $registration_membership = "INSERT INTO membership (uuid, email) VALUES ('$validated_account_uuid', '$email')";
+                            mysqli_query($database, $registration_membership);
+                        } catch (mysqli_sql_exception) {
+                            $notice = "Couldn't create Account";
+                        }
+                    } catch (mysqli_sql_exception) {
+                        $notice = "Couldn't create Account";
+                    }
+                } catch (mysqli_sql_exception) {
+                    $notice = "Couldn't create Account";
+                }
                 $update_account = "UPDATE account SET activated = 1 WHERE email = '$email'";
                 mysqli_query($database, $update_account);
 
@@ -60,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: index.php");
             }
         } catch (mysqli_sql_exception) {
-            $notice = "Error during registering. " . mysqli_errno($database);
+            $notice = "The email is already taken!";
         }
     }
 }

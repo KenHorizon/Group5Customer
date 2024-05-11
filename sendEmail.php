@@ -14,38 +14,37 @@ session_start();
 // <br>
 // ";
 $notice = "";
-$codes = $_SESSION["verification_code"];
-$emails = $_SESSION["verification_email"];
+$captcha = (int) getVerificationCode(6);
 $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_SPECIAL_CHARS);
 $new_password = filter_input(INPUT_POST, "new_password", FILTER_SANITIZE_SPECIAL_CHARS);
 $confirm_password = filter_input(INPUT_POST, "confirm_new_password", FILTER_SANITIZE_SPECIAL_CHARS);
+$notice = "";
+$verified = "SELECT * FROM account WHERE email = '$email'";
+$verified_email = mysqli_query($database, $verified);
+if (mysqli_num_rows($verified_email) > 0) {
+    $validate_verified_account = mysqli_fetch_assoc($verified_email);
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if ($validate_verified_account['email'] === $email) {
+            // TODO:
+            // instead of sending links for confirmation, we will used randomized words like captcha and the expiration is 5 mins
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $verification_email = $_SESSION["verification_email"];
-    $verified = "SELECT * FROM account WHERE email = '$verification_email'";
-    $verified_email = mysqli_query($database, $verified);
-    if (mysqli_num_rows($verified_email) > 0) {
-        $verified_code = filter_input(INPUT_POST, "verification", FILTER_SANITIZE_SPECIAL_CHARS);
-        if ($verified_code == $_SESSION["verification_code"]) {
-            if ($new_password === $confirm_password) {
-                $notice = "Password changed";
-                try {
-                    $insert_new_password = "UPDATE account SET password = '$new_password' WHERE email = '$verification_email'";
-                    mysqli_query($database, $insert_new_password);
-                } catch (mysqli_sql_exception) {
-                    $notice = "Error!"; 
-                }
-                session_unset();
-                session_destroy();
-                header("Location index.php");
-            } else {
-                $notice = "Incorrect Password Code!, Please Try Again!"; 
-            }
+            $body =
+                "
+                <div style='text-align: center;'><font face='FF Mark W05, Arial, sans-serif' color='#666666'><span style='font-size: 18px; letter-spacing: -0.18px; background-color: rgb(204, 204, 204);'><b style=''>Keep your Account secure by verifying your</b></span></font></div>
+                <div style='text-align: center;'><font face='FF Mark W05, Arial, sans-serif' color='#666666'><span style='font-size: 18px; letter-spacing: -0.18px; background-color: rgb(204, 204, 204);'><b style=''>email address.</b></span></font></div>
+                <br>
+                <br>
+                <div style='text-align: center;'><font face='FF Mark W05, Arial, sans-serif'><span style='font-size: 18px; letter-spacing: -0.18px;'><b style=''><font style='background-color: rgb(255, 255, 255);' color='#999999'><b>" . $captcha . "</m></font></b></span></font></div>
+                <br>
+                <br>
+                ";
+            $_SESSION['verification_code'] = $captcha;
+            $_SESSION['verification_email'] = $email;
+            sendEmail("Password Change Verification", $body, $email);
+            header("Location: forgotPassword.php");
         } else {
-            $notice = "Incorrect Verification Code!, Please Try Again!";
+            $notice = "Email not match, Try again!";
         }
-    } else {
-        $notice = "????";
     }
 }
 ?>
@@ -78,27 +77,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="forget-password">
             <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
                 <div class="group-box-row">
-                    <p>Change Password</p>
+                    <p>Enter Email</p>
                     <?php
-                    echo "<p style='margin: 0 auto;'>" . $notice . "</p>";
-                    echo "<p style='margin: 0 auto;'>" . $codes . "</p>";
-                    echo "<p style='margin: 0 auto;'>" . $emails . "</p>";
+                    echo "<p style='margin: 0 auto;'>" . $notice . "</p>"
                     ?>
                 </div>
-                <div>
-                    <div class="group-box-column">
-                        <label for="verification">Enter Verification Code:</label>
-                        <input type="text" class="input-box" name="verification" maxlength="12" placeholder="Verification Code" required>
-                        <label for="new_password">Enter New Password:</label>
-                        <input type="password" class="input-box" name="new_password" maxlength="12" placeholder="New Password" required>
-                        <label for="new_password">Enter Confirm New Password:</label>
-                        <input type="password" class="input-box" name="confirm_new_password" maxlength="12" placeholder="Confirm Password" required>
-                    </div>
+                <div class="group-box-column">
+                    <input type="email" class="input-box" name="email" placeholder="Email" required>
                 </div>
-                <div>
-                    <input style="font-weight: bold;" type="reset" class="input-button" name="reset" value="Cancel">
-                    <input style="font-weight: bold;" type="submit" class="input-button" name="submit" value="Confirm">
-                </div>
+                <input style="font-weight: bold;" type="submit" class="input-button" name="submit" value="Confirm">
             </form>
         </div>
     </div>
