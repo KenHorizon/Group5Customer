@@ -182,50 +182,61 @@ $database->close();
                         <p style="text-align: center;">Membership</p>
                     </div>
                     <div class="group-box-column">
-                        <?php
-                        // Status: "If a user or admin have a VIP / Membership Active"
-                        // Param Active or Inactive
+                        <div class="profile-background">
+                            <?php
+                            // Status: "If a user or admin have a VIP / Membership Active"
+                            // Param Active or Inactive
 
-                        // Type: "V.I.P's Type, Allow determine VIP's type what based on them"
-                        // Param Donator, Exclusive Member, Supreme, Ruler, Coder
+                            // Type: "V.I.P's Type, Allow determine VIP's type what based on them"
+                            // Param Donator, Exclusive Member, Supreme, Ruler, Coder
 
-                        // Rank: "Membership Have categorized based on your level"
-                        // Param: Wood (Default), Bronze, Iron, Silver, Gold, Platinum, Emerald, Diamond, Master
+                            // Rank: "Membership Have categorized based on your level"
+                            // Param: Wood (Default), Bronze, Iron, Silver, Gold, Platinum, Emerald, Diamond, Master
 
-                        // Level: "The Level of Membership"
-                        // Param: Default: 0, 1-100
-                        if (mysqli_num_rows($account) > 0) {
-                            $active = "Active";
-                            if ($validated_membership_user["category"] == null) {
-                                $active = "Inactive";
+                            // Level: "The Level of Membership"
+                            // Param: Default: 0, 1-100
+                            if (mysqli_num_rows($account) > 0) {
+                                $active = "Active";
+                                if ($validated_membership_user["category"] == null) {
+                                    $active = "Inactive";
 
-                                $membership_type = "Basic";
-                                if ($validated_membership_user["type"] == null) {
-                                    $membership_type = "Advance";
+                                    $membership_type = "Basic";
+                                    if ($validated_membership_user["type"] == null) {
+                                        $membership_type = "Advance";
+                                    }
+                                    echo "<p class='profile-description'> <b>Status</b>: - Inactive</p>";
+                                    echo "<p class='profile-description'> <b>Type</b>: - N/A</p>";
+                                    echo "<p class='profile-description'> <b>Rank</b>: - N/A</p>";
+                                    echo "<p class='profile-description'> <b>Level</b>: - N/A</p>";
+                                } else {
+                                    echo "<p class='profile-description'> <b>Status</b>: " . $active . "</p>";
+                                    echo "<p class='profile-description'> <b>Type</b>: " . $membership_type . "</p>";
+                                    echo "<p class='profile-description'> <b>Rank</b>: " . $validated_membership_user["category"] . "</p>";
+                                    echo "<p class='profile-description'> <b>Level</b>: " . $validated_membership_user["level"] . "</p>";
                                 }
-                                echo "<p class='profile-background'> <b>Status</b>: - Inactive</p>";
-                                echo "<p class='profile-background'> <b>Type</b>: - N/A</p>";
-                                echo "<p class='profile-background'> <b>Rank</b>: - N/A</p>";
-                                echo "<p class='profile-background'> <b>Level</b>: - N/A</p>";
                             } else {
-                                echo "<p class='profile-background'> <b>Status</b>: " . $active . "</p>";
-                                echo "<p class='profile-background'> <b>Type</b>: " . $membership_type . "</p>";
-                                echo "<p class='profile-background'> <b>Rank</b>: " . $validated_membership_user["category"] . "</p>";
-                                echo "<p class='profile-background'> <b>Level</b>: " . $validated_membership_user["level"] . "</p>";
+                                echo "<p class='profile-description'> <b>Status</b>: - N/A</p>";
+                                echo "<p class='profile-description'> <b>Type</b>: - N/A</p>";
+                                echo "<p class='profile-description'> <b>Rank</b>: - N/A</p>";
+                                echo "<p class='profile-description'> <b>Level</b>: - N/A</p>";
                             }
-                        } else {
-                            echo "<p class='profile-background'> <b>Status</b>: - N/A</p>";
-                            echo "<p class='profile-background'> <b>Type</b>: - N/A</p>";
-                            echo "<p class='profile-background'> <b>Rank</b>: - N/A</p>";
-                            echo "<p class='profile-background'> <b>Level</b>: - N/A</p>";
-                        }
-                        ?>
+                            ?>
+                        </div>
                     </div>
-
                 </div>
-
-            </div>
-            <div>
+                <div class="group">
+                    <div class="background">
+                        <p class="title-box">Apply as Admin</p>
+                        <form class="group-box-column">
+                            <textarea type="text" name="reason" class="reason-box" rows="10" cols="30" maxlength="90" spellcheck="false"></textarea>
+                            <br>
+                            <div class="group-box-row">
+                                <input class="button-borderless" type="reset" value="Clear">
+                                <input class="button-borderless" type="submit" value="Submit">
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="editProfilePopup" class="popup">

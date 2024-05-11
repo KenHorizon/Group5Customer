@@ -271,6 +271,10 @@ a.button:visited {
 }
 .profile-background {
 	position: relative;
+	width: 100%;
+}
+.profile-description {
+	position: relative;
 	z-index: 1;
 	background-color: rgb(66, 66, 66);
 	border: 2px solid rgb(30, 30, 30);
@@ -415,7 +419,17 @@ a.button:visited {
 	background-color: rgba(0, 0, 0, 50%);
 	padding: 5px;
 }
+.title-box {
+	position: relative;
+	top: -35px;
+	z-index: 1;
+	text-align: center;
+	padding: 5px;
+	border: 1px solid white;
+	backdrop-filter: blur(500px);
+}
 .group {
+	margin: 0.55em;
 	display: flex;
 	padding: 2px;
 	flex-wrap: wrap;
@@ -460,6 +474,7 @@ a.button:visited {
 	flex-direction: column;
 	flex-wrap: nowrap;
 	align-items: stretch;
+	margin-left: 0.56em 0.75em;
 }
 textIcon {
 	display: flex;

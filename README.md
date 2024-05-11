@@ -27,32 +27,13 @@
 - Member List
   - Separate the view list of members and admin
   - Members can only see the name and check the profile
-  - Admin can edit and delete or ban the members
-- Subscriber Features
-  - Allow member or admin to go into membership putting a VIP type of member on the website
+  - Admin can ban and kick the members
 
-  # Feature Needed:
-  - Register and Logging in (Status: Done)
-   - Register (Status: Done)
-   - Login (Status: Done)
-  - Admin and Member accessible (Status: Done)
-  - V.I.P (Status: Done)
-  - Add/Ban/Edit in Customer List (Member List)
-  - Added Deleting Account (Optional)
-  - Added Birthday
-
-# Problem:
-- Account
-  - ~~Error in duplicated entry in deleted (Resolved)~~
-  - ~~Save Button~~
-- Login
-  - ~~Code line in deleted~~
 # TODO:
 - Debugging
 - Membership Icon or Tags
 - User and Admin Interfaces
 - Ban Functions
 - Responsive Layout
-- Email link
 - Expiration Date on Membership
 - Search Bar
