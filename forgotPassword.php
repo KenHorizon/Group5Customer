@@ -26,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // TODO:
             // instead of sending links for confirmation, we will used randomized words like captcha and the expiration is 5 mins
             $captcha = getName(10);
-            $setTimer = 5;
             $body =
                 "
             <div style='text-align: center;'><font face='FF Mark W05, Arial, sans-serif' color='#666666'><span style='font-size: 18px; letter-spacing: -0.18px; background-color: rgb(204, 204, 204);'><b style=''>Keep your Account secure by verifying your</b></span></font></div>
@@ -88,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="group-box-row">
                     <p>Enter Email</p>
                     <?php
-                        echo "<p style='margin: 0 auto;'>" .$notice. "</p>"
+                    echo "<p style='margin: 0 auto;'>" . $notice . "</p>"
                     ?>
                 </div>
                 <div class="group-box-column">

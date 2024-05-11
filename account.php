@@ -79,6 +79,8 @@ $birthday = "{$month} {$day}";
 // }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bio_data = filter_input(INPUT_POST, "bioInput", FILTER_SANITIZE_SPECIAL_CHARS);
+    $display_name = filter_input(INPUT_POST, "displayName", FILTER_SANITIZE_SPECIAL_CHARS);
+    $update_bio = "UPDATE account SET name = '$display_name' WHERE email = '$account_email'";
     $update_bio = "UPDATE user SET bio = '$bio_data' WHERE email = '$account_email'";
     mysqli_query($database, $update_bio);
     header("Location: account.php");
@@ -222,7 +224,7 @@ $database->close();
                         <button style="float: right; border-radius: 10px;" class="button-borderless" for="submit">Save</button>
                     </div>
                     <?php
-                    echo "<input class='edit-profile-box' type='text' placeholder='Name' value='" . $validated_account['name'] . "'>";
+                    echo "<input class='edit-profile-box' type='text' placeholder='Name' name='displayName' value='" . $validated_account['name'] . "'>";
                     ?>
 
                     <?php
