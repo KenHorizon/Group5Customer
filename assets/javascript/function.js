@@ -51,3 +51,6 @@ export function subscriptionButton(name) {
 	}
 	//console.log(name.id);
 }
+export function seconds(seconds) {
+	return seconds * 1000;
+}

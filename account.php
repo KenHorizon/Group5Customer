@@ -78,7 +78,7 @@ $birthday = "{$month} {$day}";
 //     }
 // }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $bio_data = filter_input(INPUT_POST, "bioInput", FILTER_SANITIZE_SPECIAL_CHARS);;
+    $bio_data = filter_input(INPUT_POST, "bioInput", FILTER_SANITIZE_SPECIAL_CHARS);
     $update_bio = "UPDATE user SET bio = '$bio_data' WHERE email = '$account_email'";
     mysqli_query($database, $update_bio);
     header("Location: account.php");
