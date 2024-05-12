@@ -46,8 +46,15 @@ if ($_SESSION["uuid"] === null) {
             <h2 class="icon-texts" style="float: inline-start;"><i class="material-icons" style="font-size: 32px;">people</i>Customers</h2>
 
             <div class="group-box-row">
-                <input class="input-box" id="searchName" type="text" placeholder="Search..." style="width: 350px;" onkeyup="searchFunctions()">
-                <input class="input-box" id="searchEmail" type="text" placeholder="Email..." style="width: 350px;">
+                <?php
+                    if ($session_account_type == 1) {
+                        echo "  <input class='input-box' id='searchName' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchNameFunctions()'>
+                                <input class='input-box' id='searchEmail' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchEmailFunctions()'>";
+                    } else {
+                        echo "  <input class='input-box' id='searchName' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchNameFunctions()'>";
+                       
+                    }
+                ?>
             </div>
             <!-- TODO: SEARCH BAR -->
             <!-- <input type="text" placeholder="Search..." class="input-box" id="search" onkeyup="searchFunctions()" title="Type in a category"> -->
