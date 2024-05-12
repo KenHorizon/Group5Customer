@@ -18,16 +18,10 @@ if ($_SESSION["uuid"] === null) {
 } else {
 
     $session_account = $_SESSION["uuid"];
-
-    $account_uuid = "SELECT * FROM account WHERE uuid = $session_account";
-    $user_uuid = "SELECT * FROM user WHERE uuid = $session_account";
-    $membership_uuid = "SELECT * FROM membership WHERE uuid = $session_account";
-    $timer_uuid = "SELECT * FROM timer WHERE uuid = $session_account";
     
     $account = database::query("SELECT * FROM account WHERE uuid = $session_account");
     $user = database::query("SELECT * FROM user WHERE uuid = $session_account");
     $membership = database::query("SELECT * FROM membership WHERE uuid = $session_account");
-    $timer = database::query("SELECT * FROM timer WHERE uuid = $session_account");
     
     if (mysqli_num_rows($account) > 0) {
         $validated_account = mysqli_fetch_assoc($account);

@@ -33,8 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         try {
             database::query("INSERT INTO account (name, username, email, password, gender, birthday) VALUES ('$name', '$username', '$email', '$password', '$gender', '$birthday')");
-            $syncData = "SELECT * FROM account WHERE email = '$email'";
-            $result = mysqli_query(database::get(), $syncData);
+            $result = database::query("SELECT * FROM account WHERE email = '$email'");;
             if (mysqli_num_rows($result) > 0) {
                 // TODO: HOLY COW OF MOTHER OF WHAT????????
                 // I DON'T KNOW WHAT IM DOING?
