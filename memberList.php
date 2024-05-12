@@ -42,116 +42,116 @@ if ($_SESSION["uuid"] === null) {
 <body>
     <br>
     <div class="background" style="margin: 0 10px;">
-        <div id="menu">
-            <h2 class="icon-texts" style="float: inline-start;"><i class="material-icons" style="font-size: 32px;">people</i>Customers</h2>
+        <div class="background" style="margin: 0 10px; height: 740px; max-height: 740; background-color: rgba(66, 57, 131, 0);">
+            <div id="menu">
+                <h2 class="icon-texts" style="float: inline-start;"><i class="material-icons" style="font-size: 32px;">people</i>Customers</h2>
 
-            <div class="group-box-row">
-                <?php
+                <div class="group-box-row">
+                    <?php
                     if ($session_account_type == 1) {
                         echo "  <input class='input-box' id='searchName' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchNameFunctions()'>
                                 <input class='input-box' id='searchEmail' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchEmailFunctions()'>";
                     } else {
                         echo "  <input class='input-box' id='searchName' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchNameFunctions()'>";
                     }
-                ?>
-            </div>
-            <!-- TODO: SEARCH BAR -->
-            <!-- <input type="text" placeholder="Search..." class="input-box" id="search" onkeyup="searchFunctions()" title="Type in a category"> -->
-            <table class="tables" id="searchTables" style="text-align:center">
-                <?php
-                if ($session_account_type == 1) {
-                    echo
-                    "<tr>
+                    ?>
+                </div>
+                <!-- TODO: SEARCH BAR -->
+                <!-- <input type="text" placeholder="Search..." class="input-box" id="search" onkeyup="searchFunctions()" title="Type in a category"> -->
+                <table class="tables" id="searchTables" style="text-align:center;  overflow-y: scroll;">
+                    <?php
+                    if ($session_account_type == 1) {
+                        echo
+                        "<tr>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Gender</th>
                     <th>Joined</th>
                     <th>Type</th>
                     <th>Rank</th>
+                    <th>Action</th>
                     </tr>";
-                } else {
-                    echo
-                    "<tr>
+                    } else {
+                        echo
+                        "<tr>
                     <th>Name</th>
                     <th>Gender</th>
                     <th>Joined</th>
                     <th>Type</th>
                     <th>Rank</th>
                     </tr>";
-                }
-                ?>
-                <tr>
-                    <?php
-                    if (mysqli_num_rows($account) > 0) {
-                        while ($row = mysqli_fetch_assoc($account)) {
-                            $row_uuid = $row['uuid'];
-                            $get_account_user = "SELECT * FROM user WHERE uuid = $row_uuid";
-                            $get_account_membership = "SELECT * FROM membership WHERE uuid = $row_uuid";
+                    }
+                    ?>
+                    <tr>
+                        <?php
+                        if (mysqli_num_rows($account) > 0) {
+                            while ($row = mysqli_fetch_assoc($account)) {
+                                $row_uuid = $row['uuid'];
+                                $get_account_user = "SELECT * FROM user WHERE uuid = $row_uuid";
+                                $get_account_membership = "SELECT * FROM membership WHERE uuid = $row_uuid";
 
-                            $user = mysqli_query($database, $get_account_user);
-                            $membership = mysqli_query($database, $get_account_membership);
-                            while ($validate_user = mysqli_fetch_assoc($user)) {
-                                $user_type = $validate_user['type'];
-                                $user_account_type = determineUserType($user_type);
-                            }
-                            while ($validate_membership = mysqli_fetch_assoc($membership)) {
-                                $determine_category = $validate_membership['category'];
-                                if ($determine_category == null) {
-                                    $category = "-";
-                                } else {
-                                    $category = $determine_category;
+                                $user = mysqli_query($database, $get_account_user);
+                                $membership = mysqli_query($database, $get_account_membership);
+                                while ($validate_user = mysqli_fetch_assoc($user)) {
+                                    $user_type = $validate_user['type'];
+                                    $user_account_type = determineUserType($user_type);
                                 }
-                            }
-                            $joined_year = split($row["created_at"], "-")[0];
-                            $joined_month = convertMonthToNames(split($row["created_at"], "-")[1]);
-                            $joined_removeTimeStamp = split($row["created_at"], "-")[2];
-                            $joined_day = split($joined_removeTimeStamp, " ")[0];
-                            $joined_showTimeStamp = split($joined_removeTimeStamp, " ")[1];
-                            $joined = "{$joined_month} {$joined_day}, {$joined_year}";
+                                while ($validate_membership = mysqli_fetch_assoc($membership)) {
+                                    $determine_category = $validate_membership['category'];
+                                    if ($determine_category == null) {
+                                        $category = "-";
+                                    } else {
+                                        $category = $determine_category;
+                                    }
+                                }
+                                $joined_year = split($row["created_at"], "-")[0];
+                                $joined_month = convertMonthToNames(split($row["created_at"], "-")[1]);
+                                $joined_removeTimeStamp = split($row["created_at"], "-")[2];
+                                $joined_day = split($joined_removeTimeStamp, " ")[0];
+                                $joined_showTimeStamp = split($joined_removeTimeStamp, " ")[1];
+                                $joined = "{$joined_month} {$joined_day}, {$joined_year}";
 
-                            if ($session_account_type == 1) {
-                                echo
-                                "<tr>
-                                    <td>" . $row["name"] . "</td>
+                                if ($session_account_type == 1) {
+                                    echo
+                                    "<tr>
+                                    <td> <p class='icon-texts' style='margin:0;'>" . $row["name"] . "</p></td>
                                     <td> " . $row["email"] . " </td>
                                     <td> " . $row["gender"] . " </td>
                                     <td> " . $joined . " </td>
                                     <td> " . $user_account_type . " </td>
                                     <td> " . $category . " </td>
+                                    <td>
+                                    <div class='group-box-row' style='justify-content:center;'>
+                                        <button class='button-icon-1' onclick='openNoticeBox()'><i class='material-icons'>warning</i></button>
+                                        <button class='button-icon-1' onclick='openNoticeBox()'><i class='material-icons'>question_mark</i></button>
+                                    </div>
+                                    </td>
                                 </tr>";
-                            } else {
-                                echo
-                                "<tr>
+                                } else {
+                                    echo
+                                    "<tr>
                                     <td>" . $row["name"] . "</td>
                                     <td> " . $row["gender"] . " </td>
                                     <td> " . $joined . " </td>
                                     <td> " . $user_account_type . " </td>
                                     <td> " . $category . " </td>
                                 </tr>";
+                                }
                             }
-                        }
-                    } else {
-                        echo
-                        "<tr>
+                        } else {
+                            echo
+                            "<tr>
                         <td> - </td>
                         <td> - </td>
                         <td> - </td>
                         <td> - </td>
                         <td> - </td>
                         </tr>";
-                    }
-                    ?>
-                </tr>
-            </table>
-            <br>
-            <?php
-            if ($session_account_type == 1) {
-                echo "<div class='group-box-row'>
-                        <button class='button-borderless' name='remove' style='width: 150px; justify-content:center;' id='banButton'>Ban</button>
-                        <button class='button-borderless' name='remove' style='width: 150px; justify-content:center;' id='kickButton'>Kick</button>
-                    </div>";
-            }
-            ?>
+                        }
+                        ?>
+                    </tr>
+                </table>
+            </div>
         </div>
         <br>
         <div id="reasonMessageBox" class="popup">
@@ -181,6 +181,8 @@ if ($_SESSION["uuid"] === null) {
         </div>
         <script src="assets/javascript/search_bar.js"></script>
         <script type="module" defer src="assets/javascript/membership_list.js"></script>
+        <script type="module" defer src="assets/javascript/membership_list.js"></script>
+        <script src="assets/javascript/membership_list_notice_box.js"></script>
     </div>
 </body>
 

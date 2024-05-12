@@ -1,29 +1,7 @@
-import {
-	messageBox,
-	subscriptionButton,
-	getData,
-	removeData,
-	saveData,
-} from "./function.js";
+import { messageBox } from "./function.js";
 
 messageBox(reasonMessageBox);
 
-confirmButton.addEventListener("click", function () {
-	confirmationMessageBox.classList.add("show");
-});
-closeConfirmation.addEventListener("click", function () {
-	confirmationMessageBox.classList.remove("show");
-});
-
-kickButton.addEventListener("click", function () {
-	reasonMessageBox.classList.add("show");
-});
-banButton.addEventListener("click", function () {
-	reasonMessageBox.classList.add("show");
-});
-exitButton.addEventListener("click", function () {
-	reasonMessageBox.classList.remove("show");
-});
 const handleMovement = (e) => {
 	switch (e.key) {
 		case "Escape":
