@@ -52,7 +52,6 @@ if ($_SESSION["uuid"] === null) {
                                 <input class='input-box' id='searchEmail' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchEmailFunctions()'>";
                     } else {
                         echo "  <input class='input-box' id='searchName' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchNameFunctions()'>";
-                       
                     }
                 ?>
             </div>
