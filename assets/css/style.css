@@ -126,6 +126,9 @@ a.button:visited {
 	border-radius: 0 0 10px 10px;
 	backdrop-filter: blur(2px);
 	padding: 25px;
+	height: 300px;
+	max-height: 300px;
+	min-height: 300px;
 	border-bottom: 5px white;
 	box-shadow: 0px 0 5px 0 rgba(0, 0, 0, 0.4);
 }
@@ -583,5 +586,8 @@ textIcon {
 	}
 	.profile-picture {
 		margin: 0 auto;
+	}
+	.button {
+		justify-content: start;
 	}
 }

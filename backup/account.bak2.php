@@ -1,8 +1,5 @@
 <?php
-use classes\database;
-
-include("assets/php/include.php");
-
+include("assets/php/data.php");
 session_start();
 ?>
 <?php
@@ -16,9 +13,9 @@ if ($_SESSION["uuid"] === null) {
     $account_uuid = "SELECT * FROM account WHERE uuid = $session_account";
     $user_uuid = "SELECT * FROM user WHERE uuid = $session_account";
     $membership_uuid = "SELECT * FROM membership WHERE uuid = $session_account";
-    $account = mysqli_query(database::get(), $account_uuid);
-    $user = mysqli_query(database::get(), $user_uuid);
-    $membership = mysqli_query(database::get(), $membership_uuid);
+    $account = mysqli_query($database, $account_uuid);
+    $user = mysqli_query($database, $user_uuid);
+    $membership = mysqli_query($database, $membership_uuid);
     if (mysqli_num_rows($account) > 0) {
         $validated_account = mysqli_fetch_assoc($account);
         $validated_account_user = mysqli_fetch_assoc($user);
@@ -85,10 +82,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $display_name = filter_input(INPUT_POST, "displayName", FILTER_SANITIZE_SPECIAL_CHARS);
     $update_bio = "UPDATE account SET username = '$display_name' WHERE email = '$account_email'";
     $update_bio = "UPDATE user SET bio = '$bio_data' WHERE email = '$account_email'";
-    mysqli_query(database::get(), $update_bio);
+    mysqli_query($database, $update_bio);
     header("Location: account.php");
 }
-database::get()->close();
+$database->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -156,38 +153,97 @@ database::get()->close();
     </div>
     <div class="main">
         <div class="background">
-            <div class="profile-account" id="aboutLayout">
-                <div class="navigation">
-                    <button class="button-borderless" onclick="aboutButton()">About</button>
-                    <button class="button-borderless">Membership</button>
-                    <button class="button-borderless">Account</button>
-                </div>
-                <br>
-                <div class="group-box-row">
-                    <div class="background">
+
+            <div class="navigation">
+                <button class="button-borderless" onclick="aboutButton()">About</button>
+                <button class="button-borderless">Membership</button>
+                <button class="button-borderless">Account</button>
+            </div>
+            <br>
+            <div class="group-box-row">
+                <div class="group-box-column">
+                    <div class="background" style="text-align: center;">
+                        <p class="title-box" style="text-align: center;">About</p>
                         <div class="group-box-column">
-                            <?php
-                            if (mysqli_num_rows($account) > 0) {
-                                echo "<p> <b>Email</b>: " . $validated_account["email"] . "</p>";
-                                echo "<p> <b>Joined</b>: " . $joined . "</p>";
-                                echo "<p> <b>Birthday</b>: " . $birthday . "</p>";
-                            } else {
-                                if ($validated_account_user['deleted'] === 1) {
-                                    echo "<p> <b>Email</b>: - N/A</p>";
-                                    echo "<p> <b>Joined</b>: - N/A</p>";
-                                    echo "<p> <b>Birthday</b>: - N/A</p>";
+                            <div class="profile-background">
+                                <?php
+                                if (mysqli_num_rows($account) > 0) {
+                                    echo "<p class='profile-description'> <b>Email</b>: " . $validated_account["email"] . "</p>";
+                                    echo "<p class='profile-description'> <b>Joined</b>: " . $joined . "</p>";
+                                    echo "<p class='profile-description'> <b>Birthday</b>: " . $birthday . "</p>";
+                                } else {
+                                    if ($validated_account_user['deleted'] === 1) {
+                                        echo "<p class='profile-description'> <b>Email</b>: - N/A</p>";
+                                        echo "<p class='profile-description'> <b>Joined</b>: - N/A</p>";
+                                        echo "<p class='profile-description'> <b>Birthday</b>: - N/A</p>";
+                                    }
+                                    echo "<p class='profile-description'> <b>Email</b>: - N/A</p>";
+                                    echo "<p class='profile-description'> <b>Joined</b>: - N/A</p>";
+                                    echo "<p class='profile-description'> <b>Birthday</b>: - N/A</p>";
                                 }
-                                echo "<p> <b>Email</b>: - N/A</p>";
-                                echo "<p> <b>Joined</b>: - N/A</p>";
-                                echo "<p> <b>Birthday</b>: - N/A</p>";
-                            }
-                            ?>
+                                ?>
+                            </div>
                         </div>
                     </div>
+
+                </div>
+                <div class="group-box-column">
+                    <div class="background" style="text-align: center;">
+                        <p class="title-box" style="text-align: center;">Membership</p>
+                        <div class="group-box-column">
+                            <div class="profile-background">
+                                <?php
+                                if (mysqli_num_rows($account) > 0) {
+                                    $active = "Active";
+                                    if ($validated_membership_user["category"] == null) {
+                                        $active = "Inactive";
+
+                                        $membership_type = "Basic";
+                                        if ($validated_membership_user["type"] == null) {
+                                            $membership_type = "Advance";
+                                        }
+                                        echo "<p class='profile-description'> <b>Status</b>: - Inactive</p>";
+                                        echo "<p class='profile-description'> <b>Type</b>: - N/A</p>";
+                                        echo "<p class='profile-description'> <b>Rank</b>: - N/A</p>";
+                                        echo "<p class='profile-description'> <b>Level</b>: - N/A</p>";
+                                    } else {
+                                        echo "<p class='profile-description'> <b>Status</b>: " . $active . "</p>";
+                                        echo "<p class='profile-description'> <b>Type</b>: " . $membership_type . "</p>";
+                                        echo "<p class='profile-description'> <b>Rank</b>: " . $validated_membership_user["category"] . "</p>";
+                                        echo "<p class='profile-description'> <b>Level</b>: " . $validated_membership_user["level"] . "</p>";
+                                    }
+                                } else {
+                                    echo "<p class='profile-description'> <b>Status</b>: - N/A</p>";
+                                    echo "<p class='profile-description'> <b>Type</b>: - N/A</p>";
+                                    echo "<p class='profile-description'> <b>Rank</b>: - N/A</p>";
+                                    echo "<p class='profile-description'> <b>Level</b>: - N/A</p>";
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="group">
+                    <div class="background">
+                        <p class="title-box">Apply as Admin</p>
+                        <form class="group-box-column">
+                            <textarea type="text" name="reason" class="reason-box" rows="10" cols="30" maxlength="90" spellcheck="false"></textarea>
+                            <br>
+                            <div class="group-box-row">
+                                <input class="button-borderless" type="reset" value="Clear">
+                                <input class="button-borderless" type="submit" value="Submit">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="group-box-column">
+                    <button class="button-borderless icon-texts">Deactivate Account <i class="material-icons">warning</i></button>
+                    <button class="button-borderless icon-texts">Contact Us <i class="material-icons">mail</i></button>
                 </div>
             </div>
         </div>
-        
         <div id="editProfilePopup" class="popup">
             <div class="edit-profile-content">
                 <form class="edit-profile-body" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
@@ -209,7 +265,6 @@ database::get()->close();
         </div>
         <script src="assets/javascript/account.js"></script>
         <script type="module" defer src="assets/javascript/edit_profile.js"></script>
-    </div>
 </body>
 
 </html>

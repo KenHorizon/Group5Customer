@@ -1,5 +1,6 @@
 <?php
-include("assets/php/data.php");
+use classes\database;
+include("assets/php/database.php");
 session_start();
 ?>
 <?php
@@ -23,7 +24,7 @@ $confirm_password = filter_input(INPUT_POST, "confirm_new_password", FILTER_SANI
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $verification_email = $_SESSION["verification_email"];
     $verified = "SELECT * FROM account WHERE email = '$verification_email'";
-    $verified_email = mysqli_query($database, $verified);
+    $verified_email = mysqli_query(database::get(), $verified);
     if (mysqli_num_rows($verified_email) > 0) {
         $verified_code = filter_input(INPUT_POST, "verification", FILTER_SANITIZE_SPECIAL_CHARS);
         if ($verified_code == $_SESSION["verification_code"]) {
@@ -31,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $notice = "Password changed";
                 try {
                     $insert_new_password = "UPDATE account SET password = '$new_password' WHERE email = '$verification_email'";
-                    mysqli_query($database, $insert_new_password);
+                    mysqli_query(database::get(), $insert_new_password);
                 } catch (mysqli_sql_exception) {
                     $notice = "Error!"; 
                 }

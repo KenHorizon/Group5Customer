@@ -1,5 +1,6 @@
 <?php
-include("assets/php/data.php");
+use classes\database;
+include("assets/php/database.php");
 session_start();
 ?>
 <?php
@@ -9,7 +10,7 @@ if ($_SESSION["uuid"] === null) {
 } else {
     $session_account_type = $_SESSION['type'];
     $get_account = "SELECT * FROM account WHERE uuid";
-    $account = mysqli_query($database, $get_account);
+    $account = mysqli_query(database::get(), $get_account);
 }
 // if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //     $report_debug = $_POST['reason'];
@@ -90,8 +91,8 @@ if ($_SESSION["uuid"] === null) {
                                 $get_account_user = "SELECT * FROM user WHERE uuid = $row_uuid";
                                 $get_account_membership = "SELECT * FROM membership WHERE uuid = $row_uuid";
 
-                                $user = mysqli_query($database, $get_account_user);
-                                $membership = mysqli_query($database, $get_account_membership);
+                                $user = mysqli_query(database::get(), $get_account_user);
+                                $membership = mysqli_query(database::get(), $get_account_membership);
                                 while ($validate_user = mysqli_fetch_assoc($user)) {
                                     $user_type = $validate_user['type'];
                                     $user_account_type = determineUserType($user_type);
@@ -189,5 +190,5 @@ if ($_SESSION["uuid"] === null) {
 </html>
 <?php
 
-$database->close();
+database::get()->close();
 ?>

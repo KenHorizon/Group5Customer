@@ -1,5 +1,6 @@
 <?php
-include("assets/php/data.php");
+use classes\database;
+include("assets/php/database.php");
 session_start();
 ?>
 <?php
@@ -20,7 +21,7 @@ $new_password = filter_input(INPUT_POST, "new_password", FILTER_SANITIZE_SPECIAL
 $confirm_password = filter_input(INPUT_POST, "confirm_new_password", FILTER_SANITIZE_SPECIAL_CHARS);
 $notice = "";
 $verified = "SELECT * FROM account WHERE email = '$email'";
-$verified_email = mysqli_query($database, $verified);
+$verified_email = mysqli_query(database::get(), $verified);
 if (mysqli_num_rows($verified_email) > 0) {
     $validate_verified_account = mysqli_fetch_assoc($verified_email);
     if ($_SERVER["REQUEST_METHOD"] == "POST") {

@@ -1,5 +1,8 @@
 <?php
-include("assets/php/data.php");
+use classes\database;
+
+include("assets/php/database.php");
+
 ?>
 <?php
 //----- DATABASE CONNECTION -----//
@@ -30,9 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $registration_account = "INSERT INTO account (name, username, email, password, gender, birthday) VALUES ('$name', '$username', '$email', '$password', '$gender', '$birthday')";
         try {
-            mysqli_query($database, $registration_account);
+            mysqli_query(database::get(), $registration_account);
             $syncData = "SELECT * FROM account WHERE email = '$email'";
-            $result = mysqli_query($database, $syncData);
+            $result = mysqli_query(database::get(), $syncData);
             if (mysqli_num_rows($result) > 0) {
                 // TODO: HOLY COW OF MOTHER OF WHAT????????
                 // I DON'T KNOW WHAT IM DOING?
@@ -41,13 +44,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // This will prevent other registering if one of them is having error
                 try {
                     $registration_user = "INSERT INTO user (uuid, email) VALUES ('$validated_account_uuid', '$email')";
-                    mysqli_query($database, $registration_user);
+                    mysqli_query(database::get(), $registration_user);
                     try {
                         $registration_timer = "INSERT INTO timer (uuid, email) VALUES ('$validated_account_uuid', '$email')";
-                        mysqli_query($database, $registration_timer);
+                        mysqli_query(database::get(), $registration_timer);
                         try {
                             $registration_membership = "INSERT INTO membership (uuid, email) VALUES ('$validated_account_uuid', '$email')";
-                            mysqli_query($database, $registration_membership);
+                            mysqli_query(database::get(), $registration_membership);
                         } catch (mysqli_sql_exception) {
                             $notice = "Couldn't create Account";
                         }
@@ -58,13 +61,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $notice = "Couldn't create Account";
                 }
                 $update_account = "UPDATE account SET activated = 1 WHERE email = '$email'";
-                mysqli_query($database, $update_account);
+                mysqli_query(database::get(), $update_account);
 
                 $update_user = "UPDATE user SET type = 0 WHERE email = '$email'";
-                mysqli_query($database, $update_user);
+                mysqli_query(database::get(), $update_user);
 
                 $update_membership = "UPDATE membership SET type = 0 WHERE email = '$email'";
-                mysqli_query($database, $update_membership);
+                mysqli_query(database::get(), $update_membership);
 
                 $notice = "Your Account has been successfully registered";
                 header("Location: index.php");
@@ -74,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-$database->close();
+database::get()->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">

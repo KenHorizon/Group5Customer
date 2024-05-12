@@ -1,6 +1,7 @@
 <?php
 // session_start();
-include("assets/php/data.php");
+use classes\database;
+include("assets/php/database.php");
 include("assets/php/membership_category.php");
 ?>
 <?php
@@ -13,9 +14,9 @@ include("assets/php/membership_category.php");
 // $user_uuid = "SELECT * FROM user WHERE uuid = $session_account";
 // $membership_uuid = "SELECT * FROM membership WHERE uuid = $session_account";
 
-// $account = mysqli_query($database, $account_uuid);
-// $user = mysqli_query($database, $user_uuid);
-// $membership = mysqli_query($database, $membership_uuid);
+// $account = mysqli_query(database::get(), $account_uuid);
+// $user = mysqli_query(database::get(), $user_uuid);
+// $membership = mysqli_query(database::get(), $membership_uuid);
 
 // $payment = 0;
 
@@ -45,7 +46,7 @@ include("assets/php/membership_category.php");
 //                 Total : " . $payment . "
 //                 ";
 //             $update_membership = "UPDATE membership (level, category) SET = (1, $membership_default) WHERE email = $validated_account_email";
-//             $update_membership_database = mysqli_query($database, $update_membership);
+//             $update_membership_database = mysqli_query(database::get(), $update_membership);
 //             sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
 //             function_alert("You joined successfully on VIP, Have Fun!");
 //             header("Location: account.php");
@@ -68,14 +69,14 @@ include("assets/php/membership_category.php");
 //                 Total : " . $payment . "
 //                 ";
 //             $update_membership = "UPDATE membership (level, category) SET = (1, $membership_default) WHERE email = $validated_account_email";
-//             $update_membership_database = mysqli_query($database, $update_membership);
+//             $update_membership_database = mysqli_query(database::get(), $update_membership);
 //             sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
 //             function_alert("You joined successfully on VIP, Have Fun!");
 //             header("Location: account.php");
 //         }
 //     }
 // }
-// $database->close();
+// database::get()->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
