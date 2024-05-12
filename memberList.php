@@ -44,7 +44,7 @@ if ($_SESSION["uuid"] === null) {
     <div class="background" style="margin: 0 10px;">
         <div class="background" style="margin: 0 10px; height: 740px; max-height: 740; background-color: rgba(66, 57, 131, 0);">
             <div id="menu">
-                <h2 class="icon-texts" style="float: inline-start;"><i class="material-icons" style="font-size: 32px;">people</i>Customers</h2>
+                <h2 class="icon-texts title-box" style="float: inline-start;"><i class="material-icons" style="font-size: 32px;">people</i>Customers</h2>
 
                 <div class="group-box-row">
                     <?php
