@@ -42,22 +42,38 @@ if ($_SESSION["uuid"] === null) {
 <body>
     <br>
     <div class="background" style="margin: 0 10px;">
-        <!-- FOR USER INTERFACE -->
         <div id="menu">
-            <?php
+            <h2 class="icon-texts" style="float: inline-start;"><i class="material-icons" style="font-size: 32px;">people</i>Customers</h2>
 
-            ?>
-            <h1 style="text-align: center; align-items: center; justify-content: center;"><i class="material-icons" style="font-size: 32px;">list</i>Member List</h1>
+            <div class="group-box-row">
+                <input class="input-box" id="searchName" type="text" placeholder="Search..." style="width: 350px;" onkeyup="searchFunctions()">
+                <input class="input-box" id="searchEmail" type="text" placeholder="Email..." style="width: 350px;">
+            </div>
             <!-- TODO: SEARCH BAR -->
             <!-- <input type="text" placeholder="Search..." class="input-box" id="search" onkeyup="searchFunctions()" title="Type in a category"> -->
-            <table class="tables" style="text-align:center">
-                <tr>
+            <table class="tables" id="searchTables" style="text-align:center">
+                <?php
+                if ($session_account_type == 1) {
+                    echo
+                    "<tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>Joined</th>
+                    <th>Type</th>
+                    <th>Rank</th>
+                    </tr>";
+                } else {
+                    echo
+                    "<tr>
                     <th>Name</th>
                     <th>Gender</th>
                     <th>Joined</th>
                     <th>Type</th>
                     <th>Rank</th>
-                </tr>
+                    </tr>";
+                }
+                ?>
                 <tr>
                     <?php
                     if (mysqli_num_rows($account) > 0) {
@@ -87,25 +103,36 @@ if ($_SESSION["uuid"] === null) {
                             $joined_showTimeStamp = split($joined_removeTimeStamp, " ")[1];
                             $joined = "{$joined_month} {$joined_day}, {$joined_year}";
 
-
-                            echo
-                            "<tr><div class='toSearch'>
-                                    <th>" . $row["name"] . "</th>
-                                    <th> " . $row["gender"] . " </th>
-                                    <th> " . $joined . " </th>
-                                    <th> " . $user_account_type . " </th>
-                                    <th> " . $category . " </th>
-                                </div></tr>";
+                            if ($session_account_type == 1) {
+                                echo
+                                "<tr>
+                                    <td>" . $row["name"] . "</td>
+                                    <td> " . $row["email"] . " </td>
+                                    <td> " . $row["gender"] . " </td>
+                                    <td> " . $joined . " </td>
+                                    <td> " . $user_account_type . " </td>
+                                    <td> " . $category . " </td>
+                                </tr>";
+                            } else {
+                                echo
+                                "<tr>
+                                    <td>" . $row["name"] . "</td>
+                                    <td> " . $row["gender"] . " </td>
+                                    <td> " . $joined . " </td>
+                                    <td> " . $user_account_type . " </td>
+                                    <td> " . $category . " </td>
+                                </tr>";
+                            }
                         }
                     } else {
                         echo
-                        "<tr><div class='toSearch'>
-                                <th class='toSearch'> - </th>
-                                <th> - </th>
-                                <th> - </th>
-                                <th> - </th>
-                                <th> - </th>
-                            </div></tr>";
+                        "<tr>
+                        <td> - </td>
+                        <td> - </td>
+                        <td> - </td>
+                        <td> - </td>
+                        <td> - </td>
+                        </tr>";
                     }
                     ?>
                 </tr>
@@ -146,6 +173,7 @@ if ($_SESSION["uuid"] === null) {
                 </form>
             </div>
         </div>
+        <script src="assets/javascript/search_bar.js"></script>
         <script type="module" defer src="assets/javascript/membership_list.js"></script>
     </div>
 </body>

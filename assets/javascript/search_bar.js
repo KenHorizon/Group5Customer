@@ -1,18 +1,20 @@
 // Variables
 
 function searchFunctions() {
-	var input, filter, menu, toSearch, toSearch, i;
-	input = document.getElementById("search");
+	var input, filter, table, tr, td, i, txtValue;
+	input = document.getElementById("searchName");
 	filter = input.value.toUpperCase();
-	menu = document.getElementById("menu");
-	toSearch = document.getElementById("toSearch");
-
-	for (i = 0; i < toSearch.length; i++) {
-		get = toSearch[i].getElementsByTagName("th")[0];
-		if (get.innerHTML.toUpperCase().indexOf(filter) > -1) {
-			toSearch[i].style.display = "";
-		} else {
-			toSearch[i].style.display = "none";
+	table = document.getElementById("searchTables");
+	tr = table.getElementsByTagName("tr");
+	for (i = 0; i < tr.length; i++) {
+		td = tr[i].getElementsByTagName("td")[0];
+		if (td) {
+			txtValue = td.textContent || td.innerText;
+			if (txtValue.toUpperCase().indexOf(filter) > -1) {
+				tr[i].style.display = "";
+			} else {
+				tr[i].style.display = "none";
+			}
 		}
 	}
 }

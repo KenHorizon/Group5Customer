@@ -159,24 +159,24 @@ $database->close();
                         <p style="text-align: center;">About</p>
                     </div>
                     <div class="group-box-column">
-                        <?php
-                        if (mysqli_num_rows($account) > 0) {
-                            echo "<p class='profile-background'> <b>Email</b>: " . $validated_account["email"] . "</p>";
-                            echo "<p class='profile-background'> <b>Joined</b>: " . $joined . "</p>";
-                            echo "<p class='profile-background'> <b>Birthday</b>: " . $birthday . "</p>";
-                        } else {
-                            if ($validated_account_user['deleted'] === 1) {
-                                echo "<p> <b>Link</b>: - N/A</p>";
-                                echo "<p> <b>Email</b>: - N/A</p>";
-                                echo "<p> <b>Joined</b>: - N/A</p>";
-                                echo "<p> <b>Birthday</b>: - N/A</p>";
+                        <div class="profile-background">
+                            <?php
+                            if (mysqli_num_rows($account) > 0) {
+                                echo "<p class='profile-description'> <b>Email</b>: " . $validated_account["email"] . "</p>";
+                                echo "<p class='profile-description'> <b>Joined</b>: " . $joined . "</p>";
+                                echo "<p class='profile-description'> <b>Birthday</b>: " . $birthday . "</p>";
+                            } else {
+                                if ($validated_account_user['deleted'] === 1) {
+                                    echo "<p class='profile-description'> <b>Email</b>: - N/A</p>";
+                                    echo "<p class='profile-description'> <b>Joined</b>: - N/A</p>";
+                                    echo "<p class='profile-description'> <b>Birthday</b>: - N/A</p>";
+                                }
+                                echo "<p class='profile-description'> <b>Email</b>: - N/A</p>";
+                                echo "<p class='profile-description'> <b>Joined</b>: - N/A</p>";
+                                echo "<p class='profile-description'> <b>Birthday</b>: - N/A</p>";
                             }
-                            echo "<p> <b>Link</b>: - N/A</p>";
-                            echo "<p> <b>Email</b>: - N/A</p>";
-                            echo "<p> <b>Joined</b>: - N/A</p>";
-                            echo "<p> <b>Birthday</b>: - N/A</p>";
-                        }
-                        ?>
+                            ?>
+                        </div>
                     </div>
                     <div class="background" style="text-align: center;">
                         <p style="text-align: center;">Membership</p>
@@ -195,6 +195,7 @@ $database->close();
 
                             // Level: "The Level of Membership"
                             // Param: Default: 0, 1-100
+
                             if (mysqli_num_rows($account) > 0) {
                                 $active = "Active";
                                 if ($validated_membership_user["category"] == null) {
@@ -236,6 +237,10 @@ $database->close();
                             </div>
                         </form>
                     </div>
+                </div>
+
+                <div class="group">
+                    <button class="button-borderless icon-texts">Contact Us <i class="material-icons">mail</i></button>
                 </div>
             </div>
         </div>
