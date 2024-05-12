@@ -17,9 +17,6 @@ profilePictureEdit.addEventListener("click", function () {
 exitButton.addEventListener("click", function () {
 	editProfilePopup.classList.remove("show");
 });
-exitButtonAlt.addEventListener("click", function () {
-	editProfilePopup.classList.remove("show");
-});
 const handleMovement = (e) => {
 	switch (e.key) {
 		case "Escape":

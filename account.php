@@ -1,9 +1,14 @@
 <?php
+
 use classes\database;
 
-include("assets/php/include.php");
+include("assets/php/database.php");
 
 session_start();
+$todayTime = time();
+if ($todayTime > $_SESSION["subscriptionExpire"]) {
+    $_SESSION["subscriptionStart"] = 0;
+}
 ?>
 <?php
 // Dev Talk:
@@ -11,18 +16,24 @@ session_start();
 if ($_SESSION["uuid"] === null) {
     header("Location: index.php");
 } else {
+
     $session_account = $_SESSION["uuid"];
 
     $account_uuid = "SELECT * FROM account WHERE uuid = $session_account";
     $user_uuid = "SELECT * FROM user WHERE uuid = $session_account";
     $membership_uuid = "SELECT * FROM membership WHERE uuid = $session_account";
-    $account = mysqli_query(database::get(), $account_uuid);
-    $user = mysqli_query(database::get(), $user_uuid);
-    $membership = mysqli_query(database::get(), $membership_uuid);
+    $timer_uuid = "SELECT * FROM timer WHERE uuid = $session_account";
+    
+    $account = database::query("SELECT * FROM account WHERE uuid = $session_account");
+    $user = database::query("SELECT * FROM user WHERE uuid = $session_account");
+    $membership = database::query("SELECT * FROM membership WHERE uuid = $session_account");
+    $timer = database::query("SELECT * FROM timer WHERE uuid = $session_account");
+    
     if (mysqli_num_rows($account) > 0) {
         $validated_account = mysqli_fetch_assoc($account);
         $validated_account_user = mysqli_fetch_assoc($user);
         $validated_membership_user = mysqli_fetch_assoc($membership);
+        $validated_timer_user = mysqli_fetch_assoc($timer);
         // 
         $account_profile_picture = $validated_account_user['profile'];
         $account_email = $validated_account['email'];
@@ -33,6 +44,13 @@ if ($_SESSION["uuid"] === null) {
         if (empty($account_bio)) {
             $account_bio = "";
         }
+    }
+    
+    $determine_membership_status = "";
+    if ($_SESSION["subscriptionStart"] == 0) {
+        $determine_membership_status = "Offline";
+    } else {
+        $determine_membership_status = "Online";
     }
 }
 
@@ -47,39 +65,52 @@ $month = convertMonthToNames(split($validated_account["birthday"], "-")[1]);
 $day = (int) split($validated_account["birthday"], "-")[2];
 $birthday = "{$month} {$day}";
 
-// // TODO: Allow user to make their own profile picture
-// // METHODS: uploading profile will save with their name with "_profile_picture" to save in database
-// // for now this features held back
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     $fileName = "profile_picture";
-//     $target_dir = "assets/upload/";
-//     $target_file = $target_dir . $validated_account['email'] . "_profile_picture.png";
-//     $uploadOk = 1;
+$determine_membership_type = "";
+switch ($validated_membership_user['type']) {
+    case 0:
+        $determine_membership_type = "Basic";
+        break;
+    case 1:
+        $determine_membership_type = "Advance";
+        break;
+    default:
+        "Basic";
+}
 
-//     // Check if image file is a actual image or fake image
-//     if (isset($_POST["profilePictureSave"])) {
-//         $check = getimagesize($_FILES["profilePictureInput"]["tmp_name"]);
-//         if ($check !== false) {
-//             $uploadOk = 1;
-//         } else {
-//             $uploadOk = 0;
-//         }
-//     }
 
-//     // Check if file already exists 
-//     if (file_exists("assets/" . $validated_account['email'] . "_profile_picture.png")) {
-//         rename("assets/" . $validated_account['email'] . "_profile_picture.png", $target_file);
-//         unlink($target_file);
-//         $uploadOk = 0;
-//     }
+// TODO: Allow user to make their own profile picture
+// METHODS: uploading profile will save with their name with "_profile_picture" to save in database
+// for now this features held back
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $fileName = "profile_picture";
+    $target_dir = "assets/upload/";
+    $target_file = $target_dir . $validated_account['email'] . "_profile_picture.png";
+    $uploadOk = 1;
 
-//     // Check if $uploadOk is set to 0 by an error
-//     if ($uploadOk == 0) {
-//         // if everything is ok, try to upload file
-//     } else {
-//         move_uploaded_file($_FILES["profilePictureInput"]["tmp_name"], $target_file);
-//     }
-// }
+    // Check if image file is a actual image or fake image
+    if (isset($_POST["profilePictureSave"])) {
+        $check = getimagesize($_FILES["profilePictureInput"]["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
+        } else {
+            $uploadOk = 0;
+        }
+    }
+
+    // Check if file already exists 
+    if (file_exists("assets/" . $validated_account['email'] . "_profile_picture.png")) {
+        rename("assets/" . $validated_account['email'] . "_profile_picture.png", $target_file);
+        unlink($target_file);
+        $uploadOk = 0;
+    }
+
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+        // if everything is ok, try to upload file
+    } else {
+        move_uploaded_file($_FILES["profilePictureInput"]["tmp_name"], $target_file);
+    }
+}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bio_data = filter_input(INPUT_POST, "bioInput", FILTER_SANITIZE_SPECIAL_CHARS);
     $display_name = filter_input(INPUT_POST, "displayName", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -159,11 +190,11 @@ database::get()->close();
             <div class="profile-account" id="aboutLayout">
                 <div class="navigation">
                     <button class="button-borderless" onclick="aboutButton()">About</button>
-                    <button class="button-borderless">Membership</button>
+                    <button class="button-borderless" onclick="subscriptionButton()">Subscription</button>
                     <button class="button-borderless">Account</button>
                 </div>
                 <br>
-                <div class="group-box-row">
+                <div class="group-box-row" id="aboutPage" style="display: block;">
                     <div class="background">
                         <div class="group-box-column">
                             <?php
@@ -185,14 +216,39 @@ database::get()->close();
                         </div>
                     </div>
                 </div>
+                <div class="group-box-row hide" id="subscriptionPage">
+                    <div class="background">
+                        <div class="group-box-column">
+                            <?php
+                            if (mysqli_num_rows($account) > 0) {
+                                echo "<p> <b>Status</b>: " . $determine_membership_status . "</p>";
+                                echo "<p> <b>Type</b>: " . $determine_membership_type . "</p>";
+                                echo "<p> <b>Level</b>: " . $validated_membership_user["level"] . "</p>";
+                                echo "<p> <b>Category</b>: " . $validated_membership_user["category"] . "</p>";
+                            } else {
+                                if ($validated_account_user['deleted'] === 1) {
+                                    echo "<p> <b>Status</b>: - " . $determine_membership_status . "</p>";
+                                    echo "<p> <b>Type</b>: - N/A</p>";
+                                    echo "<p> <b>Level</b>: - N/A</p>";
+                                    echo "<p> <b>Category</b>: - N/A</p>";
+                                }
+                                echo "<p> <b>Status</b>: - " . $determine_membership_status . "</p>";
+                                echo "<p> <b>Type</b>: - N/A</p>";
+                                echo "<p> <b>Level</b>: - N/A</p>";
+                                echo "<p> <b>Category</b>: - N/A</p>";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
+
         <div id="editProfilePopup" class="popup">
             <div class="edit-profile-content">
                 <form class="edit-profile-body" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
                     <div class="edit-profile-header">
-                        <button style="float: left;" class="button-icon" id="exitButtonAlt">X</button>
+                        <button style="float: left;" class="button-icon" id="exitButton">X</button>
                         <h2>Edit Profile</h2>
                         <button style="float: right; border-radius: 10px;" class="button-borderless" for="submit">Save</button>
                     </div>
@@ -207,6 +263,7 @@ database::get()->close();
                 </form>
             </div>
         </div>
+
         <script src="assets/javascript/account.js"></script>
         <script type="module" defer src="assets/javascript/edit_profile.js"></script>
     </div>

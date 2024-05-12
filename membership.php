@@ -1,82 +1,87 @@
 <?php
 // session_start();
 use classes\database;
+
 include("assets/php/database.php");
 include("assets/php/membership_category.php");
+session_start();
 ?>
 <?php
 // Membership: Joining VIP
 
-// $membership_register = filter_input(INPUT_POST, "get_vip_membership", FILTER_SANITIZE_SPECIAL_CHARS);
+$membership_register = filter_input(INPUT_POST, "get_vip_membership", FILTER_SANITIZE_SPECIAL_CHARS);
 
-// $session_account = $_SESSION["uuid"];
-// $account_uuid = "SELECT * FROM account WHERE uuid = $session_account";
-// $user_uuid = "SELECT * FROM user WHERE uuid = $session_account";
-// $membership_uuid = "SELECT * FROM membership WHERE uuid = $session_account";
+$session_account = $_SESSION["uuid"];
+$account_uuid = "SELECT * FROM account WHERE uuid = $session_account";
+$user_uuid = "SELECT * FROM user WHERE uuid = $session_account";
+$membership_uuid = "SELECT * FROM membership WHERE uuid = $session_account";
 
-// $account = mysqli_query(database::get(), $account_uuid);
-// $user = mysqli_query(database::get(), $user_uuid);
-// $membership = mysqli_query(database::get(), $membership_uuid);
+$account = mysqli_query(database::get(), $account_uuid);
+$user = mysqli_query(database::get(), $user_uuid);
+$membership = mysqli_query(database::get(), $membership_uuid);
 
-// $payment = 0;
+$payment = 0;
 
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     if (mysqli_num_rows($account) > 0) {
-//         $validated_account = mysqli_fetch_assoc($account);
-//         $validated_account_email = $validated_account['email'];
-//         $validated_account_user = mysqli_fetch_assoc($user);
-//         $validated_membership_user = mysqli_fetch_assoc($membership);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (mysqli_num_rows($account) > 0) {
+        $validated_account = mysqli_fetch_assoc($account);
+        $validated_account_email = $validated_account['email'];
+        $validated_account_user = mysqli_fetch_assoc($user);
+        $validated_membership_user = mysqli_fetch_assoc($membership);
 
-//         if ($membership_register == 'advanceSubscription') {
-//             $value_money = $_POST['advanceVip'];
-//             if ($value_money = 'yearly') {
-//                 $payment = 2509.9;
-//             } else {
-//                 $payment = 250.99;
-//             }
+        if ($membership_register == 'advanceSubscription') {
+            $value_money = $_POST['advanceVip'];
+            if ($value_money = 'yearly') {
+                $payment = 2509.9;
+            } else {
+                $payment = 250.99;
+            }
 
-//             $body =
-//                 "
-//                 <h1> Thanks for your payment </h1> <br>
-//                 If you have any question, contact us anytime <br>
-//                 <b>beyondhorizon.noreply@gmail.com</b> or simply <br>
-//                 reply to this email.
-//                 <br>
-//                 Type of Payment: " . $_POST['payment'] . " <br>
-//                 Total : " . $payment . "
-//                 ";
-//             $update_membership = "UPDATE membership (level, category) SET = (1, $membership_default) WHERE email = $validated_account_email";
-//             $update_membership_database = mysqli_query(database::get(), $update_membership);
-//             sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
-//             function_alert("You joined successfully on VIP, Have Fun!");
-//             header("Location: account.php");
-//         } else {
-//             $value_money = $_POST['basicVip'];
-//             if ($value_money = 'yearly') {
-//                 $payment = 999.99;
-//             } else {
-//                 $payment = 99.99;
-//             }
+            $body =
+                "
+                <h1> Thanks for your payment </h1> <br>
+                If you have any question, contact us anytime <br>
+                <b>beyondhorizon.noreply@gmail.com</b> or simply <br>
+                reply to this email.
+                <br>
+                Type of Payment: " . $_POST['payment'] . " <br>
+                Total : " . $payment . "
+                ";
 
-//             $body =
-//                 "
-//                 <h1> Thanks for your payment </h1> <br>
-//                 If you have any question, contact us anytime <br>
-//                 <b>beyondhorizon.noreply@gmail.com</b> or simply <br>
-//                 reply to this email.
-//                 <br>
-//                 Type of Payment: " . $_POST['payment'] . " <br>
-//                 Total : " . $payment . "
-//                 ";
-//             $update_membership = "UPDATE membership (level, category) SET = (1, $membership_default) WHERE email = $validated_account_email";
-//             $update_membership_database = mysqli_query(database::get(), $update_membership);
-//             sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
-//             function_alert("You joined successfully on VIP, Have Fun!");
-//             header("Location: account.php");
-//         }
-//     }
-// }
-// database::get()->close();
+            database::query("UPDATE membership SET category = $membership_default WHERE email = '$validated_account_email'");
+            database::query("UPDATE membership SET type = 1 WHERE email = '$validated_account_email'");
+            sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
+            $_SESSION['subscriptionStart'] = time();
+            $_SESSION['subscriptionExpire'] = $_SESSION['subscriptionStart'] + (1 * 60);
+            header("Location: account.php");
+        } else {
+            $value_money = $_POST['basicVip'];
+            if ($value_money = 'yearly') {
+                $payment = 999.99;
+            } else {
+                $payment = 99.99;
+            }
+
+            $body =
+                "
+                <h1> Thanks for your payment </h1> <br>
+                If you have any question, contact us anytime <br>
+                <b>beyondhorizon.noreply@gmail.com</b> or simply <br>
+                reply to this email.
+                <br>
+                Type of Payment: " . $_POST['payment'] . " <br>
+                Total : " . $payment . "
+                ";
+            database::query("UPDATE membership SET category = $membership_default WHERE email = '$validated_account_email'");
+            database::query("UPDATE membership SET type = 0 WHERE email = '$validated_account_email'");
+            sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
+            $_SESSION['subscriptionStart'] = time();
+            $_SESSION['subscriptionExpire'] = $_SESSION['subscriptionStart'] + (1 * 60);
+            header("Location: account.php");
+        }
+    }
+}
+database::get()->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -172,7 +177,7 @@ include("assets/php/membership_category.php");
                         </div>
                     </div>
                     <hr>
-                    <div class="custom-select" style="width:200px;">
+                    <div class="custom-select-0" style="width:200px;">
                         <select name="payment" required>
                             <option value="null">Select Payment:</option>
                             <option value="gcash">G-Cash</option>
@@ -212,7 +217,7 @@ include("assets/php/membership_category.php");
                         </div>
                     </div>
                     <hr>
-                    <div class="custom-select" style="width:200px;">
+                    <div class="custom-select-0" style="width:200px;">
                         <select name="payment" required>
                             <option value="null">Select Payment:</option>
                             <option value="gcash">G-Cash</option>

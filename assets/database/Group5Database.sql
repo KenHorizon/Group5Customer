@@ -9,11 +9,11 @@ CREATE TABLE `user` (
 CREATE TABLE `timer` (
   `uuid` integer UNIQUE,
   `email` varchar(255) UNIQUE,
-  `subscription` int,
-  `session` int,
-  `banned` int,
-  `verification` int,
-  `attempt` int
+  `subscription` int DEFAULT: 0,
+  `session` int DEFAULT: 0,
+  `banned` int DEFAULT: 0,
+  `verification` int DEFAULT: 0,
+  `attempt` int DEFAULT: 0
 );
 
 CREATE TABLE `account` (

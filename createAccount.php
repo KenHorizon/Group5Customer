@@ -31,9 +31,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($gender == 'invalid') {
         $notice = "Please select a gender";
     } else {
-        $registration_account = "INSERT INTO account (name, username, email, password, gender, birthday) VALUES ('$name', '$username', '$email', '$password', '$gender', '$birthday')";
         try {
-            mysqli_query(database::get(), $registration_account);
+            database::query("INSERT INTO account (name, username, email, password, gender, birthday) VALUES ('$name', '$username', '$email', '$password', '$gender', '$birthday')");
             $syncData = "SELECT * FROM account WHERE email = '$email'";
             $result = mysqli_query(database::get(), $syncData);
             if (mysqli_num_rows($result) > 0) {
@@ -42,32 +41,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $validated_account = mysqli_fetch_assoc($result);
                 $validated_account_uuid = $validated_account['uuid'];
                 // This will prevent other registering if one of them is having error
-                try {
-                    $registration_user = "INSERT INTO user (uuid, email) VALUES ('$validated_account_uuid', '$email')";
-                    mysqli_query(database::get(), $registration_user);
-                    try {
-                        $registration_timer = "INSERT INTO timer (uuid, email) VALUES ('$validated_account_uuid', '$email')";
-                        mysqli_query(database::get(), $registration_timer);
-                        try {
-                            $registration_membership = "INSERT INTO membership (uuid, email) VALUES ('$validated_account_uuid', '$email')";
-                            mysqli_query(database::get(), $registration_membership);
-                        } catch (mysqli_sql_exception) {
-                            $notice = "Couldn't create Account";
-                        }
-                    } catch (mysqli_sql_exception) {
-                        $notice = "Couldn't create Account";
-                    }
-                } catch (mysqli_sql_exception) {
-                    $notice = "Couldn't create Account";
-                }
-                $update_account = "UPDATE account SET activated = 1 WHERE email = '$email'";
-                mysqli_query(database::get(), $update_account);
+                database::query("INSERT INTO user (uuid, email) VALUES ('$validated_account_uuid', '$email')");
+                database::query("INSERT INTO user (uuid, email) VALUES ('$validated_account_uuid', '$email')");
+                database::query("INSERT INTO membership (uuid, email) VALUES ('$validated_account_uuid', '$email')");
 
-                $update_user = "UPDATE user SET type = 0 WHERE email = '$email'";
-                mysqli_query(database::get(), $update_user);
-
-                $update_membership = "UPDATE membership SET type = 0 WHERE email = '$email'";
-                mysqli_query(database::get(), $update_membership);
+                database::query("UPDATE account SET activated = 1 WHERE email = '$email'");
+                database::query("UPDATE user SET type = 0 WHERE email = '$email'");
+                database::query("UPDATE membership SET type = 0 WHERE email = '$email'");
 
                 $notice = "Your Account has been successfully registered";
                 header("Location: index.php");

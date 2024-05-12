@@ -41,6 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						$_SESSION['email'] = $validate_account_email;
 						$_SESSION['password'] = $validate_account['password'];
 						$_SESSION['type'] = $validate_user_type;
+						$_SESSION['subscriptionStart'] = 0;
+						$_SESSION['subscriptionStart'] = 0;
 						// echo "<h1>".$_SESSION['uuid']."</h1> <br>";
 						// echo "<h1>".$_SESSION['email']."</h1> <br>";
 						// echo "<h1>".$_SESSION['password']."</h1> <br>";

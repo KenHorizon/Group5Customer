@@ -1,5 +1,8 @@
 <?php
+
 namespace classes;
+
+use mysqli;
 use mysqli_sql_exception;
 
 class database
@@ -15,6 +18,13 @@ class database
             return mysqli_connect($database_server, $database_user, $database_password, $database_name_debug);
         } catch (mysqli_sql_exception) {
             function_alert("Error during connecting database!");
+        }
+    }
+    public static function query($databaseData)
+    {
+        try {
+            return mysqli_query(database::get() ,$databaseData);
+        } catch (mysqli_sql_exception) {
         }
     }
 }
