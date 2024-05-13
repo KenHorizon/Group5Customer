@@ -24,10 +24,14 @@ if ($_SESSION["uuid"] === null) {
     // 
     if ($user->isEmpty()) {
         $account_profile_picture = $user->user()['profile'];
+        $account_profile_header = $user->user()['header'];
         $account_email = $user->account()['email'];
         $account_bio = $user->user()['bio'];
         if (empty($account_profile_picture) || $account_profile_picture === null) {
             $account_profile_picture = "assets/img/default_pfp.jpeg";
+        }
+        if (empty($account_profile_header) || $account_profile_header === null) {
+            $account_profile_header = "assets/img/default_header.jpg";
         }
         if (empty($account_bio)) {
             $account_bio = "";
@@ -72,13 +76,13 @@ switch ($user->membership()['type']) {
 // for now this features held back
 
 $target_dir = "assets/upload/";
-$target_filename = $user->account()['uuid'] . "_profile_picture.png";
-$target_file = $target_dir . $user->account()['uuid'] . "_profile_picture.png";
+$target_header_filename = $user->account()['uuid'] . "_profile_header.png";
+$target_header_file = $target_dir . $target_header_filename;
+
+$target_profile_filename = $user->account()['uuid'] . "_profile_picture.png";
+$target_profile_file = $target_dir . $target_profile_filename;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (array_key_exists('profileHeaderPictureInput', $_FILES)) {
-        echo "Tested";
-    }
     if (array_key_exists('editProfileSave', $_POST)) {
         $bio_data = filter_input(INPUT_POST, "bioInput", FILTER_SANITIZE_SPECIAL_CHARS);
         $display_name = filter_input(INPUT_POST, "displayName", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -94,27 +98,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $uploadOk = 0;
             }
         }
-
+        if (!empty($_POST["editProfileSave"])) {
+            $check = getimagesize($_FILES["profileHeaderPictureInput"]["tmp_name"]);
+            if ($check !== false) {
+                $uploadOk = 1;
+            } else {
+                $uploadOk = 0;
+            }
+        }
         // Check if file already exists 
-        if (file_exists("assets/" . $user->account()['uuid'] . "_profile_picture.png")) {
-            rename("assets/" . $user->account()['uuid'] . "_profile_picture.png", $target_file);
-            unlink($target_file);
+        if (file_exists("assets/" . $target_profile_filename)) {
+            rename("assets/" . $target_profile_filename, $target_profile_file);
+            unlink($target_profile_file);
             $uploadOk = 0;
         }
-
+        if (file_exists("assets/" . $target_header_filename)) {
+            rename("assets/" . $target_header_filename, $target_header_file);
+            unlink($target_header_file);
+            $uploadOk = 0;
+        }
         // Check if $uploadOk is set to 0 by an error
         if ($uploadOk == 1) {
-            if (move_uploaded_file($_FILES["profilePictureInput"]["tmp_name"], $target_file)) {
+            if (move_uploaded_file($_FILES["profilePictureInput"]["tmp_name"], $target_profile_file)) {
                 // if everything is ok, try to upload file
-                database::query("UPDATE user SET profile = 'assets/upload/1_profile_picture.png' WHERE email = '$account_email'");
+                database::query("UPDATE user SET profile = '$target_profile_file' WHERE email = '$account_email'");
+                header("Refresh: 0");
+            }
+            if (move_uploaded_file($_FILES["profileHeaderPictureInput"]["tmp_name"], $target_header_file)) {
+                // if everything is ok, try to upload file
+                database::query("UPDATE user SET header = '$target_header_file' WHERE email = '$account_email'");
                 header("Refresh: 0");
             }
         }
         header("Refresh: 0");
     }
+
     if (array_key_exists('profilePictureRemove', $_POST)) {
         database::query("UPDATE user SET profile = '' WHERE email = '$account_email'");
-        unlink($target_file);
+        unlink($target_profile_file);
+        header("Refresh: 0");
+    } 
+    if (array_key_exists('profileHeaderPictureRemove', $_POST)) {
+        database::query("UPDATE user SET header = '' WHERE email = '$account_email'");
+        unlink($target_header_file);
         header("Refresh: 0");
     }
 }
@@ -149,7 +175,9 @@ database::get()->close();
     <div class="profile-headers">
         <div class="group-box-row">
             <div>
-                <img class="profile-header-picture" src="/assets/img/membership_background.jpg">
+                <?php
+                echo "<img class='profile-header-picture' src='" . $account_profile_header . "'>";
+                ?>
                 <?php
                 echo "<img class='profile-picture' src='" . $account_profile_picture . "' style='align-items: unset;'>";
                 ?>
@@ -337,36 +365,38 @@ database::get()->close();
                         <button style="float: left;" class="button-icon" id="exitButton">X</button>
                         <h2>Edit Profile</h2>
                         <button style="float: right; border-radius: 10px;" class="button-borderless" for="submit" id="editProfileSave" name="editProfileSave">Save</button>
-                        <button style="padding: 15px; margin-left: 0px; justify-content: center; border-radius: 50%; width:5px;" class="button-borderless" for="submit" id="profilePictureRemove" name="profilePictureRemove"><i class="material-icons">delete</i></button>
                     </div>
                     <div class="edit-profile-body">
                         <div class="profile-picture-container">
                             <?php
-                            echo "<img id='profilePictureReview' class='profile-picture-edit' src='" . $account_profile_picture . "' style='align-items: unset; width:128px;height:128px;'>";
+                            echo "<img id='profilePictureReview' for='profilePictureInput' class='profile-picture-edit' src='" . $account_profile_picture . "' style='align-items: unset; width:128px;height:128px;'>";
                             ?>
                             <div class="profile-avatar">
-                                <label class="button-borderless button-icon-2" for="profilePictureInput" id="profilePicture"><i class="material-icons">camera</i></label>
+                                <label class="button-icon-3" for="profilePictureInput" id="profilePicture"><i class="material-icons">edit</i></label>
                                 <input class="hide" type="file" id="profilePictureInput" name="profilePictureInput" accept=".jpg, .jpeg, .png">
+                                <button class="button-icon-3" for="submit" id="profilePictureRemove" name="profilePictureRemove" style="margin-left: 10px; width:29%;"><i class="material-icons">remove</i></button>
+                            </div>
+                        </div>
+                        <div class="profile-header-picture-container">
+                            <?php
+                            echo "<img id='profileHeaderPictureReview' for='profileHeaderPictureInput' class='profile-header-picture-edit' src='" . $account_profile_header . "' style='align-items: unset; width:100%;height:300px;'>";
+                            ?>
+                            <div class="profile-header-avatar">
+                                <label class="button-icon-3" for="profileHeaderPictureInput" id="profilePicture"><i class="material-icons">edit</i></label>
+                                <input class="hide" type="file" id="profileHeaderPictureInput" name="profileHeaderPictureInput" accept=".jpg, .jpeg, .png">
+                                <button class="button-icon-3" for="submit" id="profileHeaderPictureRemove" name="profileHeaderPictureRemove" style="margin-left: 10px; width:29%;"><i class="material-icons">remove</i></button>
                             </div>
                         </div>
                         <div class="group-box-column">
-                            <div class="profile-header-picture-container">
-                                <div class="profile-avatar">
-                                    <label class="button-borderless button-icon-2" for="profileHeaderPictureInput"><i class="material-icons">photo</i></label>
-                                    <input class="hide" type="file" id="profileHeaderPictureInput" name="profileHeaderPictureInput" accept=".jpg, .jpeg, .png">
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class="group-box-column">
-                                <?php
-                                echo "<input class='edit-profile-box' type='text' placeholder='Name' name='displayName' value='" . $user->account()['username'] . "'>";
-                                ?>
 
-                                <?php
-                                echo "<input class='edit-profile-box' type='text' placeholder='Bio'  name='bioInput' value='" . $user->user()['bio'] . "'>";
-                                ?>
-                            </div>
+                            <?php
+                            echo "<input class='edit-profile-box' type='text' placeholder='Name' name='displayName' value='" . $user->account()['username'] . "'>";
+                            ?>
+
+                            <?php
+                            echo "<input class='edit-profile-box' type='text' placeholder='Bio'  name='bioInput' value='" . $user->user()['bio'] . "'>";
+                            ?>
+                        </div>
                     </div>
                     <input class="hide" name="submit" type="submit">
                 </form>

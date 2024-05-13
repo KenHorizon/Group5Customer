@@ -9,8 +9,7 @@ if ($_SESSION["uuid"] === null) {
     header("Location: index.php");
 } else {
     $session_account_type = $_SESSION['type'];
-    $get_account = "SELECT * FROM account WHERE uuid";
-    $account = mysqli_query(database::get(), $get_account);
+    $account = database::query("SELECT * FROM account WHERE uuid");
 }
 // if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //     $report_debug = $_POST['reason'];
