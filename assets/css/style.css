@@ -116,6 +116,23 @@ a.button:visited {
 .text-align {
 	align-content: center;
 }
+.profile-header-picture {
+	z-index: -1;
+	top: 0;
+	left: 25%;
+	width: 50%;
+	position: absolute;
+	justify-content: center;
+	color: white;
+	align-items: center;
+	border-radius: 0 0 10px 10px;
+	backdrop-filter: blur(2px);
+	height: 350px;
+	max-height: 350px;
+	min-height: 350px;
+	border-bottom: 5px white;
+	box-shadow: 0px 0 5px 0 rgba(0, 0, 0, 0.4);
+}
 .profile-headers {
 	display: flex;
 	flex-direction: row;
@@ -187,31 +204,18 @@ a.button:visited {
 .text-with-shadow {
 	background-color: rgba(46, 46, 46, 0.559);
 }
-.edit-profile-header {
-	backdrop-filter: blur(2px);
-	color: white;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	width: 100%;
-	border-radius: 10px 10px 0 0;
-	background-color: rgba(31, 31, 31, 0.719);
-	align-items: center;
-	justify-content: space-between;
-}
 .edit-profile-box {
 	backdrop-filter: blur(2px);
 	height: 30px;
-	margin: 10px;
 	color: rgb(0, 0, 0);
-	display: flex;
+	margin: 10px;
+	display: block;
 	flex-direction: column;
 	flex-wrap: wrap;
 	text-decoration: none;
 	border-radius: 5px;
 	background-color: rgb(255, 255, 255);
 	border: 2px solid rgb(191, 191, 191);
-	justify-content: space-around;
 }
 .edit-profile-box input {
 	backdrop-filter: blur(2px);
@@ -234,14 +238,40 @@ a.button:visited {
 	background-color: rgb(255, 255, 255);
 	justify-content: space-around;
 }
-.edit-profile-body {
-	overflow-y: auto;
+.edit-profile-container {
+	overflow: auto;
 	backdrop-filter: blur(2px);
 	color: white;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
 	width: 100%;
+	height: 550px;
+	border-radius: 0 0 10px 10px;
+	background-color: rgb(31, 31, 31);
+	justify-content: space-around;
+}
+.edit-profile-header {
+	backdrop-filter: blur(2px);
+	color: white;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	width: 100%;
+	border-radius: 10px 10px 0 0;
+	background-color: rgba(31, 31, 31, 0.719);
+	align-items: center;
+	justify-content: space-evenly;
+}
+.edit-profile-body {
+	overflow: auto;
+	backdrop-filter: blur(2px);
+	color: white;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	width: 100%;
+	height: 550px;
 	border-radius: 0 0 10px 10px;
 	background-color: rgb(31, 31, 31);
 	justify-content: space-around;
@@ -335,6 +365,13 @@ a.button:visited {
 	border: 0px solid white;
 	font-size: 25px;
 	background-color: rgba(1, 28, 102, 0);
+}
+.button-icon-2 {
+	padding: 15px;
+	margin-left: 0px;
+	justify-content: center;
+	border-radius: 50%;
+	width: 5px;
 }
 .button-icon:hover {
 	border-radius: 50%;
@@ -574,13 +611,31 @@ textIcon {
 	color: #000;
 	cursor: pointer;
 }
+.profile-header-picture-container {
+	position: absolute;
+	top: 0;
+}
 .profile-picture-container {
 	position: relative;
 	border-radius: 50%;
 }
+.profile-header-picture-edit {
+	z-index: -1;
+	position: relative;
+	width: 100%;
+}
 .profile-picture-edit {
 	position: relative;
 	border-radius: 50%;
+}
+.profile-header-avatar {
+	position: absolute;
+	justify-content: center;
+	top: 50px;
+	right: 26px;
+	color: white;
+	padding-left: 20px;
+	padding-right: 20px;
 }
 .profile-avatar {
 	position: absolute;

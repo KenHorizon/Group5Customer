@@ -76,6 +76,9 @@ $target_filename = $user->account()['uuid'] . "_profile_picture.png";
 $target_file = $target_dir . $user->account()['uuid'] . "_profile_picture.png";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (array_key_exists('profileHeaderPictureInput', $_FILES)) {
+        echo "Tested";
+    }
     if (array_key_exists('editProfileSave', $_POST)) {
         $bio_data = filter_input(INPUT_POST, "bioInput", FILTER_SANITIZE_SPECIAL_CHARS);
         $display_name = filter_input(INPUT_POST, "displayName", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -145,9 +148,13 @@ database::get()->close();
 
     <div class="profile-headers">
         <div class="group-box-row">
-            <?php
-            echo "<img class='profile-picture' src='" . $account_profile_picture . "' style='align-items: unset;'>";
-            ?>
+            <div>
+                <img class="profile-header-picture" src="/assets/img/membership_background.jpg">
+                <?php
+                echo "<img class='profile-picture' src='" . $account_profile_picture . "' style='align-items: unset;'>";
+                ?>
+            </div>
+
             <div class="profile-text">
 
                 <div class="edit-profile">
@@ -325,30 +332,42 @@ database::get()->close();
 
         <div id="editProfilePopup" class="popup">
             <div class="edit-profile-content">
-                <form class="edit-profile-body" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST" enctype="multipart/form-data">
+                <form class="edit-profile-container" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST" enctype="multipart/form-data">
                     <div class="edit-profile-header">
                         <button style="float: left;" class="button-icon" id="exitButton">X</button>
                         <h2>Edit Profile</h2>
                         <button style="float: right; border-radius: 10px;" class="button-borderless" for="submit" id="editProfileSave" name="editProfileSave">Save</button>
-                        <button style="float: right; border-radius: 10px;" class="button-borderless" for="submit" id="profilePictureRemove" name="profilePictureRemove">Remove</button>
+                        <button style="padding: 15px; margin-left: 0px; justify-content: center; border-radius: 50%; width:5px;" class="button-borderless" for="submit" id="profilePictureRemove" name="profilePictureRemove"><i class="material-icons">delete</i></button>
                     </div>
-                    <div class="profile-picture-container">
-                        <?php
-                        echo "<img id='profilePictureReview' class='profile-picture-edit' src='" . $account_profile_picture . "' style='align-items: unset; width:128px;height:128px;'>";
-                        ?>
-                        <div class="profile-avatar">
-                            <label class="button-borderless" style="padding: 15px; margin-left: 0px; justify-content: center; border-radius: 50%; width:5px;" for="profilePictureInput" id="profilePicture"><i class="material-icons">camera</i></label>
-                            <input class="hide" type="file" id="profilePictureInput" name="profilePictureInput" accept=".jpg, .jpeg, .png">
+                    <div class="edit-profile-body">
+                        <div class="profile-picture-container">
+                            <?php
+                            echo "<img id='profilePictureReview' class='profile-picture-edit' src='" . $account_profile_picture . "' style='align-items: unset; width:128px;height:128px;'>";
+                            ?>
+                            <div class="profile-avatar">
+                                <label class="button-borderless button-icon-2" for="profilePictureInput" id="profilePicture"><i class="material-icons">camera</i></label>
+                                <input class="hide" type="file" id="profilePictureInput" name="profilePictureInput" accept=".jpg, .jpeg, .png">
+                            </div>
                         </div>
+                        <div class="group-box-column">
+                            <div class="profile-header-picture-container">
+                                <div class="profile-avatar">
+                                    <label class="button-borderless button-icon-2" for="profileHeaderPictureInput"><i class="material-icons">photo</i></label>
+                                    <input class="hide" type="file" id="profileHeaderPictureInput" name="profileHeaderPictureInput" accept=".jpg, .jpeg, .png">
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="group-box-column">
+                                <?php
+                                echo "<input class='edit-profile-box' type='text' placeholder='Name' name='displayName' value='" . $user->account()['username'] . "'>";
+                                ?>
+
+                                <?php
+                                echo "<input class='edit-profile-box' type='text' placeholder='Bio'  name='bioInput' value='" . $user->user()['bio'] . "'>";
+                                ?>
+                            </div>
                     </div>
-
-                    <?php
-                    echo "<input class='edit-profile-box' type='text' placeholder='Name' name='displayName' value='" . $user->account()['username'] . "'>";
-                    ?>
-
-                    <?php
-                    echo "<input class='edit-profile-box' type='text' placeholder='Bio'  name='bioInput' value='" . $user->user()['bio'] . "'>";
-                    ?>
                     <input class="hide" name="submit" type="submit">
                 </form>
             </div>
