@@ -1,16 +1,18 @@
 <?php
 
 use classes\database;
+use classes\subscription;
 
 include("assets/php/database.php");
+include("assets/php/subscription.php");
 
 session_start();
+subscription::main($_SESSION['email']);
 ?>
 <?php
 $user = filter_input(INPUT_POST, "user", FILTER_SANITIZE_SPECIAL_CHARS);
 $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
-$login = "SELECT * FROM account WHERE email = '$user' AND password = '$password'";
-$result = mysqli_query(database::get(), $login);
+$result = database::query( "SELECT * FROM account WHERE email = '$user' AND password = '$password'");
 $notice = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if (empty($user)) {
@@ -21,9 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if (mysqli_num_rows($result) > 0) {
 			$validate_account = mysqli_fetch_assoc($result);
 			$validate_account_email = $validate_account['email'];
-			$get_user = "SELECT * FROM user WHERE email = '$validate_account_email'";
 			// echo "<h1>" . $validate_account_email . "</h1> <br>";
-			$validate_user = mysqli_query(database::get(), $get_user);
+			$validate_user = database::query("SELECT * FROM user WHERE email = '$validate_account_email'");
+			$validate_membership = database::query("SELECT * FROM membership WHERE email = '$validate_account_email'");
 			if (mysqli_num_rows($validate_user) > 0) {
 				$validate_user_account = mysqli_fetch_assoc($validate_user);
 				$validate_user_type = $validate_user_account['type'];
@@ -32,17 +34,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				// Check the email and password and later the user account if the account is activated
 				if ($validate_account['email'] === $user && $validate_account['password'] === $password) {
 					if ($validate_account['activated'] == 1) {
-						try {
-							$update_database = "INSERT INTO timer (uuid, email) VALUES ('$validate_account_uuid', '$validate_account_email')";
-							mysqli_query(database::get(), $update_database);
-						} catch (mysqli_sql_exception) {
-						}
 						$_SESSION['uuid'] = $validate_account_uuid;
 						$_SESSION['email'] = $validate_account_email;
 						$_SESSION['password'] = $validate_account['password'];
 						$_SESSION['type'] = $validate_user_type;
-						$_SESSION['subscriptionStart'] = 0;
-						$_SESSION['subscriptionStart'] = 0;
+						$_SESSION['subscriptionStart'] = $validate_membership['subscription_date'];
 						// echo "<h1>".$_SESSION['uuid']."</h1> <br>";
 						// echo "<h1>".$_SESSION['email']."</h1> <br>";
 						// echo "<h1>".$_SESSION['password']."</h1> <br>";

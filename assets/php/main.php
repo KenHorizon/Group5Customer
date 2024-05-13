@@ -93,3 +93,14 @@ function getVerificationCode($length)
 
     return $randomString;
 }
+function hasSubscription()
+{
+    return $_SESSION["subscriptionStart"] > 0;
+}
+
+function setTime(int $year = null, int $month = null, int $week = null, int $day = null, int $hour = null, int $minute = null, int $second = null) {
+
+    return ($second) + (60 * $minute) + (3600 * $hour) + (86400 * $day) + (604800 * $week) + (2.628e+6 * $month) + (3.154e+7 * $year);
+}
+
+?>

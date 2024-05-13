@@ -23,7 +23,7 @@ class database
     public static function query($databaseData)
     {
         try {
-            return mysqli_query(database::get() ,$databaseData);
+            return mysqli_query(database::get(), $databaseData);
         } catch (mysqli_sql_exception) {
         }
     }

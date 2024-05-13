@@ -1,15 +1,10 @@
 import {
-	messageBox,
-	getData,
-	removeData,
-	saveData,
+	messageBox
 } from "./function.js";
 
-
-// DATABASE
-
-//
 messageBox(editProfilePopup);
+let profilePictureEdit = document.getElementById("profilePictureEdit");
+let exitButton = document.getElementById("exitButton");
 
 profilePictureEdit.addEventListener("click", function () {
 	editProfilePopup.classList.add("show");

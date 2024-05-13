@@ -23,7 +23,10 @@ CREATE TABLE `membership` (
   `email` varchar(255),
   `type` tinyint(1) COMMENT '0: Basic or 1: Advance',
   `level` int DEFAULT 1,
-  `category` varchar(255)
+  `category` varchar(255),
+  `status` tinyint(1) DEFAULT 0,
+  `expiration` integer DEFAULT 0,
+  `subscription_date` integer DEFAULT 0
 );
 
 ALTER TABLE `membership` ADD FOREIGN KEY (`uuid`) REFERENCES `account` (`uuid`);

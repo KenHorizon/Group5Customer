@@ -132,6 +132,11 @@ a.button:visited {
 	border-bottom: 5px white;
 	box-shadow: 0px 0 5px 0 rgba(0, 0, 0, 0.4);
 }
+.badge-icon {
+	width: 24px;
+	height: 24px;
+	image-rendering: optimizeQuality;
+}
 .profile-text {
 	padding: 10px;
 }
@@ -471,7 +476,6 @@ a.button:visited {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	align-items: center;
 	width: 100%;
 }
 
@@ -479,7 +483,6 @@ a.button:visited {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
-	align-items: center;
 	width: 100%;
 }
 .group-box-row .stretch {

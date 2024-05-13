@@ -1,14 +1,12 @@
 <?php
 
-use classes\database;
+use classes\{database, subscription, user};
 
-include("assets/php/database.php");
+include("assets/php/user.php");
+include("assets/php/subscription.php");
 
 session_start();
-$todayTime = time();
-if ($todayTime > $_SESSION["subscriptionExpire"]) {
-    $_SESSION["subscriptionStart"] = 0;
-}
+$user = new user();
 ?>
 <?php
 // Dev Talk:
@@ -17,21 +15,17 @@ if ($_SESSION["uuid"] === null) {
     header("Location: index.php");
 } else {
 
-    $session_account = $_SESSION["uuid"];
-    
-    $account = database::query("SELECT * FROM account WHERE uuid = $session_account");
-    $user = database::query("SELECT * FROM user WHERE uuid = $session_account");
-    $membership = database::query("SELECT * FROM membership WHERE uuid = $session_account");
-    
-    if (mysqli_num_rows($account) > 0) {
-        $validated_account = mysqli_fetch_assoc($account);
-        $validated_account_user = mysqli_fetch_assoc($user);
-        $validated_membership_user = mysqli_fetch_assoc($membership);
-        $validated_timer_user = mysqli_fetch_assoc($timer);
-        // 
-        $account_profile_picture = $validated_account_user['profile'];
-        $account_email = $validated_account['email'];
-        $account_bio = $validated_account_user['bio'];
+    $session_account = $_SESSION["email"];
+    subscription::main($session_account);
+    $user->register = $session_account;
+    $account = $user->account();
+    $account_user = $user->user();
+    $membership = $user->membership();
+    // 
+    if ($user->isEmpty()) {
+        $account_profile_picture = $user->user()['profile'];
+        $account_email = $user->account()['email'];
+        $account_bio = $user->user()['bio'];
         if (empty($account_profile_picture) || $account_profile_picture === null) {
             $account_profile_picture = "assets/img/default_pfp.jpeg";
         }
@@ -39,28 +33,29 @@ if ($_SESSION["uuid"] === null) {
             $account_bio = "";
         }
     }
-    
+
+
     $determine_membership_status = "";
-    if ($_SESSION["subscriptionStart"] == 0) {
+    if ($user->membership()['status'] == 0) {
         $determine_membership_status = "Offline";
     } else {
         $determine_membership_status = "Online";
     }
 }
 
-$joined_year = split($validated_account["created_at"], "-")[0];
-$joined_month = convertMonthToNames(split($validated_account["created_at"], "-")[1]);
-$joined_removeTimeStamp = split($validated_account["created_at"], "-")[2];
+$joined_year = split($user->account()["created_at"], "-")[0];
+$joined_month = convertMonthToNames(split($user->account()["created_at"], "-")[1]);
+$joined_removeTimeStamp = split($user->account()["created_at"], "-")[2];
 $joined_day = (int) split($joined_removeTimeStamp, " ")[0];
 $joined = "{$joined_month} {$joined_day}, {$joined_year}";
 
-$year = split($validated_account["birthday"], "-")[0];
-$month = convertMonthToNames(split($validated_account["birthday"], "-")[1]);
-$day = (int) split($validated_account["birthday"], "-")[2];
+$year = split($user->account()["birthday"], "-")[0];
+$month = convertMonthToNames(split($user->account()["birthday"], "-")[1]);
+$day = (int) split($user->account()["birthday"], "-")[2];
 $birthday = "{$month} {$day}";
 
 $determine_membership_type = "";
-switch ($validated_membership_user['type']) {
+switch ($user->membership()['type']) {
     case 0:
         $determine_membership_type = "Basic";
         break;
@@ -78,7 +73,7 @@ switch ($validated_membership_user['type']) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fileName = "profile_picture";
     $target_dir = "assets/upload/";
-    $target_file = $target_dir . $validated_account['email'] . "_profile_picture.png";
+    $target_file = $target_dir . $user->account()['email'] . "_profile_picture.png";
     $uploadOk = 1;
 
     // Check if image file is a actual image or fake image
@@ -92,8 +87,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Check if file already exists 
-    if (file_exists("assets/" . $validated_account['email'] . "_profile_picture.png")) {
-        rename("assets/" . $validated_account['email'] . "_profile_picture.png", $target_file);
+    if (file_exists("assets/" . $user->account()['email'] . "_profile_picture.png")) {
+        rename("assets/" . $user->account()['email'] . "_profile_picture.png", $target_file);
         unlink($target_file);
         $uploadOk = 0;
     }
@@ -108,9 +103,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bio_data = filter_input(INPUT_POST, "bioInput", FILTER_SANITIZE_SPECIAL_CHARS);
     $display_name = filter_input(INPUT_POST, "displayName", FILTER_SANITIZE_SPECIAL_CHARS);
-    $update_bio = "UPDATE account SET username = '$display_name' WHERE email = '$account_email'";
-    $update_bio = "UPDATE user SET bio = '$bio_data' WHERE email = '$account_email'";
-    mysqli_query(database::get(), $update_bio);
+    database::query("UPDATE account SET username = '$display_name' WHERE email = '$account_email'");
+    database::query("UPDATE user SET bio = '$bio_data' WHERE email = '$account_email'");
     header("Location: account.php");
 }
 database::get()->close();
@@ -151,14 +145,26 @@ database::get()->close();
                 <div class="edit-profile">
                     <div>
                         <?php
-                        if (mysqli_num_rows($account) > 0) {
-                            echo
-                            "<div class='group-box-column-name'>
-                                <h2>" . $validated_account["username"] . "</h2>
+                        if ($user->isEmpty()) {
+                            if ($user->membership()['status'] == 1) {
+
+                                echo
+                                "<div class='group-box-column-name'>
+                                <h2 class='icon-texts'>" . $user->account()["username"] . "<img class='badge-icon' src='assets/img/subscription/badge.png'></h2>
                                 <div class='group-box-row'>
-                                    <div class='profile-icons'><p>" . determineUserType($validated_account_user["type"]) . "</p></div>
+                                    <div class='profile-icons'><p>" . determineUserType($user->user()["type"]) . "</p></div>
                                 </div>  
-                            </div>";
+                                </div>";
+                            } else {
+
+                                echo
+                                "<div class='group-box-column-name'>
+                                <h2>" . $user->account()["username"] . "</h2>
+                                <div class='group-box-row'>
+                                    <div class='profile-icons'><p>" . determineUserType($user->user()["type"]) . "</p></div>
+                                </div>  
+                                </div>";
+                            }
                         } else {
                             echo "<h1> Unknown Account <br> </h1>";
                             echo "<p> Unknown Data <br> </p>";
@@ -174,7 +180,7 @@ database::get()->close();
         <?php
         echo
         "<div class='group-box-column-name'>
-            <p>" . $validated_account_user['bio'] . "</p>
+            <p>" . $user->user()['bio'] . "</p>
         </div>";
         ?>
         <!--  -->
@@ -185,19 +191,19 @@ database::get()->close();
                 <div class="navigation">
                     <button class="button-borderless" onclick="aboutButton()">About</button>
                     <button class="button-borderless" onclick="subscriptionButton()">Subscription</button>
-                    <button class="button-borderless">Account</button>
+                    <button class="button-borderless" onclick="accountButton()">Account</button>
                 </div>
                 <br>
                 <div class="group-box-row" id="aboutPage" style="display: block;">
                     <div class="background">
                         <div class="group-box-column">
                             <?php
-                            if (mysqli_num_rows($account) > 0) {
-                                echo "<p> <b>Email</b>: " . $validated_account["email"] . "</p>";
+                            if ($user->isEmpty()) {
+                                echo "<p> <b>Email</b>: " . $user->account()["email"] . "</p>";
                                 echo "<p> <b>Joined</b>: " . $joined . "</p>";
                                 echo "<p> <b>Birthday</b>: " . $birthday . "</p>";
                             } else {
-                                if ($validated_account_user['deleted'] === 1) {
+                                if ($user->user()['deleted'] === 1) {
                                     echo "<p> <b>Email</b>: - N/A</p>";
                                     echo "<p> <b>Joined</b>: - N/A</p>";
                                     echo "<p> <b>Birthday</b>: - N/A</p>";
@@ -211,16 +217,24 @@ database::get()->close();
                     </div>
                 </div>
                 <div class="group-box-row hide" id="subscriptionPage">
+
                     <div class="background">
                         <div class="group-box-column">
                             <?php
-                            if (mysqli_num_rows($account) > 0) {
-                                echo "<p> <b>Status</b>: " . $determine_membership_status . "</p>";
-                                echo "<p> <b>Type</b>: " . $determine_membership_type . "</p>";
-                                echo "<p> <b>Level</b>: " . $validated_membership_user["level"] . "</p>";
-                                echo "<p> <b>Category</b>: " . $validated_membership_user["category"] . "</p>";
+                            if ($user->isEmpty()) {
+                                if ($user->membership()['status'] == 1) {
+                                    echo "<p> <b>Status</b>: " . $determine_membership_status . "</p>";
+                                    echo "<p> <b>Type</b>: " . $determine_membership_type . "</p>";
+                                    echo "<p> <b>Level</b>: " . $user->membership()["level"] . "</p>";
+                                    echo "<p> <b>Category</b>: " . $user->membership()["category"] . "</p>";
+                                } else {
+                                    echo "<p> <b>Status</b>: - " . $determine_membership_status . "</p>";
+                                    echo "<p> <b>Type</b>: - N/A</p>";
+                                    echo "<p> <b>Level</b>: - N/A</p>";
+                                    echo "<p> <b>Category</b>: - N/A</p>";
+                                }
                             } else {
-                                if ($validated_account_user['deleted'] === 1) {
+                                if ($user->user()['deleted'] === 1) {
                                     echo "<p> <b>Status</b>: - " . $determine_membership_status . "</p>";
                                     echo "<p> <b>Type</b>: - N/A</p>";
                                     echo "<p> <b>Level</b>: - N/A</p>";
@@ -235,6 +249,69 @@ database::get()->close();
                         </div>
                     </div>
                 </div>
+                <div class="group-box-row hide" id="accountPage">
+                    <div class="group-box-row">
+                        <div class="background">
+                            <div class="group-box-column">
+                                <button class="button-borderless icon-texts" style="justify-content:left;" name="remove"><i class="material-icons">delete</i>Deactivate Account</button>
+                                <button class="button-borderless icon-texts" style="justify-content:left;" onclick="applyAdminButton()"><i class="material-icons">mail</i>Apply us Admin</button>
+                                <button class="button-borderless icon-texts" style="justify-content:left;" onclick="contactUsButton()"><i class="material-icons">mail</i>Contact Us</button>
+                                <button class="button-borderless icon-texts" style="justify-content:left;" onclick="termServiceButton()"><i class="material-icons">list</i>Terms of Service</button>
+                                <button class="button-borderless icon-texts" style="justify-content:left;" onclick="privacyPolicyButton()"><i class="material-icons">policy</i>Privacy Policy</button>
+                                <button class="button-borderless icon-texts" style="justify-content:left;" onclick="cookiePolicyButton()"><i class="material-icons">cookie</i>Cookie Policy</button>
+                            </div>
+                        </div>
+                        <div class="group-box-column" style="width: 85%; margin: 0 auto;">
+                            <div class="background" id="introduction">
+                                <p class="icon-texts" style="float: left;"><i class="material-icons">settings</i>Setting Area</p>
+                            </div>
+                            <div class="background hide" id="contactUs">
+                                <form class="group-box-column">
+                                    <textarea type="text" name="reason" class="reason-box" rows="10" cols="30" maxlength="90" spellcheck="false"></textarea>
+                                    <br>
+                                    <div class="group-box-row">
+                                        <input class="button-borderless" type="reset" value="Clear">
+                                        <input class="button-borderless" type="submit" value="Submit">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="background hide" id="termService">
+                                <div class="group-box-column">
+                                    <h3>Term of Service</h3>
+                                    <p>
+                                        Beyond Horizon builds technologies and services that enable people to connect with each other, build communities, and grow businesses. These Terms govern your use of this website, and the other products, features, apps, services, technologies, and software we offer, except where we expressly state that separate terms (and not these) apply. These Products are provided to you by our Company.
+                                        <br>
+                                        <br>
+                                        We don’t charge you to use Facebook or the other products and services covered by these Terms, unless we state otherwise. Instead, businesses and organizations, and other persons pay us to show you ads for their products and services. By using our Products, you agree that we can show you ads that we think may be relevant to you and your interests. We use your personal data to help determine which personalized ads to show you.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="background hide" id="privacyPolicy">
+                                <div class="group-box-column">
+                                    <h3>Privacy Policy</h3>
+                                    <h3>What is the Privacy Policy and what does it cover?</h3>
+                                    <p>
+                                        We at Beyond Horizon want you to understand what information we collect, and how we use and share it. That’s why we encourage you to read our Privacy Policy. This helps you use in the way that’s right for you.
+                                        <br><br>
+                                        In the Privacy Policy, we explain how we collect, use, share, retain and transfer information. We also let you know your rights. Each section of the Policy includes helpful examples and simpler language to make our practices easier to understand. We’ve also added links to resources where you can learn more about the privacy topics that interest you.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="background hide" id="cookiePolicy">
+                                <div class="group-box-column">
+                                    <h3>Cookie Policy</h3>
+                                    <h3>What are cookies, and what does this policy cover?</h3>
+                                    <p>
+                                        Cookies are small pieces of text used to store information on web browsers. Cookies are used to store and receive identifiers and other information on computers, phones and other devices. Other technologies, including data that we store on your web browser or device, identifiers associated with your device and other software, are used for similar purposes. In this policy, we refer to all of these technologies as “cookies”.
+                                        <br><br>
+                                        We use cookies if you have a Github account, use the , including our website and apps, or visit other websites and apps that use the Meta Products (including the Like button). Cookies enable Meta to offer the Meta Products to you and to understand the information that we receive about you, including information about your use of other websites and apps, whether or not you are registered or logged in.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
 
@@ -247,20 +324,21 @@ database::get()->close();
                         <button style="float: right; border-radius: 10px;" class="button-borderless" for="submit">Save</button>
                     </div>
                     <?php
-                    echo "<input class='edit-profile-box' type='text' placeholder='Name' name='displayName' value='" . $validated_account['username'] . "'>";
+                    echo "<input class='edit-profile-box' type='text' placeholder='Name' name='displayName' value='" . $user->account()['username'] . "'>";
                     ?>
 
                     <?php
-                    echo "<input class='edit-profile-box' type='text' placeholder='Bio'  name='bioInput' value='" . $validated_account_user['bio'] . "'>";
+                    echo "<input class='edit-profile-box' type='text' placeholder='Bio'  name='bioInput' value='" . $user->user()['bio'] . "'>";
                     ?>
                     <input class="hide" name="submit" type="submit">
                 </form>
             </div>
         </div>
 
-        <script src="assets/javascript/account.js"></script>
-        <script type="module" defer src="assets/javascript/edit_profile.js"></script>
     </div>
+
+    <script src="assets/javascript/account.js"></script>
+    <script type="module" defer src="assets/javascript/edit_profile.js"></script>
 </body>
 
 </html>

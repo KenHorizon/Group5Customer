@@ -1,6 +1,5 @@
 <?php
-// session_start();
-use classes\database;
+use classes\{database, user};
 
 include("assets/php/database.php");
 include("assets/php/membership_category.php");
@@ -12,13 +11,9 @@ session_start();
 $membership_register = filter_input(INPUT_POST, "get_vip_membership", FILTER_SANITIZE_SPECIAL_CHARS);
 
 $session_account = $_SESSION["uuid"];
-$account_uuid = "SELECT * FROM account WHERE uuid = $session_account";
-$user_uuid = "SELECT * FROM user WHERE uuid = $session_account";
-$membership_uuid = "SELECT * FROM membership WHERE uuid = $session_account";
-
-$account = mysqli_query(database::get(), $account_uuid);
-$user = mysqli_query(database::get(), $user_uuid);
-$membership = mysqli_query(database::get(), $membership_uuid);
+$account = database::query("SELECT * FROM account WHERE uuid = $session_account");
+$user = database::query("SELECT * FROM user WHERE uuid = $session_account");
+$membership = database::query("SELECT * FROM membership WHERE uuid = $session_account");
 
 $payment = 0;
 
@@ -50,9 +45,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             database::query("UPDATE membership SET category = $membership_default WHERE email = '$validated_account_email'");
             database::query("UPDATE membership SET type = 1 WHERE email = '$validated_account_email'");
-            sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
+            database::query("UPDATE membership SET status = 1 WHERE email = '$validated_account_email'");            sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
             $_SESSION['subscriptionStart'] = time();
-            $_SESSION['subscriptionExpire'] = $_SESSION['subscriptionStart'] + (1 * 60);
+            $_SESSION['subscriptionExpire'] = $_SESSION['subscriptionStart'] + setTime(0, 0, 0, 0, 0, 1);
+            $session_date = $_SESSION['subscriptionStart'];
+            $session_expiration_date = $_SESSION['subscriptionExpire'];
+            database::query("UPDATE membership SET expiration = $session_expiration_date WHERE email = '$validated_account_email'");
+            database::query("UPDATE membership SET subscription_date = $session_date WHERE email = '$validated_account_email'");
             header("Location: account.php");
         } else {
             $value_money = $_POST['basicVip'];
@@ -72,11 +71,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Type of Payment: " . $_POST['payment'] . " <br>
                 Total : " . $payment . "
                 ";
-            database::query("UPDATE membership SET category = $membership_default WHERE email = '$validated_account_email'");
-            database::query("UPDATE membership SET type = 0 WHERE email = '$validated_account_email'");
-            sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
-            $_SESSION['subscriptionStart'] = time();
-            $_SESSION['subscriptionExpire'] = $_SESSION['subscriptionStart'] + (1 * 60);
+                database::query("UPDATE membership SET category = $membership_default WHERE email = '$validated_account_email'");
+                database::query("UPDATE membership SET type = 1 WHERE email = '$validated_account_email'");
+                database::query("UPDATE membership SET status = 1 WHERE email = '$validated_account_email'");            sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
+                $_SESSION['subscriptionStart'] = time();
+                $_SESSION['subscriptionExpire'] = $_SESSION['subscriptionStart'] + setTime(0, 0, 0, 0, 0, 1);
+                $session_date = $_SESSION['subscriptionStart'];
+                $session_expiration_date = $_SESSION['subscriptionExpire'];
+                database::query("UPDATE membership SET expiration = $session_expiration_date WHERE email = '$validated_account_email'");
+                database::query("UPDATE membership SET subscription_date = $session_date WHERE email = '$validated_account_email'");
             header("Location: account.php");
         }
     }
