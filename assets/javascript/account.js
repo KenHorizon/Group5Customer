@@ -1,4 +1,3 @@
-
 let introduction = document.getElementById("introduction");
 let subscription = document.getElementById("subscriptionPage");
 let about = document.getElementById("aboutPage");

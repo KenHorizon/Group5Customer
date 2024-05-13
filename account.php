@@ -137,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         database::query("UPDATE user SET profile = '' WHERE email = '$account_email'");
         unlink($target_profile_file);
         header("Refresh: 0");
-    } 
+    }
     if (array_key_exists('profileHeaderPictureRemove', $_POST)) {
         database::query("UPDATE user SET header = '' WHERE email = '$account_email'");
         unlink($target_header_file);
@@ -161,7 +161,6 @@ database::get()->close();
 <header>
     <div class="navigation" id="navigationMenu">
         <a class="button" href="memberList.php" id="memberList"><i class="material-icons">list</i>Member List</a>
-        <a class="button" href="about.html" id="about"><i class="material-icons">people</i>About</a>
         <a class="button" href="membership.php" id="subscription"><i class="material-icons">rocket</i>Subscription</a>
         <a class="button" href="logout.php" id="logout"><i class="material-icons">logout</i>Logout</a>
     </div>
@@ -171,20 +170,23 @@ database::get()->close();
 -->
 
 <body>
-
+    <div class="clock-container" id="digitalClockDisplay" style="display: none;">
+        <p class="icon-texts" style="font-size: 10px;"><i class="material-icons">alarm</i>
+        <div class="clock-container-body">
+            <div id="clock">00:00:00 </div>
+        </div>
+        </p>
+    </div>
     <div class="profile-headers">
+        <?php
+        echo "<img class='profile-header-picture' src='" . $account_profile_header . "'>";
+        ?>
         <div class="group-box-row">
-            <div>
-                <?php
-                echo "<img class='profile-header-picture' src='" . $account_profile_header . "'>";
-                ?>
-                <?php
-                echo "<img class='profile-picture' src='" . $account_profile_picture . "' style='align-items: unset;'>";
-                ?>
-            </div>
+            <?php
+            echo "<img class='profile-picture' src='" . $account_profile_picture . "' style='align-items: unset;'>";
+            ?>
 
             <div class="profile-text">
-
                 <div class="edit-profile">
                     <div>
                         <?php
@@ -231,7 +233,7 @@ database::get()->close();
     <div class="main">
         <div class="background">
             <div class="profile-account" id="aboutLayout">
-                <div class="navigation">
+                <div class="navigation" name="options">
                     <button class="button-borderless" onclick="aboutButton()">About</button>
                     <button class="button-borderless" onclick="subscriptionButton()">Subscription</button>
                     <button class="button-borderless" onclick="accountButton()">Account</button>
@@ -293,8 +295,8 @@ database::get()->close();
                     </div>
                 </div>
                 <div class="group-box-row hide" id="accountPage">
-                    <div class="group-box-row">
-                        <div class="background">
+                    <div class="group-box-row-no-warp">
+                        <div class="background" name="configOptions" style="width: 20%;">
                             <div class="group-box-column">
                                 <button class="button-borderless icon-texts" style="justify-content:left;" name="remove"><i class="material-icons">delete</i>Deactivate Account</button>
                                 <button class="button-borderless icon-texts" style="justify-content:left;" onclick="applyAdminButton()"><i class="material-icons">mail</i>Apply us Admin</button>
@@ -304,9 +306,29 @@ database::get()->close();
                                 <button class="button-borderless icon-texts" style="justify-content:left;" onclick="cookiePolicyButton()"><i class="material-icons">cookie</i>Cookie Policy</button>
                             </div>
                         </div>
-                        <div class="group-box-column" style="width: 85%; margin: 0 auto;">
+                        <div class="group-box-column stretch" style="margin: 0 auto; margin-left: 0.65em;">
                             <div class="background" id="introduction">
-                                <p class="icon-texts" style="float: left;"><i class="material-icons">settings</i>Setting Area</p>
+                                <div class="group-box-column">
+                                    <h3 class="icon-texts"><i class="material-icons">settings</i> Settings</h3>
+                                    <div class="slider-button">
+                                        <label class="switch">
+                                            <input type="checkbox" id="digitalClock" value="digitalClockConfig">
+                                            <span class="slider round"></span>
+                                        </label>
+                                        <label style="margin-left: 0.55em;">Digital Clock</label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="background hide" id="applyAdmin">
+                                <form class="group-box-column">
+                                    <textarea type="text" name="reason" class="reason-box" rows="10" cols="30" maxlength="90" spellcheck="false"></textarea>
+                                    <br>
+                                    <div class="group-box-row">
+                                        <input class="button-borderless" type="reset" value="Clear">
+                                        <input class="button-borderless" type="submit" value="Submit">
+                                    </div>
+                                </form>
                             </div>
                             <div class="background hide" id="contactUs">
                                 <form class="group-box-column">
@@ -404,9 +426,10 @@ database::get()->close();
         </div>
 
     </div>
-
     <script src="assets/javascript/profile.js"></script>
     <script src="assets/javascript/account.js"></script>
+    <script src="assets/javascript/digital_clock.js"></script>
+    <script type="module" defer src="assets/javascript/settings.js"></script>
     <script type="module" defer src="assets/javascript/edit_profile.js"></script>
 </body>
 

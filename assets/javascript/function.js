@@ -5,7 +5,6 @@ export default class Data {
 		this.dataValue = dataValue;
 	}
 }
-
 export function saveData(dataName, dataValue) {
 	if (typeof Storage !== "undefined") {
 		localStorage.setItem(dataName, dataValue);

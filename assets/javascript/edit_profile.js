@@ -3,6 +3,7 @@ import {
 } from "./function.js";
 
 messageBox(editProfilePopup);
+
 let profilePictureEdit = document.getElementById("profilePictureEdit");
 let exitButton = document.getElementById("exitButton");
 

@@ -119,10 +119,10 @@ a.button:visited {
 .profile-header-picture {
 	z-index: -1;
 	top: 0;
-	left: 25%;
-	width: 50%;
+	left: 30%;
+	display: block;
+	margin: 0 auto;
 	position: absolute;
-	justify-content: center;
 	color: white;
 	align-items: center;
 	border-radius: 0 0 10px 10px;
@@ -391,7 +391,8 @@ a.button:visited {
 	border-radius: 50%;
 	background-color: rgba(255, 255, 255, 0.304);
 }
-.button-icon-1:hover, .button-icon-3:hover {
+.button-icon-1:hover,
+.button-icon-3:hover {
 	color: rgb(0, 179, 255);
 }
 .button-icon-3:hover {
@@ -545,6 +546,13 @@ a.button:visited {
 .no-overlap {
 	margin: 0 5px;
 }
+.group-box-column-no-stretch {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	align-items: stretch;
+	margin-left: 0.56em 0.75em;
+}
 .group-box-column {
 	display: flex;
 	flex-direction: column;
@@ -648,7 +656,6 @@ textIcon {
 	border-radius: 50%;
 }
 .profile-header-avatar {
-	
 	margin: 0.65em 0.85em;
 	position: absolute;
 	display: flex;
@@ -668,10 +675,112 @@ textIcon {
 	justify-content: center;
 	color: white;
 }
+.clock-container-body {
+	padding: 2px;
+	font-size: 18px;
+	align-items: center;
+	font-family: knight-vision;
+	font-variant: small-caps;
+}
+.clock-container {
+	position: absolute;
+	display: flex;
+	right: 0;
+	color: white;
+	z-index: 1;
+	width: 200px;
+	justify-content: center;
+	flex-direction: row;
+	align-items: center;
+	border: 2px solid rgba(0, 0, 0, 0.413);
+	padding: 2px;
+	font-size: 18px;
+	border-radius: 20px;
+	background-color: rgba(46, 46, 255, 0.354);
+}
+@font-face {
+	font-family: knight-vision;
+	src: url("../font/KnightVision-p7Ezy.ttf");
+}
+@font-face {
+	font-family: breathe-fire;
+	src: url("../font/BreatheFireIii-PKLOB.ttf");
+}
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+}
+
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
+}
+
+input:checked + .slider {
+	background-color: #2196f3;
+}
+
+input:focus + .slider {
+	box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+.slider-button {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 10px;
+}
 /*----- RESPONSIVE -----*/
 @media only screen and (max-width: 910px) {
 	.navigation {
 		flex-direction: column;
+	}
+	.group-box-row-no-warp {
+		flex-wrap: wrap;
+	}
+	.background[name="configOptions"] {
+		width: 200%;
 	}
 }
 /*----- RESPONSIVE -----*/
@@ -685,6 +794,20 @@ textIcon {
 		margin: 0 auto;
 	}
 	.button {
-		justify-content: start;
+		margin: 0 auto;
+	}
+	.profile-picture {
+		justify-content: center;
+	}
+	.profile-header-picture {
+		width: 100%;
+		left: 0;
+	}
+	.profile-headers {
+		height: 400px;
+		max-height: 400px;
+	}
+	.button-borderless {
+		width: 100%;
 	}
 }
