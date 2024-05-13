@@ -574,6 +574,23 @@ textIcon {
 	color: #000;
 	cursor: pointer;
 }
+.profile-picture-container {
+	position: relative;
+	border-radius: 50%;
+}
+.profile-picture-edit {
+	position: relative;
+	border-radius: 50%;
+}
+.profile-avatar {
+	position: absolute;
+	justify-content: center;
+	top: 43px;
+	left: 26px;
+	color: white;
+	padding-left: 20px;
+	padding-right: 20px;
+}
 /*----- RESPONSIVE -----*/
 @media only screen and (max-width: 910px) {
 	.navigation {

@@ -70,42 +70,50 @@ switch ($user->membership()['type']) {
 // TODO: Allow user to make their own profile picture
 // METHODS: uploading profile will save with their name with "_profile_picture" to save in database
 // for now this features held back
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $fileName = "profile_picture";
-    $target_dir = "assets/upload/";
-    $target_file = $target_dir . $user->account()['email'] . "_profile_picture.png";
-    $uploadOk = 1;
 
-    // Check if image file is a actual image or fake image
-    if (isset($_POST["profilePictureSave"])) {
-        $check = getimagesize($_FILES["profilePictureInput"]["tmp_name"]);
-        if ($check !== false) {
-            $uploadOk = 1;
-        } else {
+$target_dir = "assets/upload/";
+$target_filename = $user->account()['uuid'] . "_profile_picture.png";
+$target_file = $target_dir . $user->account()['uuid'] . "_profile_picture.png";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (array_key_exists('editProfileSave', $_POST)) {
+        $bio_data = filter_input(INPUT_POST, "bioInput", FILTER_SANITIZE_SPECIAL_CHARS);
+        $display_name = filter_input(INPUT_POST, "displayName", FILTER_SANITIZE_SPECIAL_CHARS);
+        database::query("UPDATE account SET username = '$display_name' WHERE email = '$account_email'");
+        database::query("UPDATE user SET bio = '$bio_data' WHERE email = '$account_email'");
+
+        $uploadOk = 1;
+        if (!empty($_POST["editProfileSave"])) {
+            $check = getimagesize($_FILES["profilePictureInput"]["tmp_name"]);
+            if ($check !== false) {
+                $uploadOk = 1;
+            } else {
+                $uploadOk = 0;
+            }
+        }
+
+        // Check if file already exists 
+        if (file_exists("assets/" . $user->account()['uuid'] . "_profile_picture.png")) {
+            rename("assets/" . $user->account()['uuid'] . "_profile_picture.png", $target_file);
+            unlink($target_file);
             $uploadOk = 0;
         }
-    }
 
-    // Check if file already exists 
-    if (file_exists("assets/" . $user->account()['email'] . "_profile_picture.png")) {
-        rename("assets/" . $user->account()['email'] . "_profile_picture.png", $target_file);
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 1) {
+            if (move_uploaded_file($_FILES["profilePictureInput"]["tmp_name"], $target_file)) {
+                // if everything is ok, try to upload file
+                database::query("UPDATE user SET profile = 'assets/upload/1_profile_picture.png' WHERE email = '$account_email'");
+                header("Refresh: 0");
+            }
+        }
+        header("Refresh: 0");
+    }
+    if (array_key_exists('profilePictureRemove', $_POST)) {
+        database::query("UPDATE user SET profile = '' WHERE email = '$account_email'");
         unlink($target_file);
-        $uploadOk = 0;
+        header("Refresh: 0");
     }
-
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        // if everything is ok, try to upload file
-    } else {
-        move_uploaded_file($_FILES["profilePictureInput"]["tmp_name"], $target_file);
-    }
-}
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $bio_data = filter_input(INPUT_POST, "bioInput", FILTER_SANITIZE_SPECIAL_CHARS);
-    $display_name = filter_input(INPUT_POST, "displayName", FILTER_SANITIZE_SPECIAL_CHARS);
-    database::query("UPDATE account SET username = '$display_name' WHERE email = '$account_email'");
-    database::query("UPDATE user SET bio = '$bio_data' WHERE email = '$account_email'");
-    header("Location: account.php");
 }
 database::get()->close();
 ?>
@@ -138,7 +146,7 @@ database::get()->close();
     <div class="profile-headers">
         <div class="group-box-row">
             <?php
-            echo "<img id='profilePicture' class='profile-picture' src='" . $account_profile_picture . "' style='align-items: unset;'>";
+            echo "<img class='profile-picture' src='" . $account_profile_picture . "' style='align-items: unset;'>";
             ?>
             <div class="profile-text">
 
@@ -317,12 +325,23 @@ database::get()->close();
 
         <div id="editProfilePopup" class="popup">
             <div class="edit-profile-content">
-                <form class="edit-profile-body" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
+                <form class="edit-profile-body" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST" enctype="multipart/form-data">
                     <div class="edit-profile-header">
                         <button style="float: left;" class="button-icon" id="exitButton">X</button>
                         <h2>Edit Profile</h2>
-                        <button style="float: right; border-radius: 10px;" class="button-borderless" for="submit">Save</button>
+                        <button style="float: right; border-radius: 10px;" class="button-borderless" for="submit" id="editProfileSave" name="editProfileSave">Save</button>
+                        <button style="float: right; border-radius: 10px;" class="button-borderless" for="submit" id="profilePictureRemove" name="profilePictureRemove">Remove</button>
                     </div>
+                    <div class="profile-picture-container">
+                        <?php
+                        echo "<img id='profilePictureReview' class='profile-picture-edit' src='" . $account_profile_picture . "' style='align-items: unset; width:128px;height:128px;'>";
+                        ?>
+                        <div class="profile-avatar">
+                            <label class="button-borderless" style="padding: 15px; margin-left: 0px; justify-content: center; border-radius: 50%; width:5px;" for="profilePictureInput" id="profilePicture"><i class="material-icons">camera</i></label>
+                            <input class="hide" type="file" id="profilePictureInput" name="profilePictureInput" accept=".jpg, .jpeg, .png">
+                        </div>
+                    </div>
+
                     <?php
                     echo "<input class='edit-profile-box' type='text' placeholder='Name' name='displayName' value='" . $user->account()['username'] . "'>";
                     ?>
@@ -337,6 +356,7 @@ database::get()->close();
 
     </div>
 
+    <script src="assets/javascript/profile.js"></script>
     <script src="assets/javascript/account.js"></script>
     <script type="module" defer src="assets/javascript/edit_profile.js"></script>
 </body>
