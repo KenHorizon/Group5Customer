@@ -7,45 +7,53 @@ import {
 	getData,
 	removeData,
 	saveData,
+	showInformation
 } from "./function.js";
 
 const checkbox = document.getElementById("checkbox");
+const advanceSubscriptionYear = document.getElementById("advanceSubscriptionYear");
+const advanceSubscriptionMonth = document.getElementById("advanceSubscriptionMonth");
+const basicSubscriptionYear = document.getElementById("basicSubscriptionYear");
+const basicSubscriptionMonth = document.getElementById("basicSubscriptionMonth");
 
 subscriptionButton(basicSubscriptionButton);
 subscriptionButton(advanceSubscriptionButton);
+
 messageBox(subscriptionBasic);
 messageBox(subscriptionAdvance);
 messageBox(termConditionsPopup);
 
-profilePictureEdit.addEventListener("click", function () {
-	editProfilePopup.classList.add("show");
-});
 termConditions.addEventListener("click", function () {
-	termConditionsPopup.classList.add("show");
+	showInformation(termConditionsPopup, true);
 });
 basicSubscriptionExitButton.addEventListener("click", function () {
-	subscriptionBasic.classList.remove("show");
+	showInformation(subscriptionBasic, false);
 });
 advanceSubscriptionExitButton.addEventListener("click", function () {
-	subscriptionAdvance.classList.remove("show");
+	showInformation(subscriptionAdvance, false);
 });
 termConditionsClose.addEventListener("click", function () {
-	termConditionsPopup.classList.remove("show");
+	showInformation(termConditionsPopup, false);
 });
 
 basicSubscriptionYearCheck.addEventListener("click", function () {
-	basicSubscriptionYear.classList.add("show");
-	basicSubscriptionMonth.classList.remove("show");
+	showInformation(basicSubscriptionYear, true);
+	showInformation(basicSubscriptionMonth, false);
+	console.log("Test!");
 });
 
 basicSubscriptionMonthCheck.addEventListener("click", function () {
-	basicSubscriptionMonth.classList.add("show");
-	basicSubscriptionYear.classList.remove("show");
+	showInformation(basicSubscriptionYear, false);
+	showInformation(basicSubscriptionMonth, true);
 });
 
+advanceSubscriptionMonthCheck.addEventListener("click", function () {
+	showInformation(advanceSubscriptionYear, false);
+	showInformation(advanceSubscriptionMonth, true);
+});
 advanceSubscriptionYearCheck.addEventListener("click", function () {
-	advanceSubscriptionYear.classList.add("show");
-	advanceSubscriptionMonth.classList.remove("show");
+	showInformation(advanceSubscriptionYear, true);
+	showInformation(advanceSubscriptionMonth, false);
 });
 
 
@@ -56,9 +64,9 @@ const handleMovement = (e) => {
 			basicSubscriptionYearCheck.checked = true;
 			advanceSubscriptionMonthCheck.checked = false;
 			advanceSubscriptionYearCheck.checked = true;
-			subscriptionBasic.classList.remove("show");
-			subscriptionAdvance.classList.remove("show");
-			termConditionsPopup.classList.remove("show");
+			showInformation(subscriptionBasic, false);
+			showInformation(subscriptionAdvance, false);
+			showInformation(termConditionsPopup, false);
 			break;
 	}
 	console.log(e.key); // Allow to see what key bind is selected!

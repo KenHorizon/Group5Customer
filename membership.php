@@ -251,7 +251,7 @@ database::get()->close();
             </div>
         </div>
     </div>
-    <script type="module" defer src="assets/javascript/message_box.js"></script>
+    <script type="module" defer src="assets/javascript/subscription.js"></script>
     <script src="assets/javascript/option_bar.js"></script>
 </body>
 

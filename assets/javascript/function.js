@@ -33,17 +33,17 @@ export function messageBox(name) {
 export function subscriptionButton(name) {
 	if (name.id == "basicSubscriptionButton") {
 		name.addEventListener("click", function () {
-			subscriptionBasic.classList.add("show");
-			basicSubscriptionYear.classList.add("show");
-			basicSubscriptionMonth.classList.remove("show");
+			showInformation(subscriptionBasic, true);
+			showInformation(basicSubscriptionYear, true);
+			showInformation(basicSubscriptionMonth, false);
 			basicSubscriptionYearCheck.checked = true;
 			basicSubscriptionMonthCheck.checked = false;
 		});
 	} else {
 		name.addEventListener("click", function () {
-			subscriptionAdvance.classList.add("show");
-			advanceSubscriptionYear.classList.add("show");
-			advanceSubscriptionMonth.classList.remove("show");
+			showInformation(subscriptionAdvance, true);
+			showInformation(advanceSubscriptionYear, true);
+			showInformation(advanceSubscriptionMonth, false);
 			advanceSubscriptionYearCheck.checked = true;
 			advanceSubscriptionMonthCheck.checked = false;
 		});
@@ -52,4 +52,29 @@ export function subscriptionButton(name) {
 }
 export function seconds(seconds) {
 	return seconds * 1000;
+}
+export function showInformation(name = null, boolean = null, type = null) {
+	if (boolean === true || boolean === null) {
+		if (name.classList.contains("hide")) {
+			name.classList.remove("hide");
+			name.classList.add("show");
+		} else {
+			if (type === null) {
+				name.classList.add("show");
+			} else {
+				name.classList.add(type);
+			}
+		}
+	} else {
+		if (name.classList.contains("hide")) {
+			name.classList.add("hide");
+		} else {
+			if (type === null) {
+				name.classList.remove("show");
+				name.classList.add("hide");
+			} else {
+				name.classList.remove(type);
+			}
+		}
+	}
 }

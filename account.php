@@ -143,6 +143,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         unlink($target_header_file);
         header("Refresh: 0");
     }
+    if (array_key_exists('deactivateAccountSubmit', $_POST)) {
+        database::query("UPDATE account SET activated = 0 WHERE email = '$account_email'");
+        header("Location: logout.php");
+    }
 }
 database::get()->close();
 ?>
@@ -234,12 +238,12 @@ database::get()->close();
         <div class="background">
             <div class="profile-account" id="aboutLayout">
                 <div class="navigation" name="options">
-                    <button class="button-borderless" onclick="aboutButton()">About</button>
-                    <button class="button-borderless" onclick="subscriptionButton()">Subscription</button>
-                    <button class="button-borderless" onclick="accountButton()">Account</button>
+                    <button class="button-borderless" id="aboutButton">About</button>
+                    <button class="button-borderless" id="subscriptionButton">Subscription</button>
+                    <button class="button-borderless" id="accountButton">Account</button>
                 </div>
                 <br>
-                <div class="group-box-row" id="aboutPage" style="display: block;">
+                <div class="group-box-row show" id="aboutPage" name="informationPage">
                     <div class="background">
                         <div class="group-box-column">
                             <?php
@@ -248,7 +252,7 @@ database::get()->close();
                                 echo "<p> <b>Joined</b>: " . $joined . "</p>";
                                 echo "<p> <b>Birthday</b>: " . $birthday . "</p>";
                             } else {
-                                if ($user->user()['deleted'] === 1) {
+                                if ($user->user()['activated'] == 1) {
                                     echo "<p> <b>Email</b>: - N/A</p>";
                                     echo "<p> <b>Joined</b>: - N/A</p>";
                                     echo "<p> <b>Birthday</b>: - N/A</p>";
@@ -262,7 +266,6 @@ database::get()->close();
                     </div>
                 </div>
                 <div class="group-box-row hide" id="subscriptionPage">
-
                     <div class="background">
                         <div class="group-box-column">
                             <?php
@@ -298,12 +301,12 @@ database::get()->close();
                     <div class="group-box-row-no-warp">
                         <div class="background" name="configOptions" style="width: 20%;">
                             <div class="group-box-column">
-                                <button class="button-borderless icon-texts" style="justify-content:left;" name="remove"><i class="material-icons">delete</i>Deactivate Account</button>
-                                <button class="button-borderless icon-texts" style="justify-content:left;" onclick="applyAdminButton()"><i class="material-icons">mail</i>Apply us Admin</button>
-                                <button class="button-borderless icon-texts" style="justify-content:left;" onclick="contactUsButton()"><i class="material-icons">mail</i>Contact Us</button>
-                                <button class="button-borderless icon-texts" style="justify-content:left;" onclick="termServiceButton()"><i class="material-icons">list</i>Terms of Service</button>
-                                <button class="button-borderless icon-texts" style="justify-content:left;" onclick="privacyPolicyButton()"><i class="material-icons">policy</i>Privacy Policy</button>
-                                <button class="button-borderless icon-texts" style="justify-content:left;" onclick="cookiePolicyButton()"><i class="material-icons">cookie</i>Cookie Policy</button>
+                                <button class="button-borderless icon-texts" style="justify-content:left;" id="deactivatedAccount" name="remove"><i class="material-icons">delete</i>Deactivate Account</button>
+                                <button class="button-borderless icon-texts" style="justify-content:left;" id="applyAdminButton"><i class="material-icons">mail</i>Apply us Admin</button>
+                                <button class="button-borderless icon-texts" style="justify-content:left;" id="contactUsButton"><i class="material-icons">mail</i>Contact Us</button>
+                                <button class="button-borderless icon-texts" style="justify-content:left;" id="termServiceButton"><i class="material-icons">list</i>Terms of Service</button>
+                                <button class="button-borderless icon-texts" style="justify-content:left;" id="privacyPolicyButton"><i class="material-icons">policy</i>Privacy Policy</button>
+                                <button class="button-borderless icon-texts" style="justify-content:left;" id="cookiePolicyButton"><i class="material-icons">cookie</i>Cookie Policy</button>
                             </div>
                         </div>
                         <div class="group-box-column stretch" style="margin: 0 auto; margin-left: 0.65em;">
@@ -379,7 +382,6 @@ database::get()->close();
                 </div>
             </div>
         </div>
-
         <div id="editProfilePopup" class="popup">
             <div class="edit-profile-content">
                 <form class="edit-profile-container" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST" enctype="multipart/form-data">
@@ -424,11 +426,25 @@ database::get()->close();
                 </form>
             </div>
         </div>
+        <div id="deactivatedAccountBox" class="popup">
+            <div class="deactivated-confirmation-content">
+                <form class="deactivated-confirmation-container" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST" enctype="multipart/form-data">
+                    <div>
+                        <p class="headers icon-texts" style="text-align: center;">deactivate account</p>
+                    </div>
+                    <p class="tooltip">Deactivating your account means, you can recover it at any time after taking this action.</p>
+                    <input type="password" class="input-box" placeholder="Enter your password...">
+                    <div>
+                        <input class="button-borderless" name="deactivateAccountSubmit" type="submit" value="Continue">
+                    </div>
+                </form>
+            </div>
+        </div>
 
     </div>
     <script src="assets/javascript/profile.js"></script>
-    <script src="assets/javascript/account.js"></script>
     <script src="assets/javascript/digital_clock.js"></script>
+    <script type="module" defer src="assets/javascript/account.js"></script>
     <script type="module" defer src="assets/javascript/settings.js"></script>
     <script type="module" defer src="assets/javascript/edit_profile.js"></script>
 </body>

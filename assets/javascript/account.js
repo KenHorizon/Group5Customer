@@ -1,65 +1,99 @@
+import {messageBox, showInformation} from "./function.js";
+
 let introduction = document.getElementById("introduction");
+
 let subscription = document.getElementById("subscriptionPage");
 let about = document.getElementById("aboutPage");
 let accountPage = document.getElementById("accountPage");
+
+let deactivatedAccountBox = document.getElementById("deactivatedAccountBox");
 let termService = document.getElementById("termService");
 let privacyPolicy = document.getElementById("privacyPolicy");
 let cookiePolicy = document.getElementById("cookiePolicy");
 let applyAdmin = document.getElementById("applyAdmin");
 let contactUs = document.getElementById("contactUs");
 
-function aboutButton() {
-	subscription.style.display = "none";
-	about.style.display = "block";
-	accountPage.style.display = "none";
-}
-function subscriptionButton() {
-	subscription.style.display = "block";
-	about.style.display = "none";
-	accountPage.style.display = "none";
-}
-function accountButton() {
-	subscription.style.display = "none";
-	about.style.display = "none";
-	accountPage.style.display = "flex";
-}
+messageBox(deactivatedAccountBox);
 
-function termServiceButton() {
-	introduction.style.display = "none";
-	termService.style.display = "block";
-	privacyPolicy.style.display = "none";
-	cookiePolicy.style.display = "none";
-	applyAdmin.style.display = "none";
-	contactUs.style.display = "none";
-}
-function privacyPolicyButton() {
-	introduction.style.display = "none";
-	termService.style.display = "none";
-	privacyPolicy.style.display = "block";
-	cookiePolicy.style.display = "none";
-	applyAdmin.style.display = "none";
-	contactUs.style.display = "none";
-}
-function cookiePolicyButton() {
-	introduction.style.display = "none";
-	termService.style.display = "none";
-	privacyPolicy.style.display = "none";
-	cookiePolicy.style.display = "block";
-	applyAdmin.style.display = "none";
-	contactUs.style.display = "none";
-}
-function applyAdminButton() {
-	termService.style.display = "none";
-	privacyPolicy.style.display = "none";
-	cookiePolicy.style.display = "none";
-	applyAdmin.style.display = "block";
-	contactUs.style.display = "none";
-}
-function contactUsButton() {
-	introduction.style.display = "none";
-	termService.style.display = "none";
-	privacyPolicy.style.display = "none";
-	cookiePolicy.style.display = "none";
-	applyAdmin.style.display = "none";
-	contactUs.style.display = "block";
-}
+aboutButton.addEventListener("click", function () {
+	showInformation(about, true);
+	showInformation(subscription, false);
+	showInformation(accountPage, false);
+});
+subscriptionButton.addEventListener("click", function () {
+	showInformation(subscription, true);
+	showInformation(about, false);
+	showInformation(accountPage, false);
+});
+accountButton.addEventListener("click", function () {
+	showInformation(about, false);
+	showInformation(subscription, false);
+	showInformation(accountPage, true);
+});
+
+deactivatedAccount.addEventListener("click", function () {
+	showInformation(deactivatedAccountBox, true);
+	showInformation(introduction, false);
+	showInformation(termService, false);
+	showInformation(privacyPolicy, false);
+	showInformation(cookiePolicy, false);
+	showInformation(applyAdmin, false);
+	showInformation(contactUs, false);
+});
+
+termServiceButton.addEventListener("click", function () {
+	showInformation(deactivatedAccountBox, false);
+	showInformation(introduction, true, "hide");
+	showInformation(introduction, false);
+	showInformation(termService, true);
+	showInformation(privacyPolicy, false);
+	showInformation(cookiePolicy, false);
+	showInformation(applyAdmin, false);
+	showInformation(contactUs, false);
+});
+
+privacyPolicyButton.addEventListener("click", function () {
+	showInformation(deactivatedAccountBox, false);
+	showInformation(introduction, false);
+	showInformation(termService, false);
+	showInformation(privacyPolicy, true);
+	showInformation(cookiePolicy, false);
+	showInformation(applyAdmin, false);
+	showInformation(contactUs, false);
+});
+privacyPolicyButton.addEventListener("click", function () {
+	showInformation(deactivatedAccountBox, false);
+	showInformation(introduction, false);
+	showInformation(termService, false);
+	showInformation(privacyPolicy, true);
+	showInformation(cookiePolicy, false);
+	showInformation(applyAdmin, false);
+	showInformation(contactUs, false);
+});
+cookiePolicyButton.addEventListener("click", function () {
+	showInformation(deactivatedAccountBox, false);
+	showInformation(introduction, false);
+	showInformation(termService, false);
+	showInformation(privacyPolicy, false);
+	showInformation(cookiePolicy, true);
+	showInformation(applyAdmin, false);
+	showInformation(contactUs, false);
+});
+applyAdminButton.addEventListener("click", function () {
+	showInformation(deactivatedAccountBox, false);
+	showInformation(introduction, false);
+	showInformation(termService, false);
+	showInformation(privacyPolicy, false);
+	showInformation(cookiePolicy, false);
+	showInformation(applyAdmin, true);
+	showInformation(contactUs, false);
+});
+contactUsButton.addEventListener("click", function () {
+	showInformation(deactivatedAccountBox, false);
+	showInformation(introduction, false);
+	showInformation(termService, false);
+	showInformation(privacyPolicy, false);
+	showInformation(cookiePolicy, false);
+	showInformation(applyAdmin, false);
+	showInformation(contactUs, true);
+});
