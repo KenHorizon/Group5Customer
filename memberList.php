@@ -50,7 +50,7 @@ if ($_SESSION["uuid"] === null) {
                     <?php
                     if ($session_account_type == 1) {
                         echo "  <input class='input-box' id='searchName' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchNameFunctions()'>
-                                <input class='input-box' id='searchEmail' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchEmailFunctions()'>";
+                                <input class='input-box' id='searchEmail' type='text' placeholder='Name...' style='width: 350px;' onkeyup='searchEmailFunctions()'>";
                     } else {
                         echo "  <input class='input-box' id='searchName' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchNameFunctions()'>";
                     }
