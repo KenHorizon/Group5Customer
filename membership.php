@@ -147,11 +147,10 @@ database::get()->close();
                     <p>- Remove Ads</p>
                     <p>- Special badge on your profile</p>
                     <p>- Custom emoji anywhere</p>
-                    <p>- Custom video background</p>
                     <p>- Exclusive Items</p>
                     <p>- Custom profile and more!</p>
-                    <p>- Customized profile background</p>
                     <p>- Magic: Wallet begone</p>
+                    <p>- Makakahanap ka ng forever mo</p>
                     <br>
                     <div class="membership-btn">
                         <a class="button" id="advanceSubscriptionButton">Subscribe</a>
@@ -251,8 +250,7 @@ database::get()->close();
             </div>
         </div>
     </div>
-    <script type="module" defer src="assets/javascript/subscription.js"></script>
-    <script src="assets/javascript/option_bar.js"></script>
+    <script type="module" defer src="assets/javascript/subscription/subscription.js"></script>
 </body>
 
 </html>

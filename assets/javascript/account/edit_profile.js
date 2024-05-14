@@ -1,22 +1,20 @@
-import {
-	messageBox
-} from "./function.js";
+import { exitOnClicked, showInformation } from "../function.js";
 
-messageBox(editProfilePopup);
+exitOnClicked(editProfilePopup);
 
 let profilePictureEdit = document.getElementById("profilePictureEdit");
 let exitButton = document.getElementById("exitButton");
 
 profilePictureEdit.addEventListener("click", function () {
-	editProfilePopup.classList.add("show");
+	showInformation(editProfilePopup, true);
 });
 exitButton.addEventListener("click", function () {
-	editProfilePopup.classList.remove("show");
+	showInformation(editProfilePopup, false);
 });
 const handleMovement = (e) => {
 	switch (e.key) {
 		case "Escape":
-			editProfilePopup.classList.remove("show");
+			showInformation(editProfilePopup, false);
 			break;
 	}
 	console.log(e.key); // Allow to see what key bind is selected!

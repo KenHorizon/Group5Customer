@@ -2,26 +2,26 @@
 // No variables, it's used by ID
 // Cant create a single variables to all id, it break the codes, it must done separately and manually
 import {
-	messageBox,
 	subscriptionButton,
 	getData,
 	removeData,
 	saveData,
-	showInformation
-} from "./function.js";
+	showInformation,
+	exitOnClicked,
+} from "../function.js";
 
-const checkbox = document.getElementById("checkbox");
-const advanceSubscriptionYear = document.getElementById("advanceSubscriptionYear");
-const advanceSubscriptionMonth = document.getElementById("advanceSubscriptionMonth");
-const basicSubscriptionYear = document.getElementById("basicSubscriptionYear");
-const basicSubscriptionMonth = document.getElementById("basicSubscriptionMonth");
+let checkbox = document.getElementById("checkbox");
+let advanceSubscriptionYear = document.getElementById(
+	"advanceSubscriptionYear"
+);
+let advanceSubscriptionMonth = document.getElementById(
+	"advanceSubscriptionMonth"
+);
+let basicSubscriptionYear = document.getElementById("basicSubscriptionYear");
+let basicSubscriptionMonth = document.getElementById("basicSubscriptionMonth");
 
 subscriptionButton(basicSubscriptionButton);
 subscriptionButton(advanceSubscriptionButton);
-
-messageBox(subscriptionBasic);
-messageBox(subscriptionAdvance);
-messageBox(termConditionsPopup);
 
 termConditions.addEventListener("click", function () {
 	showInformation(termConditionsPopup, true);
@@ -56,24 +56,16 @@ advanceSubscriptionYearCheck.addEventListener("click", function () {
 	showInformation(advanceSubscriptionMonth, false);
 });
 
+exitOnClicked(subscriptionBasic, false);
+exitOnClicked(subscriptionAdvance, false);
+exitOnClicked(termConditionsPopup, false);
 
-const handleMovement = (e) => {
-	switch (e.key) {
-		case "Escape":
-			basicSubscriptionMonthCheck.checked = false;
-			basicSubscriptionYearCheck.checked = true;
-			advanceSubscriptionMonthCheck.checked = false;
-			advanceSubscriptionYearCheck.checked = true;
-			showInformation(subscriptionBasic, false);
-			showInformation(subscriptionAdvance, false);
-			showInformation(termConditionsPopup, false);
-			break;
-	}
-	console.log(e.key); // Allow to see what key bind is selected!
-};
-
-window.addEventListener("keydown", handleMovement);
-
+// exitOnClicked(function() {
+// 	basicSubscriptionMonthCheck.checked = false;
+// 	basicSubscriptionYearCheck.checked = true;
+// 	advanceSubscriptionMonthCheck.checked = false;
+// 	advanceSubscriptionYearCheck.checked = true;
+// });
 checkbox.addEventListener("click", function () {
 	if (checkbox.checked) {
 		saveData("alreadyReadTermAndConditions", true);
@@ -84,7 +76,5 @@ checkbox.addEventListener("click", function () {
 });
 
 window.onload = function () {
-	checkbox.checked = getData(
-		"alreadyReadTermAndConditions"
-	);
+	checkbox.checked = getData("alreadyReadTermAndConditions");
 };

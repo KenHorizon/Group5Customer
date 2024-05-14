@@ -1,49 +1,45 @@
 <?php
 
-use classes\database;
-use classes\subscription;
+use classes\{database, subscription, user};
 
-include("assets/php/database.php");
+require 'assets/php/user.php';
 include("assets/php/subscription.php");
 
 session_start();
-subscription::main($_SESSION['email']);
 ?>
 <?php
-$user = filter_input(INPUT_POST, "user", FILTER_SANITIZE_SPECIAL_CHARS);
+$username = filter_input(INPUT_POST, "user", FILTER_SANITIZE_SPECIAL_CHARS);
 $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
-$result = database::query( "SELECT * FROM account WHERE email = '$user' AND password = '$password'");
+$result = database::query( "SELECT * FROM account WHERE email = '$username' AND password = '$password'");
 $notice = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	if (empty($user)) {
+	if (empty($username)) {
 		$notice = "Please Insert Username!";
 	} elseif (empty($password)) {
 		$notice = "Please Insert Password!";
 	} else {
 		if (mysqli_num_rows($result) > 0) {
-			$validate_account = mysqli_fetch_assoc($result);
-			$validate_account_email = $validate_account['email'];
+			$user -> register = $username;
 			// echo "<h1>" . $validate_account_email . "</h1> <br>";
-			$validate_user = database::query("SELECT * FROM user WHERE email = '$validate_account_email'");
-			$validate_membership = database::query("SELECT * FROM membership WHERE email = '$validate_account_email'");
-			if (mysqli_num_rows($validate_user) > 0) {
-				$validate_user_account = mysqli_fetch_assoc($validate_user);
-				$validate_user_type = $validate_user_account['type'];
-				$validate_account_uuid = $validate_account['uuid'];
+			if ($user->isEmpty()) {
+				$validate_user_type = $user -> user()['type'];
+				$validate_account_uuid = $user -> account()['uuid'];;
+				$validate_account_username = $user -> account()['username'];;
 				// echo "<h1>".$user_name."</h1> <br>";
 				// Check the email and password and later the user account if the account is activated
-				if ($validate_account['email'] === $user && $validate_account['password'] === $password) {
-					if ($validate_account['activated'] == 1) {
+				if ($user -> account()['email'] === $username && $user -> account()['password'] === $password) {
+					if ($user -> account()['activated'] == 1) {
 						$_SESSION['uuid'] = $validate_account_uuid;
-						$_SESSION['email'] = $validate_account_email;
-						$_SESSION['password'] = $validate_account['password'];
+						$_SESSION['email'] = $user -> account()['email'];
+						$_SESSION['password'] = $user -> account()['password'];
 						$_SESSION['type'] = $validate_user_type;
-						$_SESSION['subscriptionStart'] = $validate_membership['subscription_date'];
+						$_SESSION['subscriptionStart'] = $user -> membership()['subscription_date'];
+						subscription::main($_SESSION['email']);
 						// echo "<h1>".$_SESSION['uuid']."</h1> <br>";
 						// echo "<h1>".$_SESSION['email']."</h1> <br>";
 						// echo "<h1>".$_SESSION['password']."</h1> <br>";
 						// echo "<h1>".$_SESSION['type']."</h1> <br>";
-						header("Location: account.php");
+						header("Location: account.php?username=$username");
 					} else {
 						$notice = "Couldn't find the account!";
 					}
@@ -82,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <header>
 	<div class="navigation" id="navigationMenu">
 		<a class="button" id="home"><i class="material-icons">home</i>Home</a>
-		<a class="button" href="about.html" id="about"><i class="material-icons">people</i>About</a>
+		<a class="button" href="about.php" id="about"><i class="material-icons">people</i>About</a>
 		<a class="button" href="createAccount.php" id="sign_up"><i class="material-icons">create</i>Sign-Up</a>
 	</div>
 </header>

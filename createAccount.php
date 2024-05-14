@@ -75,7 +75,7 @@ database::get()->close();
 <header>
     <div class="navigation" id="navigationMenu">
         <a class="button" href="index.php" id="home"><i class="material-icons">home</i>Home</a>
-        <a class="button" href="about.html" id="about"><i class="material-icons">people</i>About</a>
+        <a class="button" href="about.php" id="about"><i class="material-icons">people</i>About</a>
         <a class="button" id="sign_up"><i class="material-icons">create</i>Sign-Up</a>
     </div>
 </header>
@@ -140,7 +140,7 @@ database::get()->close();
             </form>
         </div>
     </div>
-    <script src="assets/javascript/create_account.js"></script>
+    <script src="assets/javascript/sign-up/get_birthday.js"></script>
 </body>
 
 </html>

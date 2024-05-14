@@ -1,6 +1,4 @@
-import {
-	saveData, getData, removeData
-} from "./function.js";
+import { saveData, getData, removeData } from "../function.js";
 let clock = document.getElementById("digitalClock");
 
 window.onload = function () {

@@ -41,3 +41,5 @@ class user
         return mysqli_num_rows(database::query("SELECT * FROM account WHERE email = '$email'")) > 0;
     }
 }
+$user = new user;
+?>

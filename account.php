@@ -11,7 +11,7 @@ $user = new user();
 <?php
 // Dev Talk:
 // If any accidentally click previous arrow on tab while clicked on logout they will immediately go to homepage to login again
-if ($_SESSION["uuid"] === null) {
+if ($_SESSION["email"] === null) {
     header("Location: index.php");
 } else {
 
@@ -21,6 +21,7 @@ if ($_SESSION["uuid"] === null) {
     $account = $user->account();
     $account_user = $user->user();
     $membership = $user->membership();
+    
     // 
     if ($user->isEmpty()) {
         $account_profile_picture = $user->user()['profile'];
@@ -442,11 +443,11 @@ database::get()->close();
         </div>
 
     </div>
-    <script src="assets/javascript/profile.js"></script>
+    <script src="assets/javascript/account/profile_picture_and_header.js"></script>
     <script src="assets/javascript/digital_clock.js"></script>
-    <script type="module" defer src="assets/javascript/account.js"></script>
-    <script type="module" defer src="assets/javascript/settings.js"></script>
-    <script type="module" defer src="assets/javascript/edit_profile.js"></script>
+    <script type="module" defer src="assets/javascript/account/account.js"></script>
+    <script type="module" defer src="assets/javascript/account/settings.js"></script>
+    <script type="module" defer src="assets/javascript/account/edit_profile.js"></script>
 </body>
 
 </html>

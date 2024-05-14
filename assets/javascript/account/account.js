@@ -1,4 +1,4 @@
-import {messageBox, showInformation} from "./function.js";
+import { exitOnClicked, showInformation } from "../function.js";
 
 let introduction = document.getElementById("introduction");
 
@@ -13,7 +13,7 @@ let cookiePolicy = document.getElementById("cookiePolicy");
 let applyAdmin = document.getElementById("applyAdmin");
 let contactUs = document.getElementById("contactUs");
 
-messageBox(deactivatedAccountBox);
+exitOnClicked(deactivatedAccountBox);
 
 aboutButton.addEventListener("click", function () {
 	showInformation(about, true);

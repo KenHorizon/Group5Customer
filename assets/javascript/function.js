@@ -78,3 +78,10 @@ export function showInformation(name = null, boolean = null, type = null) {
 		}
 	}
 }
+export function exitOnClicked(classId = null) {
+	window.addEventListener("click", function (event) {
+		if (classId == event.target) {
+			classId.classList.remove("show");
+		}
+	});
+}

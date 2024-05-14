@@ -1,6 +1,6 @@
-import { messageBox } from "./function.js";
+import { exitOnClicked } from "./function.js";
 
-messageBox(reasonMessageBox);
+exitOnClicked(reasonMessageBox);
 
 const handleMovement = (e) => {
 	switch (e.key) {

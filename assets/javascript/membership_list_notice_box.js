@@ -1,4 +1,3 @@
-
 function openNoticeBox() {
 	reasonMessageBox.classList.add("show");
 	confirmButton.addEventListener("click", function () {
