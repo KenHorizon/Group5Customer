@@ -11,6 +11,7 @@ Project Completion: 97.87%
 - Login Form
 - Changeable Password
 - Email Verification
+- Digital Clock
 - Customizable Profile Picture and Header
 - Subscription
 - Admin and User Interfaces
