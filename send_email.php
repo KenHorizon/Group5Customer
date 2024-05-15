@@ -42,7 +42,7 @@ if (mysqli_num_rows($verified_email) > 0) {
             $_SESSION['verification_code'] = $captcha;
             $_SESSION['verification_email'] = $email;
             sendEmail("Password Change Verification", $body, $email);
-            header("Location: forgotPassword.php");
+            header("Location: forgot_password.php");
         } else {
             $notice = "Email not match, Try again!";
         }
@@ -55,7 +55,7 @@ if (mysqli_num_rows($verified_email) > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="/assets/img/icon.png">
+    <link rel="icon" type="image/x-icon" href="/assets/img/icon.ico">
     <title>Beyond Horizon: Stars | Forgot Password</title>
     <link rel="stylesheet" href="assets/css/input_box.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
     <link rel="stylesheet" href="assets/css/style.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
@@ -67,7 +67,7 @@ if (mysqli_num_rows($verified_email) > 0) {
     <div class="navigation" id="navigationMenu">
         <a class="button" href="index.php"><i class="material-icons">home</i>Home</a>
         <a class="button" href="about.php"><i class="material-icons">people</i>About</a>
-        <a class="button" href="createAccount.php"><i class="material-icons">create</i>Sign-Up</a>
+        <a class="button" href="create_account.php"><i class="material-icons">create</i>Sign-Up</a>
     </div>
 </header>
 

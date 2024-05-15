@@ -92,7 +92,7 @@ database::get()->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="/assets/img/icon.png">
+    <link rel="icon" type="image/x-icon" href="/assets/img/icon.ico">
     <title>Beyond Horizon: Stars | Membership</title>
     <link rel="stylesheet" href="assets/css/input_box.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
     <link rel="stylesheet" href="assets/css/style.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
@@ -102,7 +102,7 @@ database::get()->close();
 <header>
     <div class="navigation" id="navigationMenu">
         <a class="button" href="account.php"><i class="material-icons">home</i>Home</a>
-        <a class="button" href="index.php"><i class="material-icons">logout</i>Logout</a>
+        <a class="button" href="logout.php"><i class="material-icons">logout</i>Logout</a>
     </div>
 </header>
 

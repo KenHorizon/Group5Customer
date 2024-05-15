@@ -157,7 +157,7 @@ database::get()->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="/assets/img/icon.png">
+    <link rel="icon" type="image/x-icon" href="/assets/img/icon.ico">
     <title>Beyond Horizon: Stars | Profile</title>
     <link rel="stylesheet" href="assets/css/input_box.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
     <link rel="stylesheet" href="assets/css/style.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
@@ -165,7 +165,7 @@ database::get()->close();
 </head>
 <header>
     <div class="navigation" id="navigationMenu">
-        <a class="button" href="memberList.php" id="memberList"><i class="material-icons">list</i>Member List</a>
+        <a class="button" href="member_list.php" id="memberList"><i class="material-icons">list</i>Member List</a>
         <a class="button" href="membership.php" id="subscription"><i class="material-icons">rocket</i>Subscription</a>
         <a class="button" href="logout.php" id="logout"><i class="material-icons">logout</i>Logout</a>
     </div>

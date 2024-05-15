@@ -10,7 +10,7 @@ session_start();
 <?php
 $username = filter_input(INPUT_POST, "user", FILTER_SANITIZE_SPECIAL_CHARS);
 $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
-$result = database::query( "SELECT * FROM account WHERE email = '$username' AND password = '$password'");
+$result = database::query("SELECT * FROM account WHERE email = '$username' AND password = '$password'");
 $notice = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if (empty($username)) {
@@ -19,21 +19,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$notice = "Please Insert Password!";
 	} else {
 		if (mysqli_num_rows($result) > 0) {
-			$user -> register = $username;
+			$user->register = $username;
 			// echo "<h1>" . $validate_account_email . "</h1> <br>";
 			if ($user->isEmpty()) {
-				$validate_user_type = $user -> user()['type'];
-				$validate_account_uuid = $user -> account()['uuid'];;
-				$validate_account_username = $user -> account()['username'];;
+				$validate_user_type = $user->user()['type'];
+				$validate_account_uuid = $user->account()['uuid'];;
+				$validate_account_username = $user->account()['username'];;
 				// echo "<h1>".$user_name."</h1> <br>";
 				// Check the email and password and later the user account if the account is activated
-				if ($user -> account()['email'] === $username && $user -> account()['password'] === $password) {
-					if ($user -> account()['activated'] == 1) {
+				if ($user->account()['email'] === $username && $user->account()['password'] === $password) {
+					if ($user->account()['activated'] == 1) {
 						$_SESSION['uuid'] = $validate_account_uuid;
-						$_SESSION['email'] = $user -> account()['email'];
-						$_SESSION['password'] = $user -> account()['password'];
+						$_SESSION['email'] = $user->account()['email'];
+						$_SESSION['password'] = $user->account()['password'];
 						$_SESSION['type'] = $validate_user_type;
-						$_SESSION['subscriptionStart'] = $user -> membership()['subscription_date'];
+						$_SESSION['subscriptionStart'] = $user->membership()['subscription_date'];
 						subscription::main($_SESSION['email']);
 						// echo "<h1>".$_SESSION['uuid']."</h1> <br>";
 						// echo "<h1>".$_SESSION['email']."</h1> <br>";
@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="icon" type="image/x-icon" href="assets/img/icon.png" />
+    <link rel="icon" type="image/x-icon" href="/assets/img/icon.ico">
 	<title>Beyond Horizon: Stars</title>
 	<link rel="stylesheet" href="assets/css/style.css" />
 	<!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<div class="navigation" id="navigationMenu">
 		<a class="button" id="home"><i class="material-icons">home</i>Home</a>
 		<a class="button" href="about.php" id="about"><i class="material-icons">people</i>About</a>
-		<a class="button" href="createAccount.php" id="sign_up"><i class="material-icons">create</i>Sign-Up</a>
+		<a class="button" href="create_account.php" id="sign_up"><i class="material-icons">create</i>Sign-Up</a>
 	</div>
 </header>
 
@@ -126,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 							<div class="group">
 								<label id="rememberPassword">Remember Me</label>
 								<input type="checkbox" for="rememberPassword" class="input-box" name="rememberPasswords" id="checkboxRememberPassword" placeholder="Password" />
-								<a href="forgotPassword.php" style="margin: 0 20px;"> Forgot Password</a>
+								<a href="send_email.php" style="margin: 0 20px;"> Forgot Password</a>
 								<?php
 								echo "<label style='margin: 0 auto; color: red;'><b>" . $notice . "</b></label>";
 								?>
@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			</div>
 		</div>
 	</div>
-	<script type="module" defer src="assets/javascript/main.js"></script>
+	<script type="module" defer src="assets/javascript/index/login.js"></script>
 </body>
 
 </html>

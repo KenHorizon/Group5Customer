@@ -1,4 +1,4 @@
-import { exitOnClicked } from "./function.js";
+import { exitOnClicked } from "../function.js";
 
 exitOnClicked(reasonMessageBox);
 

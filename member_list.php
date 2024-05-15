@@ -5,7 +5,7 @@ session_start();
 ?>
 <?php
 //echo $_SESSION['email'];
-if ($_SESSION["uuid"] === null) {
+if ($_SESSION["email"] === null) {
     header("Location: index.php");
 } else {
     $session_account_type = $_SESSION['type'];
@@ -22,7 +22,7 @@ if ($_SESSION["uuid"] === null) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="/assets/img/icon.png">
+    <link rel="icon" type="image/x-icon" href="/assets/img/icon.ico">
     <title>Beyond Horizon: Stars | Member</title>
     <link rel="stylesheet" href="assets/css/table.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
     <link rel="stylesheet" href="assets/css/style.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
@@ -87,11 +87,8 @@ if ($_SESSION["uuid"] === null) {
                         if (mysqli_num_rows($account) > 0) {
                             while ($row = mysqli_fetch_assoc($account)) {
                                 $row_uuid = $row['uuid'];
-                                $get_account_user = "SELECT * FROM user WHERE uuid = $row_uuid";
-                                $get_account_membership = "SELECT * FROM membership WHERE uuid = $row_uuid";
-
-                                $user = mysqli_query(database::get(), $get_account_user);
-                                $membership = mysqli_query(database::get(), $get_account_membership);
+                                $user = database::query("SELECT * FROM user WHERE uuid = $row_uuid");
+                                $membership = database::query("SELECT * FROM membership WHERE uuid = $row_uuid");
                                 while ($validate_user = mysqli_fetch_assoc($user)) {
                                     $user_type = $validate_user['type'];
                                     $user_account_type = determineUserType($user_type);
@@ -180,9 +177,8 @@ if ($_SESSION["uuid"] === null) {
             </div>
         </div>
         <script src="assets/javascript/search_bar.js"></script>
-        <script type="module" defer src="assets/javascript/membership_list.js"></script>
-        <script type="module" defer src="assets/javascript/membership_list.js"></script>
-        <script src="assets/javascript/membership_list_notice_box.js"></script>
+        <script src="assets/javascript/customer_list/membership_list_notice_box.js"></script>
+        <script type="module" defer src="assets/javascript/customer_list/membership_list.js"></script>
     </div>
 </body>
 

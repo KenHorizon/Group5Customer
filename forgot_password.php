@@ -4,16 +4,6 @@ include("assets/php/database.php");
 session_start();
 ?>
 <?php
-//  $body =
-//  "
-// <div style='text-align: center;'><font face='FF Mark W05, Arial, sans-serif' color='#666666'><span style='font-size: 18px; letter-spacing: -0.18px; background-color: rgb(204, 204, 204);'><b style=''>Keep your Account secure by verifying your</b></span></font></div>
-// <div style='text-align: center;'><font face='FF Mark W05, Arial, sans-serif' color='#666666'><span style='font-size: 18px; letter-spacing: -0.18px; background-color: rgb(204, 204, 204);'><b style=''>email address.</b></span></font></div>
-// <br>
-// <br>
-// <div style='text-align: center;'><font face='FF Mark W05, Arial, sans-serif'><span style='font-size: 18px; letter-spacing: -0.18px;'><b style=''><font style='background-color: rgb(255, 255, 255);' color='#999999'><a href='http://beyondhorizon.patreon.com/forgotPasswordEntry.php'>CONFIRM</a></font></b></span></font></div>
-// <br>
-// <br>
-// ";
 $notice = "";
 $codes = $_SESSION["verification_code"];
 $emails = $_SESSION["verification_email"];
@@ -23,16 +13,14 @@ $confirm_password = filter_input(INPUT_POST, "confirm_new_password", FILTER_SANI
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $verification_email = $_SESSION["verification_email"];
-    $verified = "SELECT * FROM account WHERE email = '$verification_email'";
-    $verified_email = mysqli_query(database::get(), $verified);
+    $verified_email = database::query("SELECT * FROM account WHERE email = '$verification_email'");
     if (mysqli_num_rows($verified_email) > 0) {
         $verified_code = filter_input(INPUT_POST, "verification", FILTER_SANITIZE_SPECIAL_CHARS);
         if ($verified_code == $_SESSION["verification_code"]) {
             if ($new_password === $confirm_password) {
                 $notice = "Password changed";
                 try {
-                    $insert_new_password = "UPDATE account SET password = '$new_password' WHERE email = '$verification_email'";
-                    mysqli_query(database::get(), $insert_new_password);
+                    database::query("UPDATE account SET password = '$new_password' WHERE email = '$verification_email'");
                 } catch (mysqli_sql_exception) {
                     $notice = "Error!"; 
                 }
@@ -56,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="/assets/img/icon.png">
+    <link rel="icon" type="image/x-icon" href="/assets/img/icon.ico">
     <title>Beyond Horizon: Stars | Forgot Password</title>
     <link rel="stylesheet" href="assets/css/input_box.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
     <link rel="stylesheet" href="assets/css/style.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
@@ -68,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="navigation" id="navigationMenu">
         <a class="button" href="index.php"><i class="material-icons">home</i>Home</a>
         <a class="button" href="about.php"><i class="material-icons">people</i>About</a>
-        <a class="button" href="createAccount.php"><i class="material-icons">create</i>Sign-Up</a>
+        <a class="button" href="create_account.php"><i class="material-icons">create</i>Sign-Up</a>
     </div>
 </header>
 

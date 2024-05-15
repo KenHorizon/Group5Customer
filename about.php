@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="assets/img/icon.png">
+    <link rel="icon" type="image/x-icon" href="/assets/img/icon.ico">
     <title>Beyond Horizon: Stars | About</title>
     <link rel="stylesheet" href="assets/css/style.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
     <link rel="stylesheet" href="assets/css/about_developers.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
@@ -16,7 +16,7 @@
 	<div class="navigation" id="navigationMenu">
 		<a class="button" href="index.php" id="home"><i class="material-icons">home</i>Home</a>
 		<a class="button" href="about.html" id="about"><i class="material-icons">people</i>About</a>
-		<a class="button" href="createAccount.php" id="sign_up"><i class="material-icons">create</i>Sign-Up</a>
+		<a class="button" href="create_account.php" id="sign_up"><i class="material-icons">create</i>Sign-Up</a>
 	</div>
 </header>
 <body>
