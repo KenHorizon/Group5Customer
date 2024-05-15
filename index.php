@@ -24,13 +24,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			if ($user->isEmpty()) {
 				$validate_user_type = $user->user()['type'];
 				$validate_account_uuid = $user->account()['uuid'];;
-				$validate_account_username = $user->account()['username'];;
+				$validate_account_email = $user->account()['email'];;
 				// echo "<h1>".$user_name."</h1> <br>";
 				// Check the email and password and later the user account if the account is activated
 				if ($user->account()['email'] === $username && $user->account()['password'] === $password) {
 					if ($user->account()['activated'] == 1) {
 						$_SESSION['uuid'] = $validate_account_uuid;
-						$_SESSION['email'] = $user->account()['email'];
+						$_SESSION['email'] = $validate_account_email;
 						$_SESSION['password'] = $user->account()['password'];
 						$_SESSION['type'] = $validate_user_type;
 						$_SESSION['subscriptionStart'] = $user->membership()['subscription_date'];
@@ -41,7 +41,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						// echo "<h1>".$_SESSION['type']."</h1> <br>";
 						header("Location: account.php?username=$username");
 					} else {
-						$notice = "Couldn't find the account!";
+						database::query("UPDATE account SET activated = 1 WHERE email = '$validate_account_email");
+						$_SESSION['uuid'] = $validate_account_uuid;
+						$_SESSION['email'] = $validate_account_email;
+						$_SESSION['password'] = $user->account()['password'];
+						$_SESSION['type'] = $validate_user_type;
+						$_SESSION['subscriptionStart'] = $user->membership()['subscription_date'];
+						subscription::main($_SESSION['email']);
+						// echo "<h1>".$_SESSION['uuid']."</h1> <br>";
+						// echo "<h1>".$_SESSION['email']."</h1> <br>";
+						// echo "<h1>".$_SESSION['password']."</h1> <br>";
+						// echo "<h1>".$_SESSION['type']."</h1> <br>";
+						header("Location: account.php?username=$username");
 					}
 				} else {
 					$notice = "Incorrect Email/Password!";
