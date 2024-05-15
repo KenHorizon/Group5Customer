@@ -1,8 +1,10 @@
 <?php
+
 use classes\{database, user};
 
 include("assets/php/database.php");
 include("assets/php/membership_category.php");
+include("assets/php/main.php");
 session_start();
 ?>
 <?php
@@ -43,11 +45,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Total : " . $payment . "
                 ";
 
-            database::query("UPDATE membership SET category = $membership_default WHERE email = '$validated_account_email'");
             database::query("UPDATE membership SET type = 1 WHERE email = '$validated_account_email'");
-            database::query("UPDATE membership SET status = 1 WHERE email = '$validated_account_email'");            sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
+            database::query("UPDATE membership SET status = 1 WHERE email = '$validated_account_email'");
+            database::query("UPDATE membership SET category = '$wood' WHERE email = '$validated_account_email'");
+            //sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
             $_SESSION['subscriptionStart'] = time();
-            $_SESSION['subscriptionExpire'] = $_SESSION['subscriptionStart'] + setTime(0, 0, 0, 0, 0, 1);
+            $_SESSION['subscriptionExpire'] = $_SESSION['subscriptionStart'] + setTime(0, 0, 0, 0, 0, 0, 5);
             $session_date = $_SESSION['subscriptionStart'];
             $session_expiration_date = $_SESSION['subscriptionExpire'];
             database::query("UPDATE membership SET expiration = $session_expiration_date WHERE email = '$validated_account_email'");
@@ -71,15 +74,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Type of Payment: " . $_POST['payment'] . " <br>
                 Total : " . $payment . "
                 ";
-                database::query("UPDATE membership SET category = $membership_default WHERE email = '$validated_account_email'");
-                database::query("UPDATE membership SET type = 1 WHERE email = '$validated_account_email'");
-                database::query("UPDATE membership SET status = 1 WHERE email = '$validated_account_email'");            sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
-                $_SESSION['subscriptionStart'] = time();
-                $_SESSION['subscriptionExpire'] = $_SESSION['subscriptionStart'] + setTime(0, 0, 0, 0, 0, 1);
-                $session_date = $_SESSION['subscriptionStart'];
-                $session_expiration_date = $_SESSION['subscriptionExpire'];
-                database::query("UPDATE membership SET expiration = $session_expiration_date WHERE email = '$validated_account_email'");
-                database::query("UPDATE membership SET subscription_date = $session_date WHERE email = '$validated_account_email'");
+            database::query("UPDATE membership SET type = 0 WHERE email = '$validated_account_email'");
+            database::query("UPDATE membership SET status = 1 WHERE email = '$validated_account_email'");
+            database::query("UPDATE membership SET category = '$wood' WHERE email = '$validated_account_email'");
+            //sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
+            $_SESSION['subscriptionStart'] = time();
+            $_SESSION['subscriptionExpire'] = $_SESSION['subscriptionStart'] + setTime(0, 0, 0, 0, 0, 0, 5);
+            $session_date = $_SESSION['subscriptionStart'];
+            $session_expiration_date = $_SESSION['subscriptionExpire'];
+            database::query("UPDATE membership SET expiration = $session_expiration_date WHERE email = '$validated_account_email'");
+            database::query("UPDATE membership SET subscription_date = $session_date WHERE email = '$validated_account_email'");
             header("Location: account.php");
         }
     }
@@ -250,7 +254,7 @@ database::get()->close();
             </div>
         </div>
     </div>
-    <script type="module" defer src="assets/javascript/subscription/subscription.js"></script>
+    <script type="module" defer src="assets/javascript/subscription/register.js"></script>
 </body>
 
 </html>

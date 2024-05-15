@@ -2,13 +2,6 @@
 
 namespace classes;
 
-spl_autoload_register(function ($class) {
-    require str_replace('\\', '/', $class) . '.php';
-});
-
-use mysqli;
-use mysqli_sql_exception;
-
 class subscription
 {
     public static function main($email)
@@ -18,7 +11,6 @@ class subscription
         if (mysqli_num_rows($result) > 0) {
             $validate_account = mysqli_fetch_assoc($result);
             $currentTime = time();
-            $subscription_date = $validate_account['subscription_date'];
             $expiration_date = $validate_account['expiration'];
             // echo $currentTime . "<br>";
             // echo $expiration_date;
@@ -31,6 +23,4 @@ class subscription
         }
     }
 }
-
-
 ?>

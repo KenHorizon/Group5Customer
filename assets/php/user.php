@@ -3,6 +3,7 @@
 namespace classes;
 
 include("database.php");
+include("assets/php/main.php");
 
 database::get();
 
@@ -41,5 +42,5 @@ class user
         return mysqli_num_rows(database::query("SELECT * FROM account WHERE email = '$email'")) > 0;
     }
 }
-$user = new user;
+$user = new user();
 ?>

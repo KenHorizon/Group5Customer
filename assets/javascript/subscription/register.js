@@ -1,6 +1,3 @@
-// Message box Script
-// No variables, it's used by ID
-// Cant create a single variables to all id, it break the codes, it must done separately and manually
 import {
 	subscriptionButton,
 	getData,

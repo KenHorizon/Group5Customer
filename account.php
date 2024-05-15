@@ -6,7 +6,6 @@ include("assets/php/user.php");
 include("assets/php/subscription.php");
 
 session_start();
-$user = new user();
 ?>
 <?php
 // Dev Talk:
@@ -21,7 +20,7 @@ if ($_SESSION["email"] === null) {
     $account = $user->account();
     $account_user = $user->user();
     $membership = $user->membership();
-    
+
     // 
     if ($user->isEmpty()) {
         $account_profile_picture = $user->user()['profile'];
@@ -47,6 +46,10 @@ if ($_SESSION["email"] === null) {
         $determine_membership_status = "Online";
     }
 }
+$todayTime = time();
+if ($todayTime > $user->membership()['expiration'] && $user->membership()['status'] == 1) {
+    header("Refresh: 0");
+}
 
 $joined_year = split($user->account()["created_at"], "-")[0];
 $joined_month = convertMonthToNames(split($user->account()["created_at"], "-")[1]);
@@ -58,7 +61,7 @@ $year = split($user->account()["birthday"], "-")[0];
 $month = convertMonthToNames(split($user->account()["birthday"], "-")[1]);
 $day = (int) split($user->account()["birthday"], "-")[2];
 $birthday = "{$month} {$day}";
-
+$subscription_status = $user->membership()['status'];
 $determine_membership_type = "";
 switch ($user->membership()['type']) {
     case 0:
@@ -190,19 +193,18 @@ database::get()->close();
             <?php
             echo "<img class='profile-picture' src='" . $account_profile_picture . "' style='align-items: unset;'>";
             ?>
-
             <div class="profile-text">
                 <div class="edit-profile">
                     <div>
                         <?php
                         if ($user->isEmpty()) {
                             if ($user->membership()['status'] == 1) {
-
                                 echo
                                 "<div class='group-box-column-name'>
-                                <h2 class='icon-texts'>" . $user->account()["username"] . "<img class='badge-icon' src='assets/img/subscription/badge.png'></h2>
+                                <h2 class='icon-texts'>" . $user->account()["username"] . "<img class='badge-icon' id='updateDatabase$subscription_status'></h2>
                                 <div class='group-box-row'>
                                     <div class='profile-icons'><p>" . determineUserType($user->user()["type"]) . "</p></div>
+                                    <div class='profile-icons'><p>VIP</p></div>
                                 </div>  
                                 </div>";
                             } else {
@@ -283,7 +285,7 @@ database::get()->close();
                                     echo "<p> <b>Category</b>: - N/A</p>";
                                 }
                             } else {
-                                if ($user->user()['deleted'] === 1) {
+                                if ($user->account()['activated'] === 1) {
                                     echo "<p> <b>Status</b>: - " . $determine_membership_status . "</p>";
                                     echo "<p> <b>Type</b>: - N/A</p>";
                                     echo "<p> <b>Level</b>: - N/A</p>";
@@ -445,6 +447,7 @@ database::get()->close();
     </div>
     <script src="assets/javascript/account/profile_picture_and_header.js"></script>
     <script src="assets/javascript/digital_clock.js"></script>
+    <!-- <script src="assets/javascript/update_page.js"></script> -->
     <script type="module" defer src="assets/javascript/account/account.js"></script>
     <script type="module" defer src="assets/javascript/account/settings.js"></script>
     <script type="module" defer src="assets/javascript/account/edit_profile.js"></script>

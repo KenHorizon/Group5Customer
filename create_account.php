@@ -2,6 +2,7 @@
 use classes\database;
 
 include("assets/php/database.php");
+include("assets/php/main.php");
 
 ?>
 <?php

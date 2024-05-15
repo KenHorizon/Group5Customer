@@ -4,6 +4,7 @@ let clock = document.getElementById("digitalClock");
 window.onload = function () {
 	if (getData("digitalClockConfig")) {
 		clock.checked = true;
+		digitalClockDisplay.style.display = "flex";
 	} else {
 		digitalClockDisplay.style.display = "none";
 	}

@@ -30,6 +30,3 @@ class database
 }
 
 ?>
-<?php
-include("assets/php/main.php");
-?>
