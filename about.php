@@ -60,31 +60,18 @@
         </div>
     </div>
 </div>
-
-<div class="main background">
-    <div style="color: white;">
-        <p>Developed: 03/05/2024</p>
-        <p>Software Used:</p>
-        <p>Visual Code Studio</p>
-        <p>XAMPP</p>
-        <p>PHPMyAdmin</p>
-        <p>Ibispaint</p>
-    </div>
-</div>
-
 <div class="main background">
     <div style="color: white;">
         <h1>Trivia:</h1>
         <h2><a href="history.html" target="_blank">History</a></h2>
-        <p><img src="assets/img/icon.png" width="5%" height="5%">Logo of this website is one of my logo in Minecraft Mods called Beyond Horizon</p>
+        <p><img src="assets/img/icon.ico" width="5%" height="5%">Logo of this website is one of my logo in Minecraft Mods called Beyond Horizon</p>
         <p>The Profile Account, basically mixed of twitter and facebook</p>
         <p>The Header Image is just minecraft title of one of the game branches</p>
         <p>The first idea is of UI and everything is having a League of Legends: Project Skin Theme, More Futuristic Theme and things</p>
         <p>The First background is scale of 4k which sometimes load slow and the image rendering is slow</p>
         <p>In first make all buttons just made all images background, but later using css to make one</p>
-        <p>All theme are more likely have similar in minecraft theme buttons but it's move on the my <a href="https://kenhorizon.github.io/BeyondHorizonModWiki/" target="_blank">Wiki</a> Project for my Mods</p>
+        <p>All theme are more likely have similar in minecraft theme buttons but it's move on the my <a href="https://kenhorizon.github.io/BeyondHorizonModWiki/" target="_blank">WIKI</a> Project for my Mods</p>
         <p>All thought my knowledge in javascript and php, still my brain adopted, MAHORAGA!!!!!!</p>
-        <p>I secretly made a moving object usually make try games in html but got left behind <a href="minigame.html" target="_blank">Click here</a></p>
         <p>Why my UI and are more likely blue and dark gradient of something because that's my favorite colors</p>
         <p>I tried making animated background but failed</p>
     </div>
