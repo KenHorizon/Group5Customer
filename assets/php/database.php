@@ -1,8 +1,6 @@
 <?php
 
 namespace classes;
-
-use mysqli;
 use mysqli_sql_exception;
 
 class database

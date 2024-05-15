@@ -12,10 +12,10 @@ session_start();
 
 $membership_register = filter_input(INPUT_POST, "get_vip_membership", FILTER_SANITIZE_SPECIAL_CHARS);
 
-$session_account = $_SESSION["uuid"];
-$account = database::query("SELECT * FROM account WHERE uuid = $session_account");
-$user = database::query("SELECT * FROM user WHERE uuid = $session_account");
-$membership = database::query("SELECT * FROM membership WHERE uuid = $session_account");
+$session_account = $_SESSION["email"];
+$account = database::query("SELECT * FROM account WHERE email = '$session_account'");
+$user = database::query("SELECT * FROM user WHERE email = '$session_account'");
+$membership = database::query("SELECT * FROM membership WHERE email = '$session_account'");
 
 $payment = 0;
 

@@ -1,6 +1,6 @@
 <?php
 
-use classes\{database, subscription, user};
+use classes\database, classes\subscription;
 
 include("assets/php/user.php");
 include("assets/php/subscription.php");
@@ -13,9 +13,8 @@ session_start();
 if ($_SESSION["email"] === null) {
     header("Location: index.php");
 } else {
-
+    subscription::main($_SESSION['email']);
     $session_account = $_SESSION["email"];
-    subscription::main($session_account);
     $user->register = $session_account;
     $account = $user->account();
     $account_user = $user->user();
@@ -45,10 +44,6 @@ if ($_SESSION["email"] === null) {
     } else {
         $determine_membership_status = "Online";
     }
-}
-$todayTime = time();
-if ($todayTime > $user->membership()['expiration'] && $user->membership()['status'] == 1) {
-    header("Refresh: 0");
 }
 
 $joined_year = split($user->account()["created_at"], "-")[0];
@@ -198,17 +193,16 @@ database::get()->close();
                     <div>
                         <?php
                         if ($user->isEmpty()) {
-                            if ($user->membership()['status'] == 1) {
+                            if ($subscription_status == 1) {
                                 echo
                                 "<div class='group-box-column-name'>
-                                <h2 class='icon-texts'>" . $user->account()["username"] . "<img class='badge-icon' id='updateDatabase$subscription_status'></h2>
+                                <h2 class='icon-texts'>" . $user->account()["username"] . "<img class='badge-icon' src='assets/img/subscription/badge.png'></h2>
                                 <div class='group-box-row'>
                                     <div class='profile-icons'><p>" . determineUserType($user->user()["type"]) . "</p></div>
                                     <div class='profile-icons'><p>VIP</p></div>
                                 </div>  
                                 </div>";
                             } else {
-
                                 echo
                                 "<div class='group-box-column-name'>
                                 <h2>" . $user->account()["username"] . "</h2>

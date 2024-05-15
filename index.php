@@ -4,7 +4,6 @@ use classes\{database, subscription, user};
 
 require 'assets/php/user.php';
 include("assets/php/subscription.php");
-include("assets/php/main.php");
 
 session_start();
 ?>
