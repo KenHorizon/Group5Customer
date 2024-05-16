@@ -3,7 +3,6 @@
 namespace classes;
 
 include("database.php");
-include("assets/php/main.php");
 
 database::get();
 
@@ -17,10 +16,9 @@ use mysqli_sql_exception;
 class user
 {
     public $register = '';
-    public function get()
-    {
-        return $this->register;
-    }
+    public $account = 'account';
+    public $user = 'user';
+    public $membership = 'membership';
     public function account()
     {
         $email = $this->register;
@@ -36,6 +34,12 @@ class user
         $email = $this->register;
         return mysqli_fetch_assoc(database::query("SELECT * FROM membership WHERE email = '$email'"));
     }
+    public function update($index, $target, $value)
+    {
+        $email = $this->register;
+        return database::query("UPDATE $index SET $target = $value WHERE email = '$email'");
+    }
+    
     public function isEmpty()
     {
         $email = $this->register;

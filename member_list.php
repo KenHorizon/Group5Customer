@@ -1,7 +1,7 @@
 <?php
+
 use classes\database;
-include("assets/php/database.php");
-include("assets/php/main.php");
+require 'assets/php/include.php';
 session_start();
 ?>
 <?php
@@ -11,6 +11,7 @@ if ($_SESSION["email"] === null) {
 } else {
     $session_account_type = $_SESSION['type'];
     $account = database::query("SELECT * FROM account WHERE uuid");
+    $account1 = database::query("SELECT * FROM account WHERE uuid");
 }
 // if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //     $report_debug = $_POST['reason'];
@@ -43,113 +44,112 @@ if ($_SESSION["email"] === null) {
 <body>
     <br>
     <div class="background" style="margin: 0 10px;">
-        <div class="background" style="margin: 0 10px; height: 740px; max-height: 740; background-color: rgba(66, 57, 131, 0);">
-            <div id="menu">
-                <h2 class="icon-texts title-box" style="float: inline-start;"><i class="material-icons" style="font-size: 32px;">people</i>Customers</h2>
-
-                <div class="group-box-row">
-                    <?php
-                    if ($session_account_type == 1) {
-                        echo "  <input class='input-box' id='searchName' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchNameFunctions()'>
-                                <input class='input-box' id='searchEmail' type='text' placeholder='Name...' style='width: 350px;' onkeyup='searchEmailFunctions()'>";
-                    } else {
-                        echo "  <input class='input-box' id='searchName' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchNameFunctions()'>";
-                    }
-                    ?>
-                </div>
-                <!-- TODO: SEARCH BAR -->
-                <!-- <input type="text" placeholder="Search..." class="input-box" id="search" onkeyup="searchFunctions()" title="Type in a category"> -->
-                <table class="tables" id="searchTables" style="text-align:center;  overflow-y: scroll;">
-                    <?php
-                    if ($session_account_type == 1) {
-                        echo
-                        "<tr>
+        <h1 class="icon-texts title-box" style="float: inline-start;"><i class="material-icons" style="font-size: 32px;">people</i>Customers</h1>
+        <div id="menu">
+            <div class="group-box-row">
+                <?php
+                if ($session_account_type == 1) {
+                    echo "  <input class='input-box' id='searchName' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchNameFunctions()'>
+                <input class='input-box' id='searchEmail' type='text' placeholder='Name...' style='width: 350px;' onkeyup='searchEmailFunctions()'>";
+                } else {
+                    echo "  <input class='input-box' id='searchName' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchNameFunctions()'>";
+                }
+                ?>
+            </div>
+            <table class="tables" id="searchTables" style="text-align:center;  overflow-y: scroll;">
+                <?php
+                if ($session_account_type == 1) {
+                    echo
+                    "<tr>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Gender</th>
                     <th>Joined</th>
+                    <th>Status</th>
                     <th>Type</th>
                     <th>Rank</th>
                     <th>Action</th>
                     </tr>";
-                    } else {
-                        echo
-                        "<tr>
+                } else {
+                    echo
+                    "<tr>
                     <th>Name</th>
                     <th>Gender</th>
                     <th>Joined</th>
+                    <th>Status</th>
                     <th>Type</th>
                     <th>Rank</th>
                     </tr>";
-                    }
-                    ?>
-                    <tr>
-                        <?php
-                        if (mysqli_num_rows($account) > 0) {
-                            while ($row = mysqli_fetch_assoc($account)) {
-                                $row_uuid = $row['uuid'];
-                                $user = database::query("SELECT * FROM user WHERE uuid = $row_uuid");
-                                $membership = database::query("SELECT * FROM membership WHERE uuid = $row_uuid");
-                                while ($validate_user = mysqli_fetch_assoc($user)) {
-                                    $user_type = $validate_user['type'];
-                                    $user_account_type = determineUserType($user_type);
-                                }
-                                while ($validate_membership = mysqli_fetch_assoc($membership)) {
-                                    $determine_category = $validate_membership['category'];
-                                    if ($determine_category == null) {
-                                        $category = "-";
-                                    } else {
-                                        $category = $determine_category;
-                                    }
-                                }
-                                $joined_year = split($row["created_at"], "-")[0];
-                                $joined_month = convertMonthToNames(split($row["created_at"], "-")[1]);
-                                $joined_removeTimeStamp = split($row["created_at"], "-")[2];
-                                $joined_day = split($joined_removeTimeStamp, " ")[0];
-                                $joined_showTimeStamp = split($joined_removeTimeStamp, " ")[1];
-                                $joined = "{$joined_month} {$joined_day}, {$joined_year}";
-
-                                if ($session_account_type == 1) {
-                                    echo
-                                    "<tr>
-                                    <td> <p class='icon-texts' style='margin:0;'>" . $row["name"] . "</p></td>
-                                    <td> " . $row["email"] . " </td>
-                                    <td> " . $row["gender"] . " </td>
-                                    <td> " . $joined . " </td>
-                                    <td> " . $user_account_type . " </td>
-                                    <td> " . $category . " </td>
-                                    <td>
-                                    <div class='group-box-row' style='justify-content:center;'>
-                                        <button class='button-icon-1' onclick='openNoticeBox()'><i class='material-icons'>warning</i></button>
-                                        <button class='button-icon-1' onclick='openNoticeBox()'><i class='material-icons'>question_mark</i></button>
-                                    </div>
-                                    </td>
-                                </tr>";
+                }
+                ?>
+                <tr>
+                    <?php
+                    if (mysqli_num_rows($account) > 0) {
+                        while ($row = mysqli_fetch_assoc($account)) {
+                            $row_uuid = $row['uuid'];
+                            $username = $row['username'];
+                            $email = $row['email'];
+                            $user = database::query("SELECT * FROM user WHERE uuid = $row_uuid");
+                            $membership = database::query("SELECT * FROM membership WHERE uuid = $row_uuid");
+                            while ($validate_user = mysqli_fetch_assoc($user)) {
+                                $user_type = $validate_user['type'];
+                                $user_account_type = determineUserType($user_type);
+                            }
+                            while ($validate_membership = mysqli_fetch_assoc($membership)) {
+                                $determine_category = $validate_membership['category'];
+                                $determine_status = $validate_membership['status'];
+                                if ($determine_status == 0) {
+                                    $category = "-";
                                 } else {
-                                    echo
-                                    "<tr>
-                                    <td>" . $row["name"] . "</td>
-                                    <td> " . $row["gender"] . " </td>
-                                    <td> " . $joined . " </td>
-                                    <td> " . $user_account_type . " </td>
-                                    <td> " . $category . " </td>
-                                </tr>";
+                                    $category = $determine_category;
+                                }
+                                if ($determine_status == 0) {
+                                    $status = "Offline";
+                                } else {
+                                    $status = "Online";
                                 }
                             }
-                        } else {
-                            echo
-                            "<tr>
+                            if ($session_account_type == 1) {
+                                echo
+                                "<tr>
+                                <td> <p class='icon-texts' style='margin:0;'>" . $row["name"] . "</p></td>
+                                <td> " . $row["email"] . " </td>
+                                <td> " . $row["gender"] . " </td>
+                                <td> " . getBirthday($row["created_at"], true) . " </td>
+                                <td> " . $status . " </td>
+                                <td> " . $user_account_type . " </td>
+                                <td> " . $category . " </td>
+                                <td>
+                                <div class='group-box-row' style='justify-content:center;'>
+                                    <button class='button-icon-1' onclick='openNoticeBox(" . '"' . $username . '"' . ")'><i class='material-icons'>settings</i></button>
+                                </div>
+                                </td>
+                                    </tr>";
+                            } else {
+                                echo
+                                "<tr>
+                                <td>" . $row["name"] . "</td>
+                                <td> " . $row["gender"] . " </td>
+                                <td> " . $joined . " </td>
+                                <td> " . $joined . " </td>
+                                <td> " . $user_account_type . " </td>
+                                <td> " . $category . " </td>
+                                </tr>";
+                            }
+                        }
+                    } else {
+                        echo
+                        "<tr>
                         <td> - </td>
                         <td> - </td>
                         <td> - </td>
                         <td> - </td>
                         <td> - </td>
                         </tr>";
-                        }
-                        ?>
-                    </tr>
-                </table>
-            </div>
+                    }
+                    ?>
+                </tr>
+            </table>
         </div>
         <br>
         <div id="reasonMessageBox" class="popup">
@@ -177,9 +177,67 @@ if ($_SESSION["email"] === null) {
                 </form>
             </div>
         </div>
+        <div id="configOptionBox" class="popup">
+            <div class="popup-content">
+                <button style="float: right;" class="button-icon" id="exitButtons"><i class="material-icons">close</i></button>
+                <h2 class="icon-texts"><i class="material-icons">settings</i>Options</h2>
+                <form class="group-box-column" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
+                    <div class="group-box-rows">
+                        <i class='material-icons'>people</i>
+                        <?php
+                        echo "<input class='input-box' type='text' id='getData' 'name=configAccountSet' readonly></input>";
+                        ?>
+                    </div>
+
+                    <div class="custom-select-0" style="width: 100%;">
+                        <select id="rank_selection" name="ranks" required>
+                            <option value="null">Select Rank</option>
+                            <option value="Wood">Wood</option>
+                            <option value="Iron">Iron</option>
+                            <option value="Bronze">Bronze</option>
+                            <option value="Silver">Silver</option>
+                            <option value="Gold">Gold</option>
+                            <option value="Platinum">Platinum</option>
+                            <option value="Emerald">Emerald</option>
+                            <option value="Diamond">Diamond</option>
+                            <option value="Master">Master</option>
+                        </select>
+                    </div>
+                    <div class="slider-button">
+                        <label class="switch">
+                            <input type="checkbox" name="approvalButton">
+                            <span class="slider round"></span>
+                        </label>
+                        <label style="margin-left: 0.55em;">Approval</label>
+                    </div>
+                    <div class="slider-button">
+                        <label class="switch">
+                            <input type="checkbox" id="vip">
+                            <span class="slider round"></span>
+                        </label>
+                        <label style="margin-left: 0.55em;">VIP</label>
+                    </div>
+                    <hr style="width: 100%;">
+                    <br>
+                    <div class="group-box-row">
+                        <input type="reset" class="button-borderless">
+                        <a class="button-borderless" id="confirmButton">Confirm</a>
+                        <div id="confirmationMessageBox" class="popup">
+                            <div class="popup-content">
+                                <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
+                                    <p>Account has been saved!</p>
+                                    <input type="submit" class="button-borderless" id="closeConfirmation" value="Confirm">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
         <script src="assets/javascript/search_bar.js"></script>
-        <script src="assets/javascript/customer_list/membership_list_notice_box.js"></script>
         <script type="module" defer src="assets/javascript/customer_list/membership_list.js"></script>
+        <script src="assets/javascript/customer_list/membership_list_config.js"></script>
+
     </div>
 </body>
 

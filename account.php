@@ -2,8 +2,7 @@
 
 use classes\database, classes\subscription;
 
-include("assets/php/user.php");
-include("assets/php/subscription.php");
+include("assets/php/include.php");
 
 session_start();
 ?>
@@ -45,12 +44,6 @@ if ($_SESSION["email"] === null) {
         $determine_membership_status = "Online";
     }
 }
-
-$joined_year = split($user->account()["created_at"], "-")[0];
-$joined_month = convertMonthToNames(split($user->account()["created_at"], "-")[1]);
-$joined_removeTimeStamp = split($user->account()["created_at"], "-")[2];
-$joined_day = (int) split($joined_removeTimeStamp, " ")[0];
-$joined = "{$joined_month} {$joined_day}, {$joined_year}";
 
 $year = split($user->account()["birthday"], "-")[0];
 $month = convertMonthToNames(split($user->account()["birthday"], "-")[1]);
@@ -246,7 +239,7 @@ database::get()->close();
                             <?php
                             if ($user->isEmpty()) {
                                 echo "<p> <b>Email</b>: " . $user->account()["email"] . "</p>";
-                                echo "<p> <b>Joined</b>: " . $joined . "</p>";
+                                echo "<p> <b>Joined</b>: " . getBirthday($user->account()["created_at"], true) . "</p>";
                                 echo "<p> <b>Birthday</b>: " . $birthday . "</p>";
                             } else {
                                 if ($user->user()['activated'] == 1) {

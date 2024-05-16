@@ -1,19 +1,27 @@
 <?php
 
 namespace classes;
+
 use mysqli_sql_exception;
 
 class database
 {
+    protected static $server = "localhost";
+    protected static $user = "root";
+    protected static $password = "reiyuu123";
+    protected static $server_name = "beyondhorizon_membership";
+    protected static function server_name($debug = null)
+    {
+        if ($debug === true) {
+            return database::$server_name = "beyondhorizon_membership_test";
+        } else {
+            return database::$server_name = "beyondhorizon_membership";
+        }
+    }
     public static function get()
     {
-        $database_server = "localhost";
-        $database_user = "root";
-        $database_password = "reiyuu123";
-        $database_name = "beyondhorizon_membership";
-        $database_name_debug = "beyondhorizon_membership_test";
         try {
-            return mysqli_connect($database_server, $database_user, $database_password, $database_name_debug);
+            return mysqli_connect(database::$server, database::$user, database::$password, database::server_name(true));
         } catch (mysqli_sql_exception) {
             function_alert("Error during connecting database!");
         }
@@ -23,8 +31,7 @@ class database
         try {
             return mysqli_query(database::get(), $databaseData);
         } catch (mysqli_sql_exception) {
+            function_alert("Error during connecting database query!");
         }
     }
 }
-
-?>

@@ -1,6 +1,6 @@
 <?php
 
-include("assets/php/main.php");
+require 'assets/php/include.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

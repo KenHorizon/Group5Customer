@@ -187,7 +187,6 @@ a.button:visited {
 .icon-texts {
 	border: none;
 	display: flex;
-	justify-content: center;
 	align-items: center;
 }
 .headers {
@@ -374,7 +373,6 @@ a.button:visited {
 	transition: 0.3s;
 }
 .button-icon {
-	font-family: Arial, Helvetica, sans-serif;
 	display: flex;
 	flex-direction: row;
 	cursor: pointer;
@@ -421,8 +419,7 @@ a.button:visited {
 	transition: 0.3s;
 }
 .button-icon:hover {
-	border-radius: 50%;
-	background-color: rgba(255, 255, 255, 0.304);
+	color: rgb(255, 94, 94);
 }
 .button-icon-1:hover,
 .button-icon-3:hover {
@@ -558,7 +555,7 @@ a.button:visited {
 	flex-direction: row;
 	flex-wrap: wrap;
 	align-items: center;
-	justify-content: space-evenly;
+	justify-content: start;
 }
 .group-box-row {
 	display: flex;
@@ -567,6 +564,13 @@ a.button:visited {
 	width: 100%;
 }
 
+.group-box-rows {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	width: 100%;
+}
 .group-box-row-no-warp {
 	display: flex;
 	flex-direction: row;

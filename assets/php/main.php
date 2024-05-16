@@ -1,22 +1,30 @@
 <?php
-include("assets/php/mail.php");
-?>
-<?php
-
-// PHP program to pop an alert 
-// message box on the screen 
-
-// Function definition 
 function function_alert($message)
 {
-    // Display the alert box  
     echo "<script>alert('$message');</script>";
 }
 function split($string, $limit)
 {
     return explode($limit, $string);
 }
-
+function getBirthday($birthday, $format = null)
+{
+    $getYear = split($birthday, "-")[0];
+    $getMonth = split($birthday, "-")[1];
+    $split_time_stamp  = split($birthday, "-")[2];
+    $getDay = (int) split($split_time_stamp, " ")[0];
+    if ($format === true) {
+        $getMonth = convertMonthToNames($getMonth);
+        return "{$getMonth} {$getDay}, {$getYear}";
+    } else {
+        return "{$getMonth} {$getDay}, {$getYear}";
+    }
+    // $joined_year = split($user->account()["created_at"], "-")[0];
+    // $joined_month = convertMonthToNames(split($user->account()["created_at"], "-")[1]);
+    // $joined_removeTimeStamp = split($user->account()["created_at"], "-")[2];
+    // $joined_day = (int) split($joined_removeTimeStamp, " ")[0];
+    // $joined = "{$joined_month} {$joined_day}, {$joined_year}";
+}
 function convertMonthToNames($number)
 {
     switch ($number) {
@@ -98,9 +106,8 @@ function hasSubscription()
     return $_SESSION["subscriptionStart"] > 0;
 }
 
-function setTime(int $year = null, int $month = null, int $week = null, int $day = null, int $hour = null, int $minute = null, int $second = null) {
+function setTime(int $year = null, int $month = null, int $week = null, int $day = null, int $hour = null, int $minute = null, int $second = null)
+{
 
     return ($second) + (60 * $minute) + (3600 * $hour) + (86400 * $day) + (604800 * $week) + (2.628e+6 * $month) + (3.154e+7 * $year);
 }
-
-?>
