@@ -140,6 +140,4 @@ window.onload = function () {
 	} else {
 		showInformation(document.getElementById(getData("previousClicked")), true);
 	}
-	console.log(getData("previousClicked"));
-	console.log(getData("previousClicked") != aboutPage.id);
 };

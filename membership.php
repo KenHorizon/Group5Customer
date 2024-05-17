@@ -1,10 +1,9 @@
 <?php
 
-use classes\{database, user};
+use classes\{database};
 
-include("assets/php/database.php");
+include("assets/php/include.php");
 include("assets/php/membership_category.php");
-include("assets/php/main.php");
 session_start();
 ?>
 <?php
@@ -13,29 +12,31 @@ session_start();
 $membership_register = filter_input(INPUT_POST, "get_vip_membership", FILTER_SANITIZE_SPECIAL_CHARS);
 
 $session_account = $_SESSION["email"];
-$account = database::query("SELECT * FROM account WHERE email = '$session_account'");
-$user = database::query("SELECT * FROM user WHERE email = '$session_account'");
-$membership = database::query("SELECT * FROM membership WHERE email = '$session_account'");
+$user->register = $session_account;
+// $account = database::query("SELECT * FROM account WHERE email = '$session_account'");
+// $user = database::query("SELECT * FROM user WHERE email = '$session_account'");
+// $membership = database::query("SELECT * FROM membership WHERE email = '$session_account'");
 
 $payment = 0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (mysqli_num_rows($account) > 0) {
-        $validated_account = mysqli_fetch_assoc($account);
-        $validated_account_email = $validated_account['email'];
-        $validated_account_user = mysqli_fetch_assoc($user);
-        $validated_membership_user = mysqli_fetch_assoc($membership);
+    if ($user->isEmpty()) {
+        if (array_key_exists("get_vip_membership", $_POST)) {
+            $validated_account = $user->account();
+            $validated_account_email = $validated_account['email'];
+            $validated_account_user = $user->user();
+            $validated_membership_user = $user->membership();
 
-        if ($membership_register == 'advanceSubscription') {
-            $value_money = $_POST['advanceVip'];
-            if ($value_money = 'yearly') {
-                $payment = 2509.9;
-            } else {
-                $payment = 250.99;
-            }
+            if ($membership_register == 'advanceSubscription') {
+                $value_money = $_POST['advanceVip'];
+                if ($value_money = 'yearly') {
+                    $payment = 2509.9;
+                } else {
+                    $payment = 250.99;
+                }
 
-            $body =
-                "
+                $body =
+                    "
                 <h1> Thanks for your payment </h1> <br>
                 If you have any question, contact us anytime <br>
                 <b>beyondhorizon.noreply@gmail.com</b> or simply <br>
@@ -45,27 +46,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Total : " . $payment . "
                 ";
 
-            database::query("UPDATE membership SET type = 1 WHERE email = '$validated_account_email'");
-            database::query("UPDATE membership SET status = 1 WHERE email = '$validated_account_email'");
-            database::query("UPDATE membership SET category = '$wood' WHERE email = '$validated_account_email'");
-            //sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
-            $_SESSION['subscriptionStart'] = time();
-            $_SESSION['subscriptionExpire'] = $_SESSION['subscriptionStart'] + setTime(0, 0, 0, 0, 0, 0, 5);
-            $session_date = $_SESSION['subscriptionStart'];
-            $session_expiration_date = $_SESSION['subscriptionExpire'];
-            database::query("UPDATE membership SET expiration = $session_expiration_date WHERE email = '$validated_account_email'");
-            database::query("UPDATE membership SET subscription_date = $session_date WHERE email = '$validated_account_email'");
-            header("Location: account.php");
-        } else {
-            $value_money = $_POST['basicVip'];
-            if ($value_money = 'yearly') {
-                $payment = 999.99;
+                database::query("UPDATE membership SET type = 1 WHERE email = '$validated_account_email'");
+                database::query("UPDATE membership SET status = 1 WHERE email = '$validated_account_email'");
+                database::query("UPDATE membership SET category = '$wood' WHERE email = '$validated_account_email'");
+                //sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
+                $_SESSION['subscriptionStart'] = time();
+                $_SESSION['subscriptionExpire'] = $_SESSION['subscriptionStart'] + setTime(0, 0, 0, 0, 0, 0, 5);
+                $session_date = $_SESSION['subscriptionStart'];
+                $session_expiration_date = $_SESSION['subscriptionExpire'];
+                database::query("UPDATE membership SET expiration = $session_expiration_date WHERE email = '$validated_account_email'");
+                database::query("UPDATE membership SET subscription_date = $session_date WHERE email = '$validated_account_email'");
+                header("Location: account.php");
             } else {
-                $payment = 99.99;
-            }
+                $value_money = $_POST['basicVip'];
+                if ($value_money = 'yearly') {
+                    $payment = 999.99;
+                } else {
+                    $payment = 99.99;
+                }
 
-            $body =
-                "
+                $body =
+                    "
                 <h1> Thanks for your payment </h1> <br>
                 If you have any question, contact us anytime <br>
                 <b>beyondhorizon.noreply@gmail.com</b> or simply <br>
@@ -74,17 +75,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Type of Payment: " . $_POST['payment'] . " <br>
                 Total : " . $payment . "
                 ";
-            database::query("UPDATE membership SET type = 0 WHERE email = '$validated_account_email'");
-            database::query("UPDATE membership SET status = 1 WHERE email = '$validated_account_email'");
-            database::query("UPDATE membership SET category = '$wood' WHERE email = '$validated_account_email'");
-            //sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
-            $_SESSION['subscriptionStart'] = time();
-            $_SESSION['subscriptionExpire'] = $_SESSION['subscriptionStart'] + setTime(0, 0, 0, 0, 0, 0, 5);
-            $session_date = $_SESSION['subscriptionStart'];
-            $session_expiration_date = $_SESSION['subscriptionExpire'];
-            database::query("UPDATE membership SET expiration = $session_expiration_date WHERE email = '$validated_account_email'");
-            database::query("UPDATE membership SET subscription_date = $session_date WHERE email = '$validated_account_email'");
-            header("Location: account.php");
+                database::query("UPDATE membership SET type = 0 WHERE email = '$validated_account_email'");
+                database::query("UPDATE membership SET status = 1 WHERE email = '$validated_account_email'");
+                database::query("UPDATE membership SET category = '$wood' WHERE email = '$validated_account_email'");
+                //sendEmail("Beyond Horizon | Membership", $body, $_SESSION['email']);
+                $_SESSION['subscriptionStart'] = time();
+                $_SESSION['subscriptionExpire'] = $_SESSION['subscriptionStart'] + setTime(0, 0, 0, 0, 0, 0, 5);
+                $session_date = $_SESSION['subscriptionStart'];
+                $session_expiration_date = $_SESSION['subscriptionExpire'];
+                database::query("UPDATE membership SET expiration = $session_expiration_date WHERE email = '$validated_account_email'");
+                database::query("UPDATE membership SET subscription_date = $session_date WHERE email = '$validated_account_email'");
+                header("Location: account.php");
+            }
         }
     }
 }
@@ -103,10 +105,16 @@ database::get()->close();
     <link rel="stylesheet" href="assets/css/icons_addon.css"> <!-- ICONS API -->
 
 </head>
+
 <header>
-    <div class="navigation" id="navigationMenu">
-        <a class="button" href="account.php"><i class="material-icons">home</i>Home</a>
-        <a class="button" href="logout.php"><i class="material-icons">logout</i>Logout</a>
+    <div class="navigation">
+        <ul>
+            <li class="icon-texts"><a class="button" href="member_list.php" id="memberList"><span class="material-icons">list</span>Member List</a></li>
+            <li><a class="button" href="membership.php" id="subscription"><span class="material-icons">rocket</span>Subscription</a></li>
+            <li style="float: right;"><a class="button" href="account.php" id="account"><span class="material-icons">account_circle</span><?php echo $user->account()['username']; ?></a>
+            <li style="float: right;"><a class="button" href="account.php" id="account"><span class="material-icons">account_circle</span><?php echo $user->account()['username']; ?></a>
+        </li>
+        </ul>
     </div>
 </header>
 
@@ -142,7 +150,8 @@ database::get()->close();
                     <p>- Exclusive Items</p>
                     <br>
                     <div class="membership-btn">
-                        <a class="button" id="basicSubscriptionButton">Subscribe</a>
+                        <!-- <button class="button-borderless" id="basicSubscriptionButton" onclick="">Subscribe</button> -->
+                        <a class="button-borderless" id="basicSubscriptionButton">Subscribe</a>
                     </div>
                 </div>
                 <div class="membership-offer">
@@ -157,16 +166,17 @@ database::get()->close();
                     <p>- Makakahanap ka ng forever mo</p>
                     <br>
                     <div class="membership-btn">
-                        <a class="button" id="advanceSubscriptionButton">Subscribe</a>
+                        <a class="button-borderless" id="advanceSubscriptionButton">Subscribe</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="membership-font">
-        <div id="subscriptionBasic" class="popup">
+    <div id="subscriptionBasic" class="popup">
+        <div class="membership-font">
             <div class="popup-content">
                 <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
+                    <button style="float: right;" class="button-icon" onclick="exitButtons(subscriptionBasic)"><span class="material-icons">close</span></button>
                     <h1> VIP Membership Basic</h1>
                     <p>Plans & Payment</p>
                     <hr>
@@ -196,15 +206,15 @@ database::get()->close();
                     <p id="basicSubscriptionMonth" class="hide"><b>By clicking "Get VIP Membership Basic Monthly", you are purchasing a recurring subscription.</b>, You'll be charged &#8369;99.99 / Month plus applicable taxes starting today, less any applicable credits or discount, until you cancel. Cancel anytime from your Settings page.</p>
                     <div class="group-box-row">
                         <button class="button-borderless" style="width: 100%;" id="basicSubscriptionExitButton">Close</button>
-                        <button class="button-borderless" style="width: 100%;" type="submit" name="get_vip_membership" value="basicSubscription">Get VIP Membership Basic</button>
+                        <input type="submit" class="button-borderless" style="width: 100%;" type="submit" name="get_vip_membership" value="Get VIP Membership Basic">
                     </div>
                 </form>
 
             </div>
         </div>
     </div>
-    <div class="membership-font">
-        <div id="subscriptionAdvance" class="popup">
+    <div id="subscriptionAdvance" class="popup">
+        <div class="membership-font">
             <div class="popup-content">
                 <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
                     <h1> VIP Membership</h1>
@@ -236,7 +246,7 @@ database::get()->close();
                     <p id="advanceSubscriptionMonth" class="hide"><b>By clicking "Get VIP Membership Monthly", you are purchasing a recurring subscription.</b>, You'll be charged &#8369;250.99 / Month plus applicable taxes starting today, less any applicable credits or discount, until you cancel. Cancel anytime from your Settings page.</p>
                     <div class="group-box-row">
                         <button class="button-borderless" style="width: 100%;" id="advanceSubscriptionExitButton">Close</button>
-                        <button class="button-borderless" style="width: 100%;" type="submit" name="get_vip_membership" value="advanceSubscription">Get VIP Membership</button>
+                        <input type="submit" class="button-borderless" style="width: 100%;" type="submit" name="get_vip_membership" value="Get VIP Membership">
                     </div>
                 </form>
             </div>
@@ -255,6 +265,7 @@ database::get()->close();
         </div>
     </div>
     <script type="module" defer src="assets/javascript/subscription/register.js"></script>
+    <script src="assets/javascript/buttons.js"></script>
 </body>
 
 </html>

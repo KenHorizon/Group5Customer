@@ -10,10 +10,10 @@ session_start();
 if ($_SESSION["email"] === null) {
     header("Location: index.php");
 } else {
+    $session_email = $_SESSION['email'];
     $session_account_type = $_SESSION['type'];
     $account = database::query("SELECT * FROM account WHERE uuid");
-}
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $user->register = $session_email;
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -50,9 +50,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <header>
-    <div class="navigation" id="navigationMenu">
-        <a class="button" href="account.php" id="memberList"><span class="material-icons">schedule</span>Home</a>
-        <a class="button" href="logout.php" id="about"><span class="material-icons">logout</span>Logout</a>
+    <div class="navigation">
+        <ul>
+            <li class="icon-texts"><a class="button" href="member_list.php" id="memberList"><span class="material-icons">list</span>Member List</a></li>
+            <li><a class="button" href="membership.php" id="subscription"><span class="material-icons">rocket</span>Subscription</a></li>
+            <li style="float: right;"><a class="button" href="account.php" id="account"><span class="material-icons">account_circle</span><?php echo $user->account()['username']; ?></a>
+            <a class="button" href="logout.php" id="logout"><span class="material-icons">logout</span></a> 
+        </li>
+        </ul>
     </div>
 </header>
 
@@ -64,8 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="group-box-row">
                 <?php
                 if ($session_account_type == 1) {
-                    echo "  <input class='input-box' id='searchName' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchNameFunctions()'>
-                <input class='input-box' id='searchEmail' type='text' placeholder='Name...' style='width: 350px;' onkeyup='searchEmailFunctions()'>";
+                    echo "  <input class='input-box' id='searchName' type='text' placeholder='Name...' style='width: 350px;' onkeyup='searchNameFunctions()'>
+                            <input class='input-box' id='searchEmail' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchEmailFunctions()'>";
                 } else {
                     echo "  <input class='input-box' id='searchName' type='text' placeholder='Email...' style='width: 350px;' onkeyup='searchNameFunctions()'>";
                 }
@@ -136,7 +141,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <td> " . $category . " </td>
                                 <td>
                                 <div class='group-box-row' style='justify-content:center;'>
-                                    <button class='button-icon-1' onclick='openNoticeBox(" . '"' . $email . '"' . ")'><i class='material-icons'>settings</i></button>
+                                    <button class='button-icon-1' onclick='openConfigBox(" . '"' . $email . '"' . ")'><span class='material-icons'>manage_accounts</span></button>
+                                    <button class='button-icon-1' onclick='openNoticeBox()'><span class='material-icons'>warning</span></button>
                                 </div>
                                 </td>
                                     </tr>";
@@ -167,9 +173,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </table>
         </div>
         <br>
-        <!-- <div id="reasonMessageBox" class="popup">
+        <div id="reasonMessageBox" class="popup">
             <div class="popup-content">
-                <button style="float: right;" class="button-icon" id="exitButton">X</button>
+                <button style="float: right;" class="button-icon" onclick="exitButtons(reasonMessageBox)"><span class=material-icons>close</span></button>
                 <br>
                 <br>
                 <form class="group-box-column" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
@@ -179,7 +185,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <br>
                     <div class="group-box-row">
                         <input type="reset" class="button-borderless">
-                        <a class="button-borderless" id="confirmButton">Confirm</a>
                         <div id="confirmationMessageBox" class="popup">
                             <div class="popup-content">
                                 <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
@@ -191,10 +196,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </form>
             </div>
-        </div> -->
+        </div>
         <div id="configOptionBox" class="popup">
             <div class="popup-content">
-                <button style="float: right;" class="button-icon" id="exitButtons"><span class="material-icons">close</span></button>
+                <button style="float: right;" class="button-icon" onclick="exitButtons(configOptionBox)"><span class="material-icons">close</span></button>
                 <h2 class="icon-texts"><span class="material-icons">settings</span>Options</h2>
                 <form class="group-box-column" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
                     <div class="group-box-rows" style="justify-content: start; flex-wrap: nowrap;">
@@ -239,7 +244,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <br>
                     <div class="group-box-row">
                         <input type="reset" class="button-borderless">
-                        <a class="button-borderless" id="confirmButton">Confirm</a>
                         <div id="confirmationMessageBox" class="popup">
                             <div class="popup-content">
                                 <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">

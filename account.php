@@ -154,11 +154,35 @@ database::get()->close();
     <link rel="stylesheet" href="assets/css/style.css"> <!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
     <link rel="stylesheet" href="assets/css/icons_addon.css"> <!-- ICONS API -->
 </head>
+
+
 <header>
-    <div class="navigation" id="navigationMenu">
-        <a class="button" href="member_list.php" id="memberList"><i class="material-icons">list</i>Member List</a>
-        <a class="button" href="membership.php" id="subscription"><i class="material-icons">rocket</i>Subscription</a>
-        <a class="button" href="logout.php" id="logout"><i class="material-icons">logout</i>Logout</a>
+    <div class="navigation">
+        <ul>
+            <li class="icon-texts"><a class="button" href="member_list.php" id="memberList"><span class="material-icons">list</span>Member List</a></li>
+            <li><a class="button" href="membership.php" id="subscription"><span class="material-icons">rocket</span>Subscription</a></li>
+            <li class="dropdown" style="float: right;">
+                <a class="account-header" id="account"><img class="avatar" src=<?php echo $user->user()['profile']; ?>><?php echo $user->account()['username']; ?></a>
+                <div class="dropdown-content">
+                    <a class="account-header-button" href="account.php" id="account">
+                        <div class="group-box-rows">
+                            <img class="avatar" src=<?php echo $user->user()['profile']; ?>>
+                            <span class="account-header-text">
+                                <?php echo $user->account()['username']; ?>
+                            </span>
+                        </div>
+                    </a>
+                    <a class="button" href="logout.php">
+                        <div class="icon-navigation-pos icon-navigation">
+                            <span class="material-icons">logout</span>
+                        </div>
+                        <span class="account-header-text">
+                            Log Out
+                        </span>
+                    </a>
+                </div>
+            </li>
+        </ul>
     </div>
 </header>
 <!--
@@ -166,17 +190,18 @@ database::get()->close();
 -->
 
 <body>
-    <div class="clock-container" id="digitalClockDisplay" style="display: none;">
-        <p class="icon-texts" style="font-size: 10px;"><i class="material-icons">schedule</i>
-        <div class="clock-container-body">
-            <div id="clock">00:00:00 </div>
-        </div>
-        </p>
-    </div>
+
     <div class="profile-headers">
         <?php
         echo "<img class='profile-header-picture' src='" . $account_profile_header . "'>";
         ?>
+        <div class="clock-container" id="digitalClockDisplay" style="display: none;">
+            <p class="icon-texts" style="font-size: 10px;"><i class="material-icons">schedule</i>
+            <div class="clock-container-body">
+                <div id="clock">00:00:00 </div>
+            </div>
+            </p>
+        </div>
         <div class="group-box-row">
             <?php
             echo "<img class='profile-picture' src='" . $account_profile_picture . "' style='align-items: unset;'>";
@@ -228,9 +253,14 @@ database::get()->close();
         <div class="background">
             <div class="profile-account" id="aboutLayout">
                 <div class="navigation" name="options">
-                    <button class="button-borderless" id="aboutButton">About</button>
-                    <button class="button-borderless" id="subscriptionButton">Subscription</button>
-                    <button class="button-borderless" id="accountButton">Account</button>
+                    <ul>
+                        <li><button class="button-borderless" id="aboutButton">About</button></li>
+                        <li><button class="button-borderless" id="subscriptionButton">Subscription</button></li>
+                        <li><button class="button-borderless" id="accountButton">Account</button></li>
+                    </ul>
+
+
+
                 </div>
                 <br>
                 <div class="group-box-row hide" id="aboutPage" name="informationPage">

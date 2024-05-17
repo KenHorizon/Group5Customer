@@ -8,12 +8,8 @@ import {
 } from "../function.js";
 
 let checkbox = document.getElementById("checkbox");
-let advanceSubscriptionYear = document.getElementById(
-	"advanceSubscriptionYear"
-);
-let advanceSubscriptionMonth = document.getElementById(
-	"advanceSubscriptionMonth"
-);
+let advanceSubscriptionYear = document.getElementById("advanceSubscriptionYear");
+let advanceSubscriptionMonth = document.getElementById("advanceSubscriptionMonth");
 let basicSubscriptionYear = document.getElementById("basicSubscriptionYear");
 let basicSubscriptionMonth = document.getElementById("basicSubscriptionMonth");
 
