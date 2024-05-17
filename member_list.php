@@ -49,17 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </head>
 
-<header>
-    <div class="navigation">
-        <ul>
-            <li class="icon-texts"><a class="button" href="member_list.php" id="memberList"><span class="material-icons">list</span>Member List</a></li>
-            <li><a class="button" href="membership.php" id="subscription"><span class="material-icons">rocket</span>Subscription</a></li>
-            <li style="float: right;"><a class="button" href="account.php" id="account"><span class="material-icons">account_circle</span><?php echo $user->account()['username']; ?></a>
-            <a class="button" href="logout.php" id="logout"><span class="material-icons">logout</span></a> 
-        </li>
-        </ul>
-    </div>
-</header>
+<?php
+include("header_login.php")
+?>
 
 <body>
     <br>

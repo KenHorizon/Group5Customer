@@ -86,13 +86,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<link rel="stylesheet" href="assets/css/icons_addon.css" />
 	<!-- ICONS API -->
 </head>
-<header>
-	<div class="navigation" id="navigationMenu">
-		<a class="button" id="home"><span class="material-icons">home</span>Home</a>
-		<a class="button" href="about.php" id="about"><span class="material-icons">people</span>About</a>
-		<a class="button" href="create_account.php" id="sign_up"><span class="material-icons">create</span>Sign-Up</a>
-	</div>
-</header>
+
+<?php
+include("header.php")
+?>
 
 <body>
 	<div class="main">
@@ -121,18 +118,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				</div>
 				<br />
 				<div class="login-form-background">
-					<textIcon>
+					<div class="group-box-rows">
 						<span class="material-icons">login</span>
 						<div>
 							<h1>Login</h1>
 						</div>
-					</textIcon>
+					</div>
 					<hr />
 					<form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
 						<div class="login-form">
-							<label style="justify-content: left;">Email</label>
+							<label style="text-align: left;">Email</label>
 							<input type="text" for="fname" class="input-box" name="user" placeholder="Email" />
-							<label style="justify-content: left;">Password</label>
+							<label style="text-align: left;">Password</label>
 							<input type="password" class="input-box" name="password" id="rememberPasswordInput" placeholder="Password" />
 							<div class="group">
 								<label id="rememberPassword">Remember Me</label>
