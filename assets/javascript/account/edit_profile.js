@@ -1,4 +1,4 @@
-import { exitOnClicked, showInformation } from "../function.js";
+import { exitOnClicked, showInformation, getData } from "../function.js";
 
 exitOnClicked(editProfilePopup);
 
@@ -17,7 +17,7 @@ const handleMovement = (e) => {
 			showInformation(editProfilePopup, false);
 			break;
 	}
-	console.log(e.key); // Allow to see what key bind is selected!
+	//console.log(e.key); // Allow to see what key bind is selected!
 };
 
 window.addEventListener("keydown", handleMovement);

@@ -1,4 +1,9 @@
-import { exitOnClicked, showInformation } from "../function.js";
+import {
+	exitOnClicked,
+	getData,
+	saveData,
+	showInformation,
+} from "../function.js";
 
 let introduction = document.getElementById("introduction");
 
@@ -16,16 +21,40 @@ let contactUs = document.getElementById("contactUs");
 exitOnClicked(deactivatedAccountBox);
 
 aboutButton.addEventListener("click", function () {
+	if (
+		getData("previousClicked") === " " ||
+		getData("previousClicked") === "undefined"
+	) {
+		remove("previousClicked");
+	} else {
+		saveData("previousClicked", about.id);
+	}
 	showInformation(about, true);
 	showInformation(subscription, false);
 	showInformation(accountPage, false);
 });
 subscriptionButton.addEventListener("click", function () {
+	if (
+		getData("previousClicked") === " " ||
+		getData("previousClicked") === "undefined"
+	) {
+		remove("previousClicked");
+	} else {
+		saveData("previousClicked", subscription.id);
+	}
 	showInformation(subscription, true);
 	showInformation(about, false);
 	showInformation(accountPage, false);
 });
 accountButton.addEventListener("click", function () {
+	if (
+		getData("previousClicked") === " " ||
+		getData("previousClicked") === "undefined"
+	) {
+		remove("previousClicked");
+	} else {
+		saveData("previousClicked", accountPage.id);
+	}
 	showInformation(about, false);
 	showInformation(subscription, false);
 	showInformation(accountPage, true);
@@ -97,3 +126,20 @@ contactUsButton.addEventListener("click", function () {
 	showInformation(applyAdmin, false);
 	showInformation(contactUs, true);
 });
+window.onload = function () {
+	let clock = document.getElementById("digitalClock");
+	if (getData("digitalClockConfig")) {
+		clock.checked = true;
+		digitalClockDisplay.style.display = "flex";
+	} else {
+		digitalClockDisplay.style.display = "none";
+	}
+	if (getData("previousClicked") !== aboutPage.id) {
+		showInformation(document.getElementById(aboutPage.id), false);
+		showInformation(document.getElementById(getData("previousClicked")), true);
+	} else {
+		showInformation(document.getElementById(getData("previousClicked")), true);
+	}
+	console.log(getData("previousClicked"));
+	console.log(getData("previousClicked") != aboutPage.id);
+};

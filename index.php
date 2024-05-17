@@ -88,9 +88,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <header>
 	<div class="navigation" id="navigationMenu">
-		<a class="button" id="home"><i class="material-icons">home</i>Home</a>
-		<a class="button" href="about.php" id="about"><i class="material-icons">people</i>About</a>
-		<a class="button" href="create_account.php" id="sign_up"><i class="material-icons">create</i>Sign-Up</a>
+		<a class="button" id="home"><span class="material-icons">home</span>Home</a>
+		<a class="button" href="about.php" id="about"><span class="material-icons">people</span>About</a>
+		<a class="button" href="create_account.php" id="sign_up"><span class="material-icons">create</span>Sign-Up</a>
 	</div>
 </header>
 
@@ -122,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				<br />
 				<div class="login-form-background">
 					<textIcon>
-						<textIconImg class="material-icons">login</textIconImg>
+						<span class="material-icons">login</span>
 						<div>
 							<h1>Login</h1>
 						</div>
@@ -130,9 +130,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					<hr />
 					<form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
 						<div class="login-form">
-							<label>Email</label>
+							<label style="justify-content: left;">Email</label>
 							<input type="text" for="fname" class="input-box" name="user" placeholder="Email" />
-							<label>Password</label>
+							<label style="justify-content: left;">Password</label>
 							<input type="password" class="input-box" name="password" id="rememberPasswordInput" placeholder="Password" />
 							<div class="group">
 								<label id="rememberPassword">Remember Me</label>

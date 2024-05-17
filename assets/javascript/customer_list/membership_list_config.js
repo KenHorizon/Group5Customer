@@ -1,5 +1,5 @@
 function openNoticeBox(email) {
-	let accountSync = document.getElementById("getData");
+	let accountSync = document.getElementById("getSelectedAccount");
 	accountSync.value = email;
 	configOptionBox.classList.add("show");
 

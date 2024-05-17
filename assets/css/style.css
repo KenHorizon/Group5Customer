@@ -597,12 +597,6 @@ a.button:visited {
 	align-items: stretch;
 	margin-left: 0.56em 0.75em;
 }
-textIcon {
-	display: flex;
-	flex-wrap: nowrap;
-	flex-direction: row;
-	align-items: center;
-}
 .centered-text {
 	align-self: center;
 	padding: 10px;

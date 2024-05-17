@@ -167,7 +167,7 @@ database::get()->close();
 
 <body>
     <div class="clock-container" id="digitalClockDisplay" style="display: none;">
-        <p class="icon-texts" style="font-size: 10px;"><i class="material-icons">alarm</i>
+        <p class="icon-texts" style="font-size: 10px;"><i class="material-icons">schedule</i>
         <div class="clock-container-body">
             <div id="clock">00:00:00 </div>
         </div>
@@ -233,7 +233,7 @@ database::get()->close();
                     <button class="button-borderless" id="accountButton">Account</button>
                 </div>
                 <br>
-                <div class="group-box-row show" id="aboutPage" name="informationPage">
+                <div class="group-box-row hide" id="aboutPage" name="informationPage">
                     <div class="background">
                         <div class="group-box-column">
                             <?php
@@ -310,7 +310,6 @@ database::get()->close();
                                         </label>
                                         <label style="margin-left: 0.55em;">Digital Clock</label>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="background hide" id="applyAdmin">

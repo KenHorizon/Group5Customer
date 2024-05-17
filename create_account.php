@@ -124,9 +124,9 @@ database::get()->close();
                 <div class="custom-select-1" style="width: 35%;">
                     <select name="gender" required>
                         <option value="invalid">Select A Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="undefined">Undefined</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Undefined">Undefined</option>
                     </select>
                 </div>
                 <br>

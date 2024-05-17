@@ -1,6 +1,7 @@
 <?php
 
 use classes\database;
+
 require 'assets/php/include.php';
 session_start();
 ?>
@@ -11,12 +12,26 @@ if ($_SESSION["email"] === null) {
 } else {
     $session_account_type = $_SESSION['type'];
     $account = database::query("SELECT * FROM account WHERE uuid");
-    $account1 = database::query("SELECT * FROM account WHERE uuid");
 }
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     $report_debug = $_POST['reason'];
-//     echo $report_debug;
-// }
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $configAccount = $_POST["configAccount"];
+    $configRanks = $_POST["configRanks"];
+    $approvalButton = $_POST["approvalButton"];
+    $vipButton = $_POST["vipButton"];
+    if (isset($_POST["configAccount"])) {
+        database::query("UPDATE membership SET category = $configRanks WHERE email = '$configAccount'");
+        if (isset($_POST['vip'])) {
+        }
+        database::query("UPDATE membership SET category = $configRanks WHERE email = '$configAccount'");
+    }
+    // echo $configAccount ."<br>";
+    // echo $configRanks ."<br>";
+    // echo $approvalButton ."<br>";
+    // echo $vipButton ."<br>";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,15 +51,15 @@ if ($_SESSION["email"] === null) {
 
 <header>
     <div class="navigation" id="navigationMenu">
-        <a class="button" href="account.php" id="memberList"><i class="material-icons">home</i>Home</a>
-        <a class="button" href="logout.php" id="about"><i class="material-icons">logout</i>Logout</a>
+        <a class="button" href="account.php" id="memberList"><span class="material-icons">schedule</span>Home</a>
+        <a class="button" href="logout.php" id="about"><span class="material-icons">logout</span>Logout</a>
     </div>
 </header>
 
 <body>
     <br>
     <div class="background" style="margin: 0 10px;">
-        <h1 class="icon-texts title-box" style="float: inline-start;"><i class="material-icons" style="font-size: 32px;">people</i>Customers</h1>
+        <h1 class="icon-texts title-box" style="float: inline-start;"><span class="material-icons" style="font-size: 32px;">group</span>Customers</h1>
         <div id="menu">
             <div class="group-box-row">
                 <?php
@@ -64,9 +79,9 @@ if ($_SESSION["email"] === null) {
                     <th>Name</th>
                     <th>Email</th>
                     <th>Gender</th>
+                    <th>Type</th>
                     <th>Joined</th>
                     <th>Status</th>
-                    <th>Type</th>
                     <th>Rank</th>
                     <th>Action</th>
                     </tr>";
@@ -76,8 +91,8 @@ if ($_SESSION["email"] === null) {
                     <th>Name</th>
                     <th>Gender</th>
                     <th>Joined</th>
-                    <th>Status</th>
                     <th>Type</th>
+                    <th>Status</th>
                     <th>Rank</th>
                     </tr>";
                 }
@@ -115,13 +130,13 @@ if ($_SESSION["email"] === null) {
                                 <td> <p class='icon-texts' style='margin:0;'>" . $row["name"] . "</p></td>
                                 <td> " . $row["email"] . " </td>
                                 <td> " . $row["gender"] . " </td>
+                                <td> " . $user_account_type . " </td>
                                 <td> " . getBirthday($row["created_at"], true) . " </td>
                                 <td> " . $status . " </td>
-                                <td> " . $user_account_type . " </td>
                                 <td> " . $category . " </td>
                                 <td>
                                 <div class='group-box-row' style='justify-content:center;'>
-                                    <button class='button-icon-1' onclick='openNoticeBox(" . '"' . $username . '"' . ")'><i class='material-icons'>settings</i></button>
+                                    <button class='button-icon-1' onclick='openNoticeBox(" . '"' . $email . '"' . ")'><i class='material-icons'>settings</i></button>
                                 </div>
                                 </td>
                                     </tr>";
@@ -130,9 +145,9 @@ if ($_SESSION["email"] === null) {
                                 "<tr>
                                 <td>" . $row["name"] . "</td>
                                 <td> " . $row["gender"] . " </td>
-                                <td> " . $joined . " </td>
-                                <td> " . $joined . " </td>
                                 <td> " . $user_account_type . " </td>
+                                <td> " . $joined . " </td>
+                                <td> " . $joined . " </td>
                                 <td> " . $category . " </td>
                                 </tr>";
                             }
@@ -152,7 +167,7 @@ if ($_SESSION["email"] === null) {
             </table>
         </div>
         <br>
-        <div id="reasonMessageBox" class="popup">
+        <!-- <div id="reasonMessageBox" class="popup">
             <div class="popup-content">
                 <button style="float: right;" class="button-icon" id="exitButton">X</button>
                 <br>
@@ -176,21 +191,24 @@ if ($_SESSION["email"] === null) {
                     </div>
                 </form>
             </div>
-        </div>
+        </div> -->
         <div id="configOptionBox" class="popup">
             <div class="popup-content">
-                <button style="float: right;" class="button-icon" id="exitButtons"><i class="material-icons">close</i></button>
-                <h2 class="icon-texts"><i class="material-icons">settings</i>Options</h2>
+                <button style="float: right;" class="button-icon" id="exitButtons"><span class="material-icons">close</span></button>
+                <h2 class="icon-texts"><span class="material-icons">settings</span>Options</h2>
                 <form class="group-box-column" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
-                    <div class="group-box-rows">
-                        <i class='material-icons'>people</i>
+                    <div class="group-box-rows" style="justify-content: start; flex-wrap: nowrap;">
+                        <span class="material-icons" style="font-size: 45px;">account_circle</span>
                         <?php
-                        echo "<input class='input-box' type='text' id='getData' 'name=configAccountSet' readonly></input>";
+                        echo "<input class='input-box' id='getSelectedAccount' type='text' name='configAccount' style='width: 95%;'readonly></input>";
                         ?>
                     </div>
+                    <?php
 
+                    //$get_selected_account = database::query("SELECT * FROM account WHERE email = ");
+                    ?>
                     <div class="custom-select-0" style="width: 100%;">
-                        <select id="rank_selection" name="ranks" required>
+                        <select id="rank_selection" name="configRanks" required>
                             <option value="null">Select Rank</option>
                             <option value="Wood">Wood</option>
                             <option value="Iron">Iron</option>
@@ -212,7 +230,7 @@ if ($_SESSION["email"] === null) {
                     </div>
                     <div class="slider-button">
                         <label class="switch">
-                            <input type="checkbox" id="vip">
+                            <input type="checkbox" name="vipButton">
                             <span class="slider round"></span>
                         </label>
                         <label style="margin-left: 0.55em;">VIP</label>
