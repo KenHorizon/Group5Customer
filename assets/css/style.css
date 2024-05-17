@@ -372,6 +372,9 @@ a.button:visited {
 .dropdown:hover .dropdown-content {
 	display: block;
 }
+.navigation .dropdown-content a:hover {
+	background-color: rgb(72, 72, 72);
+}
 /* End */
 .account-header {
 	align-items: center;
@@ -383,6 +386,9 @@ a.button:visited {
 	padding: 0 50px;
 	border-radius: 15px;
 	background-color: rgb(41, 67, 195);
+}
+.account-header:hover {
+	background-color: rgb(75, 114, 255);
 }
 .icon-navigation {
 	display: flex;
@@ -414,15 +420,12 @@ a.button:visited {
 	border: 6px solid transparent;
 	border-color: #fff transparent transparent transparent;
 }
-
 .account-header-button {
 	align-items: center;
 	text-align: end;
 	text-decoration: none;
-	color: white;
+	color: rgb(255, 255, 255);
 	font-weight: bold;
-	height: 60px;
-	background-color: rgb(41, 67, 195);
 }
 .avatar {
 	width: 50px;
@@ -433,9 +436,7 @@ a.button:visited {
 	image-rendering: optimizeSpeed;
 	border-radius: 50%;
 }
-.account-header-button:hover {
-	background-color: rgb(75, 114, 255);
-}
+/* END */
 .profile-description {
 	position: relative;
 	z-index: 1;
