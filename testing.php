@@ -1,8 +1,5 @@
 <?php
 
-use classes\database;
-
-require 'assets/php/include.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,31 +15,17 @@ require 'assets/php/include.php';
 
 </head>
 
+<?php
+$check = 1;
+if ($check == 1) {
+    include("header_login.php");
+} else {
+    include("header.php");
+}
+?>
+
 <body>
-    <?php
-    echo "Hello world! <br>";
-    $testing = "";
 
-    echo $testing;
-    $accounts = $_GET["getAccount"];
-    echo $accounts;
-    $user->register = $accounts;
-    echo $user->account()['gender'];
-    ?>
-    <form method="GET">
-
-        <input type="text" id="get" name="getAccount" readonly value="<?php
-                                                                        echo $testing;
-                                                                        ?>">
-        <input type="submit">
-    </form>
-    <input type="text" readonly value="<?php
-                                        echo $testing
-                                        ?>">
-    <script>
-        const testing = "vincentruales845@gmail.com";
-        document.getElementById("get").value = testing;
-    </script>
 </body>
 
 </html>

@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						// echo "<h1>".$_SESSION['email']."</h1> <br>";
 						// echo "<h1>".$_SESSION['password']."</h1> <br>";
 						// echo "<h1>".$_SESSION['type']."</h1> <br>";
-						header("Location: account.php?username=$username");
+						header("Location: account.php");
 					} else {
 						database::query("UPDATE account SET activated = 1 WHERE email = '$validate_account_email");
 						$_SESSION['uuid'] = $validate_account_uuid;
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						// echo "<h1>".$_SESSION['email']."</h1> <br>";
 						// echo "<h1>".$_SESSION['password']."</h1> <br>";
 						// echo "<h1>".$_SESSION['type']."</h1> <br>";
-						header("Location: account.php?username=$username");
+						header("Location: account.php");
 					}
 				} else {
 					$notice = "Incorrect Email/Password!";

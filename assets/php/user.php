@@ -10,9 +10,6 @@ spl_autoload_register(function ($class) {
     require str_replace('\\', '/', $class) . '.php';
 });
 
-use mysqli;
-use mysqli_sql_exception;
-
 class user
 {
     public $register = '';
