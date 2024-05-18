@@ -13,6 +13,7 @@ Project Completion: 98.47%
 
 # TO DO:
 - Add Database "Settings"
+- Responsive
 
 # Software Used:
 - Ibispaint
