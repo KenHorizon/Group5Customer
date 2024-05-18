@@ -19,6 +19,7 @@
 	justify-content: center;
 }
 .input-box-name {
+	border: none;
 	border-radius: 5px;
 	height: 30px;
 	text-align: left;
@@ -26,12 +27,14 @@
 	width: 100%;
 }
 .input-box {
+	border: none;
 	border-radius: 5px;
 	text-align: left;
 	height: 30px;
 	margin: 10px 1px;
 }
 .input-box-selection-label {
+	border: none;
 	border-radius: 5px;
 	font-weight: bold;
 	height: 30px;
@@ -39,6 +42,7 @@
 	width: 30%;
 }
 .input-box-selection {
+	border: none;
 	background-color: rgb(71, 71, 71);
 	color: white;
 	text-align: left;
@@ -49,6 +53,7 @@
 	width: 30%;
 }
 .input-box-birthday-class {
+	border: none;
 	font-weight: bold;
 }
 .gender-input-box {
@@ -64,6 +69,7 @@
 .input-button {
 	border-radius: 5px;
 	height: 30px;
+	border: none;
 }
 
 /*----- RESPONSIVE -----*/

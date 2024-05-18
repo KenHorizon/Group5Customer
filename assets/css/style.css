@@ -12,15 +12,6 @@ body {
 input[type="number"]::-webkit-inner-spin-button {
 	display: none;
 }
-a:link {
-	color: rgb(91, 135, 255);
-}
-a:visited {
-	color: rgb(91, 135, 255);
-}
-a:active {
-	color: rgb(91, 135, 255);
-}
 a.button:link,
 a.button:active,
 a.button:visited {
@@ -278,17 +269,40 @@ a.button:visited {
 	background-color: rgb(16, 16, 16);
 	justify-content: space-around;
 }
-.edit-profile-header {
-	backdrop-filter: blur(2px);
-	color: white;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	width: 100%;
-	background-color: rgba(31, 31, 31, 0.719);
-	align-items: center;
-	justify-content: space-evenly;
+.edit-profile-header ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: rgba(31, 31, 31, 1);
+	border: 5px solid rgba(31, 31, 31, 1);
 }
+.edit-profile-header li {
+	float: left;
+}
+
+.edit-profile-header li a {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	color: white;
+	justify-content: center;
+	align-items: center;
+	padding: 15px;
+}
+/* .navigation ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: rgb(41, 67, 195);
+}
+.navigation li {
+	float: left;
+}
+.navigation li a {
+} */
+
 .edit-profile-body {
 	overflow: auto;
 	backdrop-filter: blur(2px);
@@ -382,7 +396,7 @@ a.button:visited {
 	text-decoration: none;
 	color: white;
 	font-weight: bold;
-	margin: 0 2.50em;
+	margin: 0 2.5em;
 	padding: 0 50px;
 	border-radius: 15px;
 	background-color: rgb(41, 67, 195);
@@ -443,6 +457,93 @@ a.button:visited {
 	border-radius: 50%;
 }
 /* END */
+.navigation-search-group {
+	display: flex;
+	flex-direction: row;
+	flex-basis: 150vh;
+	align-items: center;
+	justify-content: center;
+}
+.navigation-search {
+	border-radius: 5px;
+	height: 30px;
+	border: none;
+	text-align: left;
+	margin-right: 0.53em;
+	align-items: center;
+	width: 250px;
+	justify-content: center;
+}
+.side-bar-navigation-account {
+	position: fixed;
+	z-index: 0;
+	top: 50px;
+	left: 0;
+	overflow-x: hidden;
+	padding-top: 20;
+	height: 100%;
+	width: 250px;
+	line-height: 1;
+	background-color: rgb(45, 45, 45);
+}
+.side-bar-navigation-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: start;
+	text-decoration: none;
+	color: rgb(83, 83, 83);
+	font-weight: bold;
+	font-size: 18px;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0);
+}
+.side-bar-navigation-button {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	color: rgb(151, 151, 151);
+	font-size: 16px;
+	padding: 15px 25px;
+	width: 100%;
+	transition: 0.3s;
+	background-color: rgba(0, 0, 0, 0);
+}
+.side-bar-navigation-button:hover {
+	color: rgb(255, 255, 255);
+	background-color: rgb(63, 63, 63);
+}
+.side-bar-navigation-button:active {
+	color: white;
+	background-color: rgb(126, 126, 126);
+}
+.settings {
+	margin-left: 250px;
+	width: 750px;
+}
+.setting-buttons {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	text-decoration: none;
+	padding: 40px 25px;
+	color: rgb(146, 146, 146);
+	border: 2px solid rgb(39, 39, 39);
+	width: 50px;
+	border-radius: 20px;
+	background-color: rgb(66, 66, 66);
+}
+.setting-buttons:hover {
+	color: rgb(192, 192, 192);
+	background-color: rgb(63, 63, 63);
+}
+.settings-container {
+	margin: 0 auto;
+}
 .profile-description {
 	position: relative;
 	z-index: 1;
@@ -538,6 +639,7 @@ a.button:visited {
 	font-weight: bold;
 	font-size: 16px;
 	padding: 15px;
+	width: 100%;
 	border: 0px solid white;
 	background-color: rgb(41, 67, 195);
 	transition: 0.3s;
@@ -567,6 +669,13 @@ a.button:visited {
 	padding: 16px 60px;
 	background-color: rgb(41, 67, 195);
 	transition: 0.3s;
+}
+.button:hover {
+	background-color: rgb(75, 114, 255);
+}
+.button:active {
+	background-color: rgba(255, 255, 255, 0.523);
+	box-shadow: 0px 0px 5px 5px rgba(0, 0, 29, 0.5);
 }
 .navigation .button {
 	font-size: 16px;
@@ -910,9 +1019,6 @@ input:checked + .slider:before {
 	}
 	.group-box-row-no-warp {
 		flex-wrap: wrap;
-	}
-	.background[name="configOptions"] {
-		width: 200%;
 	}
 }
 /*----- RESPONSIVE -----*/

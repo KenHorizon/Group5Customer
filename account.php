@@ -229,7 +229,6 @@ include("header_login.php")
                     <ul>
                         <li><button class="button-borderless" id="aboutButton">About</button></li>
                         <li><button class="button-borderless" id="subscriptionButton">Subscription</button></li>
-                        <li><button class="button-borderless" id="accountButton">Account</button></li>
                     </ul>
 
 
@@ -242,7 +241,7 @@ include("header_login.php")
                             <?php
                             if ($user->isEmpty()) {
                                 echo "<p> <b>Email</b>: " . $user->account()["email"] . "</p>";
-                                echo "<p> <b>Joined</b>: " . getBirthday($user->account()["created_at"], true) . "</p>";
+                                echo "<p> <b>Joined</b>: " . formatDate($user->account()["created_at"], true) . "</p>";
                                 echo "<p> <b>Birthday</b>: " . $birthday . "</p>";
                             } else {
                                 if ($user->user()['activated'] == 1) {
@@ -290,97 +289,23 @@ include("header_login.php")
                         </div>
                     </div>
                 </div>
-                <div class="group-box-row hide" id="accountPage">
-                    <div class="group-box-row-no-warp">
-                        <div class="background" name="configOptions" style="width: 20%;">
-                            <div class="group-box-column">
-                                <button class="button-borderless icon-texts" style="justify-content:left;" id="deactivatedAccount" name="remove"><i class="material-icons">delete</i>Deactivate Account</button>
-                                <button class="button-borderless icon-texts" style="justify-content:left;" id="applyAdminButton"><i class="material-icons">mail</i>Apply us Admin</button>
-                                <button class="button-borderless icon-texts" style="justify-content:left;" id="contactUsButton"><i class="material-icons">mail</i>Contact Us</button>
-                                <button class="button-borderless icon-texts" style="justify-content:left;" id="termServiceButton"><i class="material-icons">list</i>Terms of Service</button>
-                                <button class="button-borderless icon-texts" style="justify-content:left;" id="privacyPolicyButton"><i class="material-icons">policy</i>Privacy Policy</button>
-                                <button class="button-borderless icon-texts" style="justify-content:left;" id="cookiePolicyButton"><i class="material-icons">cookie</i>Cookie Policy</button>
-                            </div>
-                        </div>
-                        <div class="group-box-column stretch" style="margin: 0 auto; margin-left: 0.65em;">
-                            <div class="background" id="introduction">
-                                <div class="group-box-column">
-                                    <h3 class="icon-texts"><i class="material-icons">settings</i> Settings</h3>
-                                    <div class="slider-button">
-                                        <label class="switch">
-                                            <input type="checkbox" id="digitalClock" value="digitalClockConfig">
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label style="margin-left: 0.55em;">Digital Clock</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="background hide" id="applyAdmin">
-                                <form class="group-box-column">
-                                    <textarea type="text" name="reason" class="reason-box" rows="10" cols="30" maxlength="90" spellcheck="false"></textarea>
-                                    <br>
-                                    <div class="group-box-row">
-                                        <input class="button-borderless" type="reset" value="Clear">
-                                        <input class="button-borderless" type="submit" value="Submit">
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="background hide" id="contactUs">
-                                <form class="group-box-column">
-                                    <textarea type="text" name="reason" class="reason-box" rows="10" cols="30" maxlength="90" spellcheck="false"></textarea>
-                                    <br>
-                                    <div class="group-box-row">
-                                        <input class="button-borderless" type="reset" value="Clear">
-                                        <input class="button-borderless" type="submit" value="Submit">
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="background hide" id="termService">
-                                <div class="group-box-column">
-                                    <h3>Term of Service</h3>
-                                    <p>
-                                        Beyond Horizon builds technologies and services that enable people to connect with each other, build communities, and grow businesses. These Terms govern your use of this website, and the other products, features, apps, services, technologies, and software we offer, except where we expressly state that separate terms (and not these) apply. These Products are provided to you by our Company.
-                                        <br>
-                                        <br>
-                                        We don’t charge you to use Facebook or the other products and services covered by these Terms, unless we state otherwise. Instead, businesses and organizations, and other persons pay us to show you ads for their products and services. By using our Products, you agree that we can show you ads that we think may be relevant to you and your interests. We use your personal data to help determine which personalized ads to show you.
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="background hide" id="privacyPolicy">
-                                <div class="group-box-column">
-                                    <h3>Privacy Policy</h3>
-                                    <h3>What is the Privacy Policy and what does it cover?</h3>
-                                    <p>
-                                        We at Beyond Horizon want you to understand what information we collect, and how we use and share it. That’s why we encourage you to read our Privacy Policy. This helps you use in the way that’s right for you.
-                                        <br><br>
-                                        In the Privacy Policy, we explain how we collect, use, share, retain and transfer information. We also let you know your rights. Each section of the Policy includes helpful examples and simpler language to make our practices easier to understand. We’ve also added links to resources where you can learn more about the privacy topics that interest you.
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="background hide" id="cookiePolicy">
-                                <div class="group-box-column">
-                                    <h3>Cookie Policy</h3>
-                                    <h3>What are cookies, and what does this policy cover?</h3>
-                                    <p>
-                                        Cookies are small pieces of text used to store information on web browsers. Cookies are used to store and receive identifiers and other information on computers, phones and other devices. Other technologies, including data that we store on your web browser or device, identifiers associated with your device and other software, are used for similar purposes. In this policy, we refer to all of these technologies as “cookies”.
-                                        <br><br>
-                                        We use cookies if you have a Github account, use the , including our website and apps, or visit other websites and apps that use the Meta Products (including the Like button). Cookies enable Meta to offer the Meta Products to you and to understand the information that we receive about you, including information about your use of other websites and apps, whether or not you are registered or logged in.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
             </div>
         </div>
         <div id="editProfilePopup" class="popup">
             <div class="edit-profile-content">
                 <form class="edit-profile-container" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST" enctype="multipart/form-data">
                     <div class="edit-profile-header">
-                        <button style="float: left;" class="button-icon" id="exitButton">X</button>
-                        <h2>Edit Profile</h2>
-                        <button style="float: right; border-radius: 10px;" class="button-borderless" for="submit" id="editProfileSave" name="editProfileSave">Save</button>
+                        <ul>
+                            <li>
+                                <a class="button-icon" id="exitButton"><span class="material-icons">close</span></a>
+                            </li>
+                            <li>
+                                <a>Edit Profile</a>
+                            </li>
+                            <li style="float: right;"><a style="border-radius: 10px; width: 150px;" class="button-borderless" for="submit" id="editProfileSave" name="editProfileSave">Save</a>
+                            </li>
+                        </ul>
+
                     </div>
                     <div class="edit-profile-body">
                         <div class="profile-picture-container">
@@ -418,27 +343,10 @@ include("header_login.php")
                 </form>
             </div>
         </div>
-        <div id="deactivatedAccountBox" class="popup">
-            <div class="deactivated-confirmation-content">
-                <form class="deactivated-confirmation-container" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST" enctype="multipart/form-data">
-                    <div>
-                        <p class="headers icon-texts" style="text-align: center;">deactivate account</p>
-                    </div>
-                    <p class="tooltip">Deactivating your account means, you can recover it at any time after taking this action.</p>
-                    <input type="password" class="input-box" placeholder="Enter your password...">
-                    <div>
-                        <input class="button-borderless" name="deactivateAccountSubmit" type="submit" value="Continue">
-                    </div>
-                </form>
-            </div>
-        </div>
-
     </div>
     <script src="assets/javascript/account/profile_picture_and_header.js"></script>
     <script src="assets/javascript/digital_clock.js"></script>
-    <!-- <script src="assets/javascript/update_page.js"></script> -->
     <script type="module" defer src="assets/javascript/account/account.js"></script>
-    <script type="module" defer src="assets/javascript/account/settings.js"></script>
     <script type="module" defer src="assets/javascript/account/edit_profile.js"></script>
 </body>
 

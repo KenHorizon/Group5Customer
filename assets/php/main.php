@@ -7,7 +7,7 @@ function split($string, $limit)
 {
     return explode($limit, $string);
 }
-function getBirthday($birthday, $format = null)
+function formatDate($birthday, $format = null)
 {
     $getYear = split($birthday, "-")[0];
     $getMonth = split($birthday, "-")[1];

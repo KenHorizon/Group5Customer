@@ -66,9 +66,10 @@ include("header.php")
                 <div class="group-box-row">
                     <p>Change Password</p>
                     <?php
-                    echo "<p style='margin: 0 auto;'>" . $notice . "</p>";
-                    echo "<p style='margin: 0 auto;'>" . $codes . "</p>";
-                    echo "<p style='margin: 0 auto;'>" . $emails . "</p>";
+                    echo "<p style='margin: 0 auto;'>" . $notice . "</p>"
+                    // ONLY DEVELOPERS
+                    // echo "<p style='margin: 0 auto;'>" . $codes . "</p>";
+                    // echo "<p style='margin: 0 auto;'>" . $emails . "</p>";
                     ?>
                 </div>
                 <div>
