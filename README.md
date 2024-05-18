@@ -11,6 +11,9 @@ Project Completion: 98.47%
 - Subscription
 - Admin and User Interfaces
 
+# TO DO:
+- Add Database "Settings"
+
 # Software Used:
 - Ibispaint
 - Visual Code Studio (Javascript and PHP, Back-end)
