@@ -1,5 +1,6 @@
 <?php
 require 'assets/php/include.php';
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +15,11 @@ require 'assets/php/include.php';
 </head>
 
 <?php
-include("header.php")
+if ($_SESSION == null) {
+    include("header.php");
+} else {
+    include("header_login.php");
+}
 ?>
 <body>
 <div class="main">

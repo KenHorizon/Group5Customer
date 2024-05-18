@@ -390,6 +390,12 @@ a.button:visited {
 .account-header:hover {
 	background-color: rgb(75, 114, 255);
 }
+.icon-navigation-logo {
+	margin: 0 25px;
+	width: 46px;
+	height: 46px;
+	image-rendering: optimizeSpeed;
+}
 .icon-navigation {
 	display: flex;
 	flex-direction: row;

@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="/assets/img/icon.ico">
+	<link rel="icon" type="image/x-icon" href="/assets/img/icon.ico">
 	<title>Beyond Horizon: Stars</title>
 	<link rel="stylesheet" href="assets/css/style.css" />
 	<!-- CSS SCRIPT HANDLE CUSTOMIZED ADDITIONS OF HTML -->
@@ -98,7 +98,6 @@ include("header.php")
 		<div class="background">
 			<div class="home-page">
 				<div>
-
 					<h1>Welcome To Beyond Horizon</h1>
 					<p>
 						Beyond Horizon: Stars is a community service who provide sources
