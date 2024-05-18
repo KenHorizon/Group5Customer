@@ -731,6 +731,10 @@ a.button:visited {
 	justify-content: center;
 }
 .footer {
+	overflow-x: hidden;
+	width: 100%;
+	position: absolute;
+	color: white;
 	bottom: 0;
 	border: none;
 	font-weight: bold;

@@ -128,7 +128,7 @@ include("header_login.php")
                                 <td> " . $row["email"] . " </td>
                                 <td> " . $row["gender"] . " </td>
                                 <td> " . $user_account_type . " </td>
-                                <td> " . getBirthday($row["created_at"], true) . " </td>
+                                <td> " . formatDate($row["created_at"], true) . " </td>
                                 <td> " . $status . " </td>
                                 <td> " . $category . " </td>
                                 <td>
