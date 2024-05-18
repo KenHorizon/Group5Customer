@@ -1,11 +1,6 @@
 # Group 5: Customer List
 
-Project Completion: 97.87%
-# Missing Features:
-- Exclusive Access of Subscription Members
-
-# To Do:
-- Debugging
+Project Completion: 98.47%
 
 # Features:
 - Login Form
