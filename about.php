@@ -1,6 +1,10 @@
 <?php
 require 'assets/php/include.php';
 session_start();
+
+if ($_SESSION != null) {
+    $user -> register = $_SESSION['email'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
