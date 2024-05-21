@@ -1,8 +1,9 @@
 CREATE TABLE `user` (
-  `uuid` integer,
+  `uuid` integer PRIMARY KEY,
   `email` varchar(255),
-  `bio` varchar(255),
-  `profile` varchar(255),
+  `bio` varchar(255) DEFAULT '',
+  `profile` varchar(255) DEFAULT '',
+  `header` varchar(255) DEFAULT '',
   `type` tinyint(1) COMMENT '0: User or 1: Admin'
 );
 
@@ -19,7 +20,7 @@ CREATE TABLE `account` (
 );
 
 CREATE TABLE `membership` (
-  `uuid` integer,
+  `uuid` integer PRIMARY KEY,
   `email` varchar(255),
   `type` tinyint(1) COMMENT '0: Basic or 1: Advance',
   `level` int DEFAULT 1,
@@ -29,6 +30,6 @@ CREATE TABLE `membership` (
   `subscription_date` integer DEFAULT 0
 );
 
-ALTER TABLE `membership` ADD FOREIGN KEY (`uuid`) REFERENCES `account` (`uuid`);
+ALTER TABLE `account` ADD FOREIGN KEY (`uuid`) REFERENCES `membership` (`uuid`);
 
-ALTER TABLE `user` ADD FOREIGN KEY (`uuid`) REFERENCES `account` (`uuid`);
+ALTER TABLE `account` ADD FOREIGN KEY (`uuid`) REFERENCES `user` (`uuid`);

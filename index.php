@@ -141,7 +141,7 @@ include("header.php")
 						</div>
 						<div style="font-size: 14px">
 							<a>Don't have account yet?</a>
-							<a href="createAccount.php">Click Here</a>
+							<a href="create_account.php">Click Here</a>
 						</div>
 						<br />
 						<div>

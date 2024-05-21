@@ -1,6 +1,3 @@
-<?php
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,16 +13,24 @@
 </head>
 
 <?php
-$check = 1;
-if ($check == 1) {
-    include("header_login.php");
-} else {
-    include("header.php");
-}
+$check = "<input id='test' class='hide' style='color: white; text-align: center;' readonly>";
+echo $check;
+$test = $_GET['get'];
+echo $test;
 ?>
 
 <body>
-
+    <form method="GET">
+        <input type="text" style="margin: 0 25%;" id="get" name="get">
+        <input type="submit" style="margin: 0 25%;" value="Save">
+        
+    </form>
+<script>
+    let testing = document.getElementById("test");
+    testing.value = "HI";
+    let testingGet = document.getElementById("get");
+    testingGet.value = testing.value;
+</script>
 </body>
 
 </html>

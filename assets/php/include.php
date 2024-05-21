@@ -8,5 +8,4 @@ require url('mail');
 function url($class) {
     return str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
 }
-
 ?>

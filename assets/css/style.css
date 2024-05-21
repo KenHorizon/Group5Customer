@@ -836,7 +836,6 @@ a.button:visited {
 	border-radius: 10px;
 	border: 2px solid rgb(191, 191, 191);
 	width: 30%;
-	font-weight: bolder;
 }
 .popup-content button {
 	display: block;
@@ -852,6 +851,19 @@ a.button:visited {
 	position: relative;
 }
 
+.custom-select-0 select {
+	appearance: none;
+	/*  safari  */
+	-webkit-appearance: none;
+	/*  other styles for aesthetics */
+	width: 100%;
+	padding: 10px;
+	background-color: #ffffff;
+	border: 1px solid #caced1;
+	border-radius: 0.25rem;
+	color: #000;
+	cursor: pointer;
+}
 .custom-select-1 {
 	position: relative;
 }
@@ -863,19 +875,6 @@ a.button:visited {
 	width: 100%;
 	padding: 10px;
 	background-color: #ededed;
-	border: 1px solid #caced1;
-	border-radius: 0.25rem;
-	color: #000;
-	cursor: pointer;
-}
-.custom-select-0 select {
-	appearance: none;
-	/*  safari  */
-	-webkit-appearance: none;
-	/*  other styles for aesthetics */
-	width: 100%;
-	padding: 10px;
-	background-color: #ffffff;
 	border: 1px solid #caced1;
 	border-radius: 0.25rem;
 	color: #000;
@@ -950,6 +949,34 @@ a.button:visited {
 @font-face {
 	font-family: breathe-fire;
 	src: url("../font/BreatheFireIii-PKLOB.ttf");
+}
+@font-face {
+	font-family: oswald-variable;
+	src: url("../font/Oswald-VariableFont_wght.ttf");
+}
+@font-face {
+	font-family: oswald-variable-bold;
+	src: url("../font/oswald/bold.ttf");
+}
+@font-face {
+	font-family: oswald-variable-extra-light;
+	src: url("../font/oswald/extralight.ttf");
+}
+@font-face {
+	font-family: oswald-variable-light;
+	src: url("../font/oswald/light.ttf");
+}
+@font-face {
+	font-family: oswald-variable-medium;
+	src: url("../font/oswald/medium.ttf");
+}
+@font-face {
+	font-family: oswald-variable-regular;
+	src: url("../font/oswald/regular.ttf");
+}
+@font-face {
+	font-family: oswald-variable-semibold;
+	src: url("../font/oswald/semibold.ttf");
 }
 .switch {
 	position: relative;

@@ -34,4 +34,12 @@ class database
             function_alert("Error during connecting database query!");
         }
     }
+    public static function fetch($databaseData)
+    {
+        try {
+            return mysqli_fetch_assoc($databaseData);
+        } catch (mysqli_sql_exception) {
+            function_alert("Error during connecting database query!");
+        }
+    }
 }

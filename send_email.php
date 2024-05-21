@@ -1,7 +1,6 @@
 <?php
 use classes\database;
-include("assets/php/database.php");
-include("assets/php/main.php");
+include("assets/php/include.php");
 session_start();
 ?>
 <?php

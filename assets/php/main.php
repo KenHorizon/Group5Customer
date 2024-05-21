@@ -89,6 +89,15 @@ function determineUserType($number)
             return $output = "User!";
     }
 }
+function checkSubscriptionStatus($number)
+{
+    if ($number == 1) {
+        return "Activated";
+    } else {
+        return "Deactivated";
+    }
+}
+
 function getVerificationCode($length)
 {
     $characters = '0123456789';

@@ -1,4 +1,56 @@
-
 .admin-interface:hover {
-    color: rgb(65, 65, 65);
+	color: rgb(65, 65, 65);
+}
+
+.membership-list {
+	position: relative;
+}
+
+.membership-list select {
+	appearance: none;
+	/*  safari  */
+	-webkit-appearance: none;
+	/*  other styles for aesthetics */
+	width: 100%;
+	padding: 10px;
+	background-color: #ffffff;
+	border: 1px solid #caced1;
+	border-radius: 0.25rem;
+	color: #000;
+	cursor: pointer;
+}
+.membership-list::after {
+	position: relative;
+	content: "";
+	top: 14px;
+	right: 20px;
+	width: 0;
+	height: 0;
+	border: 6px solid transparent;
+	border-color: #000000 transparent transparent transparent;
+}
+.membership-list-select option {
+	font-size: 18px;
+    font-variant: small-caps;
+}
+.membership-list-select::before,
+.membership-list-select::after {
+	--size: 0.3rem;
+	content: "";
+	position: absolute;
+	right: 1rem;
+	pointer-events: none;
+}
+.membership-list-select::before {
+	border-left: var(--size) solid transparent;
+	border-right: var(--size) solid transparent;
+	border-bottom: var(--size) solid black;
+	top: 40%;
+}
+
+.membership-list-select::after {
+	border-left: var(--size) solid transparent;
+	border-right: var(--size) solid transparent;
+	border-top: var(--size) solid black;
+	top: 55%;
 }

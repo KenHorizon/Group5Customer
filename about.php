@@ -70,7 +70,7 @@ if ($_SESSION == null) {
             <div class="main background">
                 <div style="color: white;">
                     <h1>Trivia:</h1>
-                    <h2><a href="history.html" target="_blank">History</a></h2>
+                    <h2><a href="history.php" target="_blank">History</a></h2>
                     <p><img src="assets/img/icon.ico" width="5%" height="5%">Logo of this website is one of my logo in Minecraft Mods called Beyond Horizon</p>
                     <p>The Profile Account, basically mixed of twitter and facebook</p>
                     <p>The Header Image is just minecraft title of one of the game branches</p>
