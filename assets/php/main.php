@@ -7,11 +7,12 @@ function split($string, $limit)
 {
     return explode($limit, $string);
 }
-function formatDate($birthday, $format = null)
-{
-    $getYear = split($birthday, "-")[0];
-    $getMonth = split($birthday, "-")[1];
-    $split_time_stamp  = split($birthday, "-")[2];
+function formatDate($date, $format = null)
+{   
+    if ($date == 0) return "N/A";
+    $getYear = split($date, "-")[0];
+    $getMonth = split($date, "-")[1];
+    $split_time_stamp  = split($date, "-")[2];
     $getDay = (int) split($split_time_stamp, " ")[0];
     if ($format === true) {
         $getMonth = convertMonthToNames($getMonth);
@@ -109,6 +110,10 @@ function getVerificationCode($length)
     }
 
     return $randomString;
+}
+function checkIfEmpty($check)
+{
+    return empty($check) ? "-" : $check;
 }
 function hasSubscription()
 {

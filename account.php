@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         database::query("UPDATE user SET bio = '$bio_data' WHERE email = '$account_email'");
 
         $uploadOk = 1;
-        if (!empty($_POST["editProfileSave"])) {
+        if (!empty($_POST["profilePictureInput"])) {
             $check = getimagesize($_FILES["profilePictureInput"]["tmp_name"]);
             if ($check !== false) {
                 $uploadOk = 1;
@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $uploadOk = 0;
             }
         }
-        if (!empty($_POST["editProfileSave"])) {
+        if (!empty($_POST["profileHeaderPictureInput"])) {
             $check = getimagesize($_FILES["profileHeaderPictureInput"]["tmp_name"]);
             if ($check !== false) {
                 $uploadOk = 1;
@@ -302,7 +302,7 @@ include("header_login.php")
                             <li>
                                 <a>Edit Profile</a>
                             </li>
-                            <li style="float: right;"><a style="border-radius: 10px; width: 150px;" class="button-borderless" for="submit" id="editProfileSave" name="editProfileSave">Save</a>
+                            <li style="float: right;"><input type="submit" style="border-radius: 10px; width: 150px;" class="button-borderless" for="submit" id="editProfileSave" name="editProfileSave" value="Save">
                             </li>
                         </ul>
 

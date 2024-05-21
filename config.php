@@ -10,11 +10,15 @@ if ($_SESSION["email"] === null) {
     header("Location: index.php");
 } else {
     $get_selected_account = $_POST['getSelectedAccounts'];
-    echo $get_selected_account;
+    //echo $get_selected_account;
     $query_selected_account = database::query("SELECT * FROM account WHERE email = '$get_selected_account'");
     if (mysqli_num_rows($query_selected_account) > 0) {
         $selected_account = mysqli_fetch_assoc($query_selected_account);
         $selected_account_email = $selected_account['email'];
+        $query_selected_account_user = database::query("SELECT * FROM user WHERE email = '$get_selected_account'");
+        $query_selected_account_membership = database::query("SELECT * FROM membership WHERE email = '$get_selected_account'");
+        $selected_account_user = mysqli_fetch_assoc($query_selected_account_user);
+        $selected_account_membership = mysqli_fetch_assoc($query_selected_account_membership);
     }
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (array_key_exists("closeConfigBox", $_POST)) {
@@ -64,8 +68,14 @@ include("header_login.php")
                 ?>
                 <div class="group-box-column-name">
                     <?php
+                    echo "<p class='icon-texts'><b>Address</b>: " . "-" . "</p>";
+                    echo "<p class='icon-texts'><b>Contact</b>: " . "-" . "</p>";
                     echo "<p class='icon-texts'><b>Birthday</b>: " . formatDate($selected_account['birthday'], true) . "</p>";
-                    echo "<p class='icon-texts'><span class='material-icons'>meeting_room</span>" . formatDate($selected_account['created_at'], true) . "</p>";
+                    echo "<p class='icon-texts'><b>Joined</b>: " . formatDate($selected_account['created_at'], true) . "</p>";
+                    echo "<hr>";
+                    echo "<p class='icon-texts'><b>Subscription Status</b>: " . checkSubscriptionStatus($selected_account_membership['status']) . "</p>";
+                    echo "<p class='icon-texts'><b>Subscription Category</b>: " . $selected_account_membership['category'] . "</p>";
+                    echo "<p class='icon-texts'><b>Subscription Expiration</b>: " . formatDate($selected_account_membership['expiration'], true) . "</p>";
                     ?>
                 </div>
                 <div class="membership-list" style="width: 100%;">
