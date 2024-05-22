@@ -88,13 +88,3 @@ contactUsButton.addEventListener("click", function () {
 	showInformation(cookiePolicy, false);
 	showInformation(applyAdmin, false);
 });
-let clock = document.getElementById("digitalClock");
-
-window.onload = function () {
-	if (getData("previousClicked") !== aboutPage.id) {
-		showInformation(document.getElementById(aboutPage.id), false);
-		showInformation(document.getElementById(getData("previousClicked")), true);
-	} else {
-		showInformation(document.getElementById(getData("previousClicked")), true);
-	}
-};

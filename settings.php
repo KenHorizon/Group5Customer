@@ -30,21 +30,24 @@ if ($_SESSION === null) {
             $current_password = filter_input(INPUT_POST, "current_password", FILTER_SANITIZE_SPECIAL_CHARS);
             $new_password = filter_input(INPUT_POST, "new_password", FILTER_SANITIZE_SPECIAL_CHARS);
             $confirm_password = filter_input(INPUT_POST, "confirm_new_password", FILTER_SANITIZE_SPECIAL_CHARS);
-            $verified_email = database::query("SELECT * FROM account WHERE email = '$account_email' AND password = '$current_password'");
-            if (mysqli_num_rows($verified_email) > 0) {
-                if ($new_password === $confirm_password) {
-                    $notice = "Password changed";
-                    try {
-                        database::query("UPDATE account SET password = '$new_password' WHERE email = '$account_email'");
-                    } catch (mysqli_sql_exception) {
-                        $notice = "Error!";
-                    }
-                    header("Refresh: 0");
-                } else {
-                    $notice = "Incorrect Password!, Please Try Again!";
+            if ($new_password === $confirm_password) {
+                $notice = "Password changed";
+                try {
+                    database::query("UPDATE account SET password = '$new_password' WHERE email = '$account_email' AND password = '$current_password'");
+                } catch (mysqli_sql_exception) {
+                    $notice = "Error!";
                 }
+                header("Refresh: 0");
             } else {
-                $notice = "????";
+                $notice = "Incorrect Password!, Please Try Again!";
+            }
+        }
+        if (array_key_exists('deactivateAccountSubmit', $_POST)) {
+            $deactivate_account_password = filter_input(INPUT_POST, "deactivateAccountPassword", FILTER_SANITIZE_SPECIAL_CHARS);
+            try {
+                database::query("UPDATE account SET activated = 1 WHERE email = '$account_email' AND password = '$deactivate_account_password'");
+            } catch (mysqli_sql_exception) {
+                $notice = "Error!";
             }
         }
     }
@@ -91,31 +94,31 @@ include("header_login.php")
                     <div class="settings">
                         <div class="background" id="introduction">
                             <div class="group-box-column">
-                                <h3 class="icon-texts"><i class="material-icons">settings</i> Settings</h3>
+                                <h3 class="icon-texts"><span class="material-icons">settings</span> Settings</h3>
+                                <p class="hide"><span id="configs"></span></p>
                                 <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
-                                    <p style="margin-left: 0.55em;">Digital Clock</p>
                                     <div class="slider-button">
-                                        <label class="switch" onclick="digitalClockConfig()">
+                                        <label class="switch" onclick="configuration('digital_clock','digitalClockConfig')">
                                             <input type="checkbox" id="digitalClockConfig" name="digitalClockConfig" <?php echo $user->config()['digital_clock'] == 1 ? "checked" : "" ?>>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label style="margin-left: 0.55em;" for="digitalClockConfig" onclick="digitalClockConfig()">Digital Clock</label>
+                                        <label style="margin-left: 0.55em;" for="digitalClockConfig" onclick="configuration('digital_clock','digitalClockConfig')">Digital Clock</label>
                                     </div>
                                     <div class="slider-button">
-                                        <label class="switch">
+                                        <label class="switch" onclick="configuration('birthday_year','showBirthdayYearConfig')">
                                             <input type="checkbox" id="showBirthdayYearConfig" name="showBirthdayYearConfig">
                                             <span class="slider round"></span>
                                         </label>
-                                        <label style="margin-left: 0.55em;">Show Birthday Year</label>
+                                        <label style="margin-left: 0.55em;" onclick="configuration('birthday_year','showBirthdayYearConfig')">Show Birthday Year</label>
                                     </div>
                                     <div class="slider-button">
-                                        <label class="switch">
+                                        <label class="switch" onclick="configuration('sensitive_information','showSensitiveInfoConfig')">
                                             <input type="checkbox" id="showSensitiveInfoConfig" name="showSensitiveInfoConfig">
                                             <span class="slider round"></span>
                                         </label>
-                                        <label style="margin-left: 0.55em;">Show Sensitive Information</label>
+                                        <label style="margin-left: 0.55em;" onclick="configuration('sensitive_information','showSensitiveInfoConfig')">Show Sensitive Information</label>
                                     </div>
-                                    <input type="submit" class="button-borderless" value="Save Change" style="width: 160px; border-radius: 5px; margin-left: 2px;">
+                                    <!-- <input type="submit" class="button-borderless" value="Save Change" style="width: 160px; border-radius: 5px; margin-left: 2px;"> -->
                                 </form>
                             </div>
                         </div>
@@ -227,7 +230,7 @@ include("header_login.php")
                                     <p class="headers icon-texts" style="text-align: center;">deactivate account</p>
                                 </div>
                                 <p class="tooltip">Deactivating your account means, you can recover it at any time after taking this action.</p>
-                                <input type="password" class="input-box" placeholder="Enter your password...">
+                                <input type="password" class="input-box" placeholder="Enter your password..." name="deactivateAccountPassword">
                                 <div>
                                     <input type="submit" class="button-borderless" name="deactivateAccountSubmit" value="Continue" style="width: 160px; border-radius: 5px;">
                                 </div>
@@ -239,22 +242,20 @@ include("header_login.php")
         </div>
     </div>
     <script>
-        function digitalClockConfig() {
+        function configuration(configuration, checkboxName) {
             var autoSave;
             autoSave = new XMLHttpRequest();
             autoSave.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-
-                    if (document.getElementById("digitalClockConfig").checked) {
-                        document.getElementById("digitalClock").innerHTML = this.responseText;
+                    if (document.getElementById(checkboxName).checked) {
+                        document.getElementById("configs").innerHTML = this.responseText;
                     } else {
-
-                        document.getElementById("digitalClock").innerHTML = "";
+                        document.getElementById("configs").innerHTML = "";
                     }
                 }
             };
-            if (!document.getElementById("digitalClockConfig").checked) {
-                autoSave.open("GET", "settings_function.php", true);
+            if (!document.getElementById(checkboxName).checked) {
+                autoSave.open("GET", "assets/php/settings/configuration.php?configs=" + configuration, true);
                 autoSave.send();
             }
         }

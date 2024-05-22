@@ -7,7 +7,7 @@ function split($string, $limit)
 {
     return explode($limit, $string);
 }
-function formatDate($date, $format = null)
+function formatDate($date, $format = null, $showYear = true)
 {   
     if ($date == 0) return "N/A";
     $getYear = split($date, "-")[0];
@@ -16,15 +16,26 @@ function formatDate($date, $format = null)
     $getDay = (int) split($split_time_stamp, " ")[0];
     if ($format === true) {
         $getMonth = convertMonthToNames($getMonth);
-        return "{$getMonth} {$getDay}, {$getYear}";
+        if ($showYear == true) {
+            return "{$getMonth} {$getDay}, {$getYear}";
+        } else {
+            return "{$getMonth} {$getDay}";
+        }
     } else {
-        return "{$getMonth} {$getDay}, {$getYear}";
+        if ($showYear == true) {
+            return "{$getMonth} {$getDay}, {$getYear}";
+        } else {
+            return "{$getMonth} {$getDay}";
+        }
     }
     // $joined_year = split($user->account()["created_at"], "-")[0];
     // $joined_month = convertMonthToNames(split($user->account()["created_at"], "-")[1]);
     // $joined_removeTimeStamp = split($user->account()["created_at"], "-")[2];
     // $joined_day = (int) split($joined_removeTimeStamp, " ")[0];
     // $joined = "{$joined_month} {$joined_day}, {$joined_year}";
+}
+function configuration($data) {
+    return $data == 1 ? true : false;
 }
 function convertMonthToNames($number)
 {

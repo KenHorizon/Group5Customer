@@ -44,11 +44,6 @@ if ($_SESSION["email"] === null) {
         $determine_membership_status = "Online";
     }
 }
-
-$year = split($user->account()["birthday"], "-")[0];
-$month = convertMonthToNames(split($user->account()["birthday"], "-")[1]);
-$day = (int) split($user->account()["birthday"], "-")[2];
-$birthday = "{$month} {$day}";
 $subscription_status = $user->membership()['status'];
 $determine_membership_type = "";
 switch ($user->membership()['type']) {
@@ -238,9 +233,11 @@ include("header_login.php");
                             if ($user->isEmpty()) {
                                 echo "<p> <b>Email</b>: " . $user->account()["email"] . "</p>";
                                 echo "<p> <b>Joined</b>: " . formatDate($user->account()["created_at"], true) . "</p>";
-                                echo "<p> <b>Birthday</b>: " . $birthday . "</p>";
-                                echo "<p> <b>Address</b>: " . checkIfEmpty($user->account()["address"]) . "</p>";
-                                echo "<p> <b>Contact</b>: " . checkIfEmpty($user->account()["contact"]) . "</p>";
+                                echo "<p> <b>Birthday</b>: " . formatDate($user->account()["birthday"], true, configuration($user->config()['birthday_year'])) . "</p>";
+                                if (configuration($user->config()['sensitive_information'])) {
+                                    echo "<p> <b>Address</b>: " . checkIfEmpty($user->account()["address"]) . "</p>";
+                                    echo "<p> <b>Contact</b>: " . checkIfEmpty($user->account()["contact"]) . "</p>";
+                                }
                             } else {
                                 if ($user->user()['activated'] == 1) {
                                     echo "<p> <b>Email</b>: - N/A</p>";
