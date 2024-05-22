@@ -68,14 +68,13 @@ include("header_login.php")
                 ?>
                 <div class="group-box-column-name">
                     <?php
-                    echo "<p class='icon-texts'><b>Address</b>: " . "-" . "</p>";
-                    echo "<p class='icon-texts'><b>Contact</b>: " . "-" . "</p>";
-                    echo "<p class='icon-texts'><b>Birthday</b>: " . formatDate($selected_account['birthday'], true) . "</p>";
-                    echo "<p class='icon-texts'><b>Joined</b>: " . formatDate($selected_account['created_at'], true) . "</p>";
+                    echo "<p class='icon-texts'><span class='material-icons'>home</span>Address: " . "-" . "</p>";
+                    echo "<p class='icon-texts'><span class='material-icons'>call</span>Contact: " . "-" . "</p>";
+                    echo "<p class='icon-texts'><span class='material-icons'>cake</span>Birthday: " . formatDate($selected_account['birthday'], true) . "<span class='material-icons'>calendar_month</span>Joined: " . formatDate($selected_account['created_at'], true) . "</p>";
                     echo "<hr>";
-                    echo "<p class='icon-texts'><b>Subscription Status</b>: " . checkSubscriptionStatus($selected_account_membership['status']) . "</p>";
-                    echo "<p class='icon-texts'><b>Subscription Category</b>: " . $selected_account_membership['category'] . "</p>";
-                    echo "<p class='icon-texts'><b>Subscription Expiration</b>: " . formatDate($selected_account_membership['expiration'], true) . "</p>";
+                    echo "<p class='icon-texts'><span class='material-icons'>subscriptions</span>Subscription Status: " . checkSubscriptionStatus($selected_account_membership['status']) . "</p>";
+                    echo "<p class='icon-texts'><span class='material-icons'>subscriptions</span>Subscription Category: " . $selected_account_membership['category'] . "</p>";
+                    echo "<p class='icon-texts'><span class='material-icons'>subscriptions</span>Subscription Expiration: " . formatDate($selected_account_membership['expiration'], true) . "</p>";
                     ?>
                 </div>
                 <div class="membership-list" style="width: 100%;">

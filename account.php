@@ -156,7 +156,7 @@ database::get()->close();
 </head>
 
 <?php
-include("header_login.php")
+include("header_login.php");
 ?>
 <!--
  ACCOUNT || HANDLING DETAILS ON THE ACCOUNT [NAME, PASSWORD, EMAIL, AGE, BIRTHDAY AND SO ON...]
@@ -168,13 +168,9 @@ include("header_login.php")
         <?php
         echo "<img class='profile-header-picture' src='" . $account_profile_header . "'>";
         ?>
-        <div class="clock-container" id="digitalClockDisplay" style="display: none;">
-            <p class="icon-texts" style="font-size: 10px;"><i class="material-icons">schedule</i>
-            <div class="clock-container-body">
-                <div id="clock">00:00:00 </div>
-            </div>
-            </p>
-        </div>
+        <?php
+        include("digital_clock.php");
+        ?>
         <div class="group-box-row">
             <?php
             echo "<img class='profile-picture' src='" . $account_profile_picture . "' style='align-items: unset;'>";
@@ -243,6 +239,8 @@ include("header_login.php")
                                 echo "<p> <b>Email</b>: " . $user->account()["email"] . "</p>";
                                 echo "<p> <b>Joined</b>: " . formatDate($user->account()["created_at"], true) . "</p>";
                                 echo "<p> <b>Birthday</b>: " . $birthday . "</p>";
+                                echo "<p> <b>Address</b>: " . checkIfEmpty($user->account()["address"]) . "</p>";
+                                echo "<p> <b>Contact</b>: " . checkIfEmpty($user->account()["contact"]) . "</p>";
                             } else {
                                 if ($user->user()['activated'] == 1) {
                                     echo "<p> <b>Email</b>: - N/A</p>";
@@ -345,7 +343,6 @@ include("header_login.php")
         </div>
     </div>
     <script src="assets/javascript/account/profile_picture_and_header.js"></script>
-    <script src="assets/javascript/digital_clock.js"></script>
     <script type="module" defer src="assets/javascript/account/account.js"></script>
     <script type="module" defer src="assets/javascript/account/edit_profile.js"></script>
 </body>

@@ -12,6 +12,16 @@ body {
 input[type="number"]::-webkit-inner-spin-button {
 	display: none;
 }
+
+a:link {
+	color: rgb(68, 155, 255);
+}
+a:active {
+	color: rgb(20, 90, 255);
+}
+a:visited {
+	color: rgb(181, 193, 255);
+}
 a.button:link,
 a.button:active,
 a.button:visited {
@@ -760,9 +770,8 @@ a.button:visited {
 	align-items: center;
 }
 .group-box-column-name {
-	line-height: 0;
+	line-height: 0.5;
 	padding: 0;
-	margin: 0 10px;
 }
 .group-box-row-stretch {
 	display: flex;
@@ -1018,11 +1027,19 @@ a.button:visited {
 input:checked + .slider {
 	background-color: #2196f3;
 }
+input + .slider.checked {
+	background-color: #2196f3;
+}
 
 input:focus + .slider {
 	box-shadow: 0 0 1px #2196f3;
 }
 
+input + .slider.checked:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+}
 input:checked + .slider:before {
 	-webkit-transform: translateX(26px);
 	-ms-transform: translateX(26px);

@@ -1,9 +1,9 @@
 <?php
 
-use classes\{database, subscription, user};
+use classes\{database, subscription};
 
-require 'assets/php/user.php';
-include("assets/php/subscription.php");
+
+include("assets/php/include.php");
 
 session_start();
 ?>

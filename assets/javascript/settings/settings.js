@@ -90,24 +90,7 @@ contactUsButton.addEventListener("click", function () {
 });
 let clock = document.getElementById("digitalClock");
 
-clock.onchange = function () {
-	if (clock.checked) {
-		digitalClockDisplay.style.display = "flex";
-		saveData("digitalClockConfig", clock.checked);
-	} else {
-		removeData("digitalClockConfig");
-		digitalClockDisplay.style.display = "none";
-	}
-};
-
 window.onload = function () {
-	let clock = document.getElementById("digitalClock");
-	if (getData("digitalClockConfig")) {
-		clock.checked = true;
-		digitalClockDisplay.style.display = "flex";
-	} else {
-		digitalClockDisplay.style.display = "none";
-	}
 	if (getData("previousClicked") !== aboutPage.id) {
 		showInformation(document.getElementById(aboutPage.id), false);
 		showInformation(document.getElementById(getData("previousClicked")), true);

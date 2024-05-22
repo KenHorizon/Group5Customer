@@ -12,25 +12,37 @@
 
 </head>
 
-<?php
-$check = "<input id='test' class='hide' style='color: white; text-align: center;' readonly>";
-echo $check;
-$test = $_GET['get'];
-echo $test;
-?>
 
 <body>
-    <form method="GET">
-        <input type="text" style="margin: 0 25%;" id="get" name="get">
-        <input type="submit" style="margin: 0 25%;" value="Save">
-        
+    <form method="POST">
+        <div class="group-box-column-names" style="color:white;">
+            <div style="margin: 0 25%;">
+                <p style="margin-left: 0.55em;"><span id="digitalClock"></span></p>
+                <div class="slider-button">
+                    <label class="switch">
+                        <input type="checkbox" id="digitalClockConfig" name="digitalClockConfig">
+                        <span class="slider round"></span>
+                    </label>
+                    <label style="margin-left: 0.55em;" >Digital Clock</label>
+                </div>
+            </div>
+            <input type="submit" style="margin: 0 25%;" value="Save">
+        </div>
+
     </form>
-<script>
-    let testing = document.getElementById("test");
-    testing.value = "HI";
-    let testingGet = document.getElementById("get");
-    testingGet.value = testing.value;
-</script>
+    <script>
+        function digitalClockConfig() {
+            var autoSave;
+            autoSave = new XMLHttpRequest();
+            autoSave.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("digitalClock").innerHTML = this.responseText;
+                }
+            };
+            autoSave.open("GET", "settings_function.php", true);
+            autoSave.send();
+        }
+    </script>
 </body>
 
 </html>

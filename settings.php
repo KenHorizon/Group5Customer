@@ -16,11 +16,15 @@ if ($_SESSION === null) {
     $user->register = $_SESSION["email"];
     $account_email = $user->account()['email'];
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (array_key_exists('editProfileSave', $_POST)) {
+        if (array_key_exists('submitProfileDetails', $_POST)) {
             $account_name = filter_input(INPUT_POST, "displayName", FILTER_SANITIZE_SPECIAL_CHARS);
             $account_username = filter_input(INPUT_POST, "displayUsername", FILTER_SANITIZE_SPECIAL_CHARS);
+            $account_contact = filter_input(INPUT_POST, "displayContact", FILTER_SANITIZE_NUMBER_INT);
+            $account_address = filter_input(INPUT_POST, "displayAddress", FILTER_SANITIZE_SPECIAL_CHARS);
             database::query("UPDATE account SET name = '$account_name' WHERE email = '$account_email'");
             database::query("UPDATE account SET username = '$account_username' WHERE email = '$account_email'");
+            database::query("UPDATE account SET contact = '$account_contact' WHERE email = '$account_email'");
+            database::query("UPDATE account SET address = '$account_address' WHERE email = '$account_email'");
         }
         if (array_key_exists('changePasswordSave', $_POST)) {
             $current_password = filter_input(INPUT_POST, "current_password", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -88,34 +92,52 @@ include("header_login.php")
                         <div class="background" id="introduction">
                             <div class="group-box-column">
                                 <h3 class="icon-texts"><i class="material-icons">settings</i> Settings</h3>
-                                <div class="slider-button">
-                                    <label class="switch">
-                                        <input type="checkbox" id="digitalClock" value="digitalClockConfig">
-                                        <span class="slider round"></span>
-                                    </label>
-                                    <label style="margin-left: 0.55em;">Digital Clock</label>
-                                </div>
+                                <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
+                                    <p style="margin-left: 0.55em;">Digital Clock</p>
+                                    <div class="slider-button">
+                                        <label class="switch" onclick="digitalClockConfig()">
+                                            <input type="checkbox" id="digitalClockConfig" name="digitalClockConfig" <?php echo $user->config()['digital_clock'] == 1 ? "checked" : "" ?>>
+                                            <span class="slider round"></span>
+                                        </label>
+                                        <label style="margin-left: 0.55em;" for="digitalClockConfig" onclick="digitalClockConfig()">Digital Clock</label>
+                                    </div>
+                                    <div class="slider-button">
+                                        <label class="switch">
+                                            <input type="checkbox" id="showBirthdayYearConfig" name="showBirthdayYearConfig">
+                                            <span class="slider round"></span>
+                                        </label>
+                                        <label style="margin-left: 0.55em;">Show Birthday Year</label>
+                                    </div>
+                                    <div class="slider-button">
+                                        <label class="switch">
+                                            <input type="checkbox" id="showSensitiveInfoConfig" name="showSensitiveInfoConfig">
+                                            <span class="slider round"></span>
+                                        </label>
+                                        <label style="margin-left: 0.55em;">Show Sensitive Information</label>
+                                    </div>
+                                    <input type="submit" class="button-borderless" value="Save Change" style="width: 160px; border-radius: 5px; margin-left: 2px;">
+                                </form>
                             </div>
                         </div>
                         <div class="background hide" id="accountBox">
-                            <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST" enctype="multipart/form-data">
+                            <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
                                 <div class="group-box-column">
                                     <h3>Profile</h3>
                                     <?php
                                     echo "<input class='edit-profile-box' type='text' placeholder='Name' name='displayName' value='" . $user->account()['name'] . "'>";
+                                    echo "<input class='edit-profile-box' type='text' placeholder='Username' name='displayUsername' value='" . $user->account()['username'] . "'>";
+                                    echo "<input class='edit-profile-box' type='number' placeholder='Contact' name='displayContact' value='" . checkIfEmpty($user->account()['contact']) . "'>";
+                                    echo "<input class='edit-profile-box' type='text' placeholder='Address' name='displayAddress' value='" . $user->account()['address'] . "'>";
                                     ?>
-                                    <?php
-                                    echo "<input class='edit-profile-box' type='text' placeholder='Name' name='displayUsername' value='" . $user->account()['username'] . "'>";
-                                    ?>
-                                    <input type="submit" class="button-borderless" name="submit" value="Save" style="width: 160px; border-radius: 5px;">
                                     <h3>Personal Details</h3>
                                     <?php
                                     echo "<input class='edit-profile-box' type='text' placeholder='Name' name='displayBirthday' value='" . formatDate($user->account()["birthday"], true) . "' readonly>";
                                     ?>
                                     <?php
-                                    echo "<input class='edit-profile-box' type='text' placeholder='Name' name='displayName' value='" . formatDate($user->account()["created_at"], true) . "' readonly>";
+                                    echo "<input class='edit-profile-box' type='text' placeholder='Name' name='displayJoined' value='" . formatDate($user->account()["created_at"], true) . "' readonly>";
                                     ?>
                                 </div>
+                                <input type="submit" class="button-borderless" name="submitProfileDetails" value="Save" style="width: 160px; border-radius: 5px;">
                             </form>
                         </div>
                         <div class="background hide" id="applyAdmin">
@@ -216,7 +238,29 @@ include("header_login.php")
             </div>
         </div>
     </div>
+    <script>
+        function digitalClockConfig() {
+            var autoSave;
+            autoSave = new XMLHttpRequest();
+            autoSave.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+
+                    if (document.getElementById("digitalClockConfig").checked) {
+                        document.getElementById("digitalClock").innerHTML = this.responseText;
+                    } else {
+
+                        document.getElementById("digitalClock").innerHTML = "";
+                    }
+                }
+            };
+            if (!document.getElementById("digitalClockConfig").checked) {
+                autoSave.open("GET", "settings_function.php", true);
+                autoSave.send();
+            }
+        }
+    </script>
     <script type="module" defer src="assets/javascript/settings/settings.js"></script>
+
 </body>
 
 </html>

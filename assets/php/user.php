@@ -31,6 +31,11 @@ class user
         $email = $this->register;
         return mysqli_fetch_assoc(database::query("SELECT * FROM membership WHERE email = '$email'"));
     }
+    public function config()
+    {
+        $email = $this->register;
+        return mysqli_fetch_assoc(database::query("SELECT * FROM config WHERE email = '$email'"));
+    }
     public function update($index, $target, $value)
     {
         $email = $this->register;

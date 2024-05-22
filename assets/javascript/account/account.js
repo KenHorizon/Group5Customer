@@ -36,11 +36,6 @@ subscriptionButton.addEventListener("click", function () {
 });
 
 window.onload = function () {
-	if (getData("digitalClockConfig")) {
-		digitalClockDisplay.style.display = "flex";
-	} else {
-		digitalClockDisplay.style.display = "none";
-	}
 	if (getData("previousClicked") !== aboutPage.id) {
 		showInformation(document.getElementById(aboutPage.id), false);
 		showInformation(document.getElementById(getData("previousClicked")), true);

@@ -115,6 +115,14 @@ function checkIfEmpty($check)
 {
     return empty($check) ? "-" : $check;
 }
+function settings($check, $database = null)
+{   
+    if ($check == 0) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
 function hasSubscription()
 {
     return $_SESSION["subscriptionStart"] > 0;

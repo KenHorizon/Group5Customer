@@ -1,6 +1,7 @@
 <?php
-require str_replace('\\', DIRECTORY_SEPARATOR, 'main').'.php';
+use classes\database;
 
-echo getBirthday("2025-01-10", false);
-
+include("database.php");
+database::query("INSERT INTO config (uuid, email) VALUES ('1', 'kenhorizon7@gmail.com')");
+database::query("INSERT INTO config (uuid, email) VALUES ('2', 'vincentruales845@gmail.com')");
 ?>
