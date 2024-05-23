@@ -256,6 +256,7 @@ include("header_login.php")
             </div>
         </div>
     </div>
+    <script src="assets/javascript/subscription/update.js"></script>
     <script type="module" defer src="assets/javascript/subscription/register.js"></script>
     <script src="assets/javascript/buttons.js"></script>
 </body>

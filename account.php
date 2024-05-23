@@ -12,7 +12,6 @@ session_start();
 if ($_SESSION["email"] === null) {
     header("Location: index.php");
 } else {
-    subscription::main($_SESSION['email']);
     $session_account = $_SESSION["email"];
     $user->register = $session_account;
     $account = $user->account();
@@ -175,24 +174,14 @@ include("header_login.php");
                     <div>
                         <?php
                         if ($user->isEmpty()) {
-                            if ($subscription_status == 1) {
-                                echo
-                                "<div class='group-box-column-name'>
-                                <h2 class='icon-texts'>" . $user->account()["username"] . "<img class='badge-icon' src='assets/img/subscription/badge.png'></h2>
+                            "<div class='group-box-column-name'>
+                                <h2 class='icon-texts'>" . $user->account()["username"] . "<span id='subscriptions'></span></h2>
                                 <div class='group-box-row'>
-                                    <div class='profile-icons'><p>" . determineUserType($user->user()["type"]) . "</p></div>
-                                    <div class='profile-icons'><p>VIP</p></div>
-                                </div>  
-                                </div>";
-                            } else {
-                                echo
-                                "<div class='group-box-column-name'>
-                                <h2>" . $user->account()["username"] . "</h2>
-                                <div class='group-box-row'>
-                                    <div class='profile-icons'><p>" . determineUserType($user->user()["type"]) . "</p></div>
-                                </div>  
-                                </div>";
-                            }
+                                <div class='profile-icons'><p>" . determineUserType($user->user()["type"]) . "</p></div>
+                                <div class='profile-icons'><p>VIP</p></div>
+                            </div>  
+                            </div>";
+                            
                         } else {
                             echo "<h1> Unknown Account <br> </h1>";
                             echo "<p> Unknown Data <br> </p>";
@@ -339,6 +328,7 @@ include("header_login.php");
             </div>
         </div>
     </div>
+    <script src="assets/javascript/subscription/update.js"></script>
     <script src="assets/javascript/account/profile_picture_and_header.js"></script>
     <script type="module" defer src="assets/javascript/account/account.js"></script>
     <script type="module" defer src="assets/javascript/account/edit_profile.js"></script>

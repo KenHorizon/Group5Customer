@@ -6,10 +6,10 @@ Project Completion: 98.47%
 - Login Form
 - Changeable Password
 - Email Verification
-- Digital Clock
 - Customizable Profile Picture and Header
 - Subscription
 - Admin and User Interfaces
+- Configuration
 
 # TO DO:
 - Add Database "Settings"

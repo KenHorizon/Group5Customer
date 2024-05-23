@@ -1,9 +1,6 @@
 <?php
-
 use classes\database, classes\subscription;
-
 include("assets/php/include.php");
-
 session_start();
 ?>
 <?php
@@ -242,6 +239,10 @@ include("header_login.php")
         </div>
     </div>
     <script>
+        // AJAX
+        // PARAM:
+        // configuration - database name
+        // checkboxName - input checkbox
         function configuration(configuration, checkboxName) {
             var autoSave;
             autoSave = new XMLHttpRequest();
@@ -260,6 +261,7 @@ include("header_login.php")
             }
         }
     </script>
+    <script src="assets/javascript/subscription/update.js"></script>
     <script type="module" defer src="assets/javascript/settings/settings.js"></script>
 
 </body>

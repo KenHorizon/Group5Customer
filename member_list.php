@@ -161,6 +161,7 @@ include("header_login.php")
             </table>
         </div>
         <br>
+        <script src="assets/javascript/subscription/update.js"></script>
         <script src="assets/javascript/search_bar.js"></script>
         <script type="module" defer src="assets/javascript/customer_list/membership_list.js"></script>
         <script src="assets/javascript/customer_list/membership_list_config.js"></script>

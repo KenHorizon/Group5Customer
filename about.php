@@ -67,7 +67,7 @@ if ($_SESSION == null) {
                 </div>
             </div>
 
-            <div class="main background">
+            <div class="main background" style="margin-bottom: 50px;">
                 <div style="color: white;">
                     <h1>Trivia:</h1>
                     <h2><a href="history.php" target="_blank">History</a></h2>

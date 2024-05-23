@@ -34,7 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						$_SESSION['password'] = $user->account()['password'];
 						$_SESSION['type'] = $validate_user_type;
 						$_SESSION['subscriptionStart'] = $user->membership()['subscription_date'];
-						subscription::main($_SESSION['email']);
 						// echo "<h1>".$_SESSION['uuid']."</h1> <br>";
 						// echo "<h1>".$_SESSION['email']."</h1> <br>";
 						// echo "<h1>".$_SESSION['password']."</h1> <br>";
@@ -47,7 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						$_SESSION['password'] = $user->account()['password'];
 						$_SESSION['type'] = $validate_user_type;
 						$_SESSION['subscriptionStart'] = $user->membership()['subscription_date'];
-						subscription::main($_SESSION['email']);
 						// echo "<h1>".$_SESSION['uuid']."</h1> <br>";
 						// echo "<h1>".$_SESSION['email']."</h1> <br>";
 						// echo "<h1>".$_SESSION['password']."</h1> <br>";
@@ -152,6 +150,8 @@ include("header.php")
 			</div>
 		</div>
 	</div>
+	
+    <script src="assets/javascript/subscription/update.js"></script>
 	<script type="module" defer src="assets/javascript/index/login.js"></script>
 </body>
 
